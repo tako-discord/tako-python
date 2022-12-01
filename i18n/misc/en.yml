@@ -1,0 +1,30 @@
+en:
+  translation: "Translation"
+  source: "**Source**: %{source}"
+  target: "**Target**: %{target}"
+  added_emoji: "Successfully added `%{emoji}`"
+  deleted_emoji: "Successfully removed `%{emoji}`"
+  deleted_emoji_log: "Removed by %{user}"
+  not_emoji: |
+    You need to pass in a valid emoji ID from [emoji.gg](<https://emoji.gg>) (for example: `5345-blobcatblush`) *OR* an valid url pointing to an image.
+
+    Please note that we only support the following sources:
+    [cdn.betterttv.net](<https://cdn.betterttv.net/>)
+    [cdn.discordapp.com](<https://cdn.discordapp.com>)
+    [emoji.gg](<https://emoji.gg>)
+    [i.imgur.com](<https://i.imgur.com>)
+    [raw.githubusercontent.com](<https://raw.githubusercontent.com>)
+  not_id: "This is not a valid emoji ID"
+  too_big: "The size of the emoji is too big. We tried to compress it but it didn't work. Please try again with a lower size."
+  emoji_not_found: "Emoji not found 😢"
+  lgbtq_tip: "Tip: You can use the image below perfectly as a profile picture."
+  no_gif_support: "*We currently do not support animated avatars :c*"
+  jail_desc_1: "%{user} will be in prison for lifetime."
+  jail_desc_2: "%{user} was mean to %{officer}. %{officer} however is a police officer."
+  jail_desc_3: "%{user} hopefully won't do that again."
+  jail_desc_4: "Maybe %{user} didn't got arrested..."
+  jail_desc_5: "%{officer} arrested %{user} for the 1000th time 🎉 [Click this link](https://tako.rocks) to get a prize!"
+  meme_share: "%{user} thinks that's funny. Even if it's not please don't tell them. They are very sensitive."
+  reaction_translate_activated: "✅ Reaction Translate is now activated"
+  reaction_translate_deactivated: "❌ Reaction Translate is now deactivated"
+  reaction_translate_footer: "Requested by %{user}"

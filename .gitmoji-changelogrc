@@ -1,0 +1,7 @@
+{
+  "project": {
+    "name": "Tako",
+    "description": "A multipurpose Discord bot for everything",
+    "version": "0.1.0-beta"
+  }
+}

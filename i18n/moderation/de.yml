@@ -1,0 +1,9 @@
+de:
+  malicious_link: "%{user} hat versucht, einen bösartigen Link zu senden. Ich habe den Link gelöscht!"
+  ban_game_log: "Gebannt fürs %{game} spielen."
+  ban_game_dm: "Du wurdest von *%{guild}* gebannt, weil du %{game} gespielt hast."
+  clear_reason: "Gelöscht von %{user} mithilfe des clear Befehls."
+  cleared: "%{amount} Nachricht(en) in %{channel} gelöscht."
+  cleared_target: "%{amount} Nachricht(en) von %{target} in %{channel} gelöscht."
+  too_many_messages_title: "Bist du verrückt?!"
+  too_many_messages: "Du kannst nur 100 Nachrichten gleichzeitig löschen. Wir haben die Anzahl automatisch für dich angepasst."

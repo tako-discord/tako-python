@@ -1,0 +1,27 @@
+de:
+  translation: "Übersetzung"
+  source: "**Originalsprache**: %{source}"
+  target: "**Zielsprache**: %{target}"
+  added_emoji: "`%{emoji}` wurde erfolgreich hinzugefügt"
+  deleted_emoji: "`%{emoji}` wurde erfolgreich entfernt"
+  deleted_emoji_log: "Entfernt von %{user}"
+  not_emoji: |
+    Du musst eine gültige Emoji-ID von [emoji.gg](<https://emoji.gg>) eingeben (z.B. `5345-blobcatblush`) *ODER* eine gültige URL, die auf ein Bild verweist.
+
+    Bitte beachte, dass wir nur folgende Quellen unterstützen:
+    [cdn.betterttv.net](<https://cdn.betterttv.net/>)
+    [cdn.discordapp.com](<https://cdn.discordapp.com>)
+    [emoji.gg](<https://emoji.gg>)
+    [i.imgur.com](<https://i.imgur.com>)
+    [raw.githubusercontent.com](<https://raw.githubusercontent.com>)
+  not_id: "Das ist keine gültige Emoji-ID"
+  too_big: "Die Größe des Emojis ist zu groß. Wir haben versucht, es zu komprimieren, aber es hat nicht funktioniert. Bitte versuche es erneut mit einer kleineren Größe."
+  emoji_not_found: "Emoji nicht gefunden 😢"
+  lgbtq_tip: "Tipp: Du kannst das Bild unten perfekt als Profilbild nutzen."
+  no_gif_support: "*Wir unterstützen derzeit keine animierten Avatare :c*"
+  jail_desc_1: "%{user} wird lebenslänglich im Gefängnis sein."
+  jail_desc_2: "%{user} war gemein zu %{officer}. %{officer} ist jedoch ein Polizist."
+  jail_desc_3: "%{user} wird das hoffentlich nicht nochmal tun."
+  jail_desc_4: "Vielleicht wurde %{user} doch nicht verhaftet..."
+  jail_desc_5: "%{officer} hat %{user} zum 1000sten Mal verhaftet 🎉 [Klicke auf diesen Link](https://tako.rocks), um einen Preis zu erhalten!"
+  meme_share: "%{user} hält das für lustig. Auch wenn es nicht so ist, bitte sag es ihnen nicht. Er/Sie sind sehr sensibel."

@@ -1,0 +1,3 @@
+id:
+  malicious_link: "%{user} mencoba mengirim link jahat. Aku sudah menghapus link nya!"
+  ban_game_dm: "Kamu telah di ban dari *%{guild}* karena kamu bermain %{game}."

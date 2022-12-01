@@ -1,0 +1,7 @@
+**/__pycache__
+.gitmodules
+bot_secrets.py
+assets/thumbnails/*
+!assets/thumbnails/.exists
+discord.log
+venv

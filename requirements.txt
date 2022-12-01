@@ -1,0 +1,15 @@
+git+https://github.com/kayano-bot/python-i18n.git
+pick
+black
+psutil
+pillow
+pyyaml
+millify
+asyncpg
+requests
+discord.py==2.1.0
+py-cpuinfo
+tmdbsimple
+discord-rpc
+python-youtube
+BeautifulSoup4

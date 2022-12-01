@@ -1,0 +1,6 @@
+pt:
+  language_success: "Meu idioma agora está definido como `%{language}`."
+  selfrole_created: "Criado com sucesso os menu de reação!"
+  crossposting_not_news: "❌ %{channel} não é um canal de anúncios!"
+  crossposting_activated: "✅ O Auto-crossposting para o canal %{channel} foi ativado"
+  crossposting_deactivated: "❌ O Auto-crossposting para o canal %{channel} foi desativado"

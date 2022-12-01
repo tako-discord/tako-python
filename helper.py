@@ -1,0 +1,99 @@
+import os
+import asyncio
+import bot_secrets
+from pick import pick
+from utils import clear_console, add_extension
+
+
+async def main():
+    clear_console()
+    options = [
+        "Start the bot",
+        "Start RPC",
+        "Update",
+        "Init Database",
+        "Add Extension from Git",
+        "Exit",
+    ]
+    selected = pick(
+        options, "What do you want to do? (Use arrow keys to navigate)", "x"
+    )
+    if selected[1] == len(options) - 1:
+        return
+    if selected[1] == 0:
+        print("Starting the bot...")
+        from main import main as bot_main
+
+        await bot_main()
+
+    if selected[1] == 1:
+        import DiscordRPC
+
+        buttons = DiscordRPC.button(
+            button_one_label="Join Server",
+            button_one_url="https://discord.gg/dfmXNTmzyp",
+            button_two_label="View on top.gg",
+            button_two_url="https://top.gg/bot/878366398269771847",
+        )
+        rpc = DiscordRPC.RPC.Set_ID(app_id="878366398269771847")
+        rpc.set_activity(
+            state="Tako",
+            details="A bot done right",
+            large_image="tako",
+            buttons=buttons,
+        )
+        rpc.run()
+    if selected[1] == 2:
+        print("Pulling latest changes...", end="\r")
+        os.system("git pull > /dev/null")
+        print("Installing dependencies...", end="\r")
+        os.system("pip install -r requirements.txt > /dev/null 2>&1")
+        clear_console()
+        print("✔️  Done with updating")
+    if selected[1] == 3:
+        import asyncpg
+
+        conn = await asyncpg.connect(
+            database=bot_secrets.DB_NAME,
+            host=bot_secrets.DB_HOST,
+            port=bot_secrets.DB_PORT if hasattr(bot_secrets, "DB_PORT") else 5432,
+            user=bot_secrets.DB_USER,
+            password=bot_secrets.DB_PASSWORD,
+        )
+        version = await conn.fetch(
+            "SELECT version();",
+        )
+        print(f"Initializing database with {next(version[0].values())}")
+        await conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS badges (name TEXT PRIMARY KEY, emoji TEXT NOT NULL, description TEXT, users BIGINT ARRAY);
+            INSERT INTO badges  (name, emoji, description) VALUES ('Alpha Tester', '🧪', 'Users who tested the bot in its early stage receive this badge') ON CONFLICT DO NOTHING;
+            INSERT INTO badges  (name, emoji, description) VALUES ('Donator', '<a:ablobcatheart:950763824154284082>', 'Users who donated to the Tako Team receive this badge') ON CONFLICT DO NOTHING;
+            INSERT INTO badges  (name, emoji, description) VALUES ('Translator', '🌐', 'Users who translated this bot receive this badge') ON CONFLICT DO NOTHING;
+            INSERT INTO badges  (name, emoji, description) VALUES ('Core Developer', '🧑‍💻', 'Users who are the core developers from the the bot') ON CONFLICT DO NOTHING;
+            CREATE TABLE IF NOT EXISTS channels (channel_id BIGINT PRIMARY KEY, crosspost BOOLEAN NOT NULL);
+            CREATE TABLE IF NOT EXISTS guilds (guild_id BIGINT PRIMARY KEY, banned_games TEXT ARRAY, join_roles_user BIGINT ARRAY, join_roles_bot BIGINT ARRAY, language TEXT, reaction_translate BOOLEAN, auto_translate BOOLEAN DEFAULT FALSE, color TEXT);
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+            CREATE TABLE IF NOT EXISTS tags (id uuid DEFAULT uuid_generate_v4() PRIMARY KEY, name TEXT, content TEXT, thumbnail TEXT, image TEXT, footer TEXT, embed BOOLEAN DEFAULT TRUE, guild_id BIGINT);
+            CREATE TABLE IF NOT EXISTS users (user_id BIGINT PRIMARY KEY, wallet BIGINT DEFAULT 1000, bank BIGINT DEFAULT 0, last_meme TEXT);
+            CREATE TABLE IF NOT EXISTS announcements (id uuid DEFAULT uuid_generate_v4() PRIMARY KEY, title TEXT, description TEXT, type TEXT, timestamp TIMESTAMP DEFAULT NOW());
+            CREATE TABLE IF NOT EXISTS selfroles (id uuid DEFAULT uuid_generate_v4() PRIMARY KEY, guild_id BIGINT, select_array BIGINT ARRAY, min_values INT, max_values INT);
+            """
+        )
+        await conn.close()
+        clear_console()
+        print("✔️  Done with initializing database")
+    if selected[1] == 4:
+        url = input("Enter the url of the extension: ")
+        print("📥 Installing extension...", end="\r")
+        adder = add_extension(url)
+        if adder == 0:
+            return print("✔️  Done with installing the extension")
+        if adder == 1:
+            return print("❌ Invalid url")
+        if adder == 2:
+            print("❌  Failed to install the extension")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

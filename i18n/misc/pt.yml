@@ -1,0 +1,9 @@
+pt:
+  translation: "Tradução"
+  source: "**Fonte**: %{source}"
+  target: "**Alvo**: %{target}"
+  added_emoji: "Emoji `%{emoji}` adicionado"
+  deleted_emoji: "Emoji `%{emoji}` removido"
+  deleted_emoji_log: "Removido por %{user}"
+  not_id: "Esse não é um ID de um emoji válido"
+  too_big: "O tamanho do emoji é muito grande. Nós tentamos comprimi-lo, mas não funcionou. Por favor, tente novamente com um tamanho menor."
