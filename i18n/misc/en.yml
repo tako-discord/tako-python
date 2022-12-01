@@ -28,3 +28,6 @@ en:
   reaction_translate_activated: "✅ Reaction Translate is now activated"
   reaction_translate_deactivated: "❌ Reaction Translate is now deactivated"
   reaction_translate_footer: "Requested by %{user}"
+  auto_translate_activated: "✅ Autotranslate is now activated"
+  auto_translate_deactivated: "❌ Autotranslate is now deactivated"
+  auto_translate_confidence_set: "Confidence Threshold is now set to %{value}%"

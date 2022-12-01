@@ -23,7 +23,8 @@ class AutoTranslate(commands.Cog):
             i18n.t(
                 f"misc.auto_translate_{'activated' if value else 'deactivated'}",
                 locale=get_language(self.bot, interaction.guild.id),
-            )
+            ),
+            ephemeral=True
         )
 
 
@@ -36,7 +37,7 @@ class AutoTranslate(commands.Cog):
             interaction.guild.id,
             value,
         )
-        return await interaction.response.send_message(value)
+        return await interaction.response.send_message(i18n.t("misc.auto_translate_confidence_set", value=value, locale=get_language(self.bot, interaction.guild.id)), ephemeral=True)
 
 
     @commands.Cog.listener()
