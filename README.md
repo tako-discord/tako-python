@@ -64,9 +64,13 @@ Huge thanks to the discord.py Community, helping out if I had any question.
 Another big thanks goes out to the users using this bot and all the contributors to this project.
 
 Also huge thanks to the other (core) developer(s):
+- [*@boloped*](https://github.com/boloped)
 - [*LyQuid*](https://github.com/LyQuid12)
 
 and all the testers:
-- [*@cmod31*](https://github.com/cmod31)
 - [*@abUwUser*](https://github.com/abUwUser)
-- *Olex3#3259*
+- [*@cmod31*](https://github.com/cmod31)
+- [*@sheeepdev*](https://github.com/sheeepdev)
+- [*@MeekOnGithub*](https://github.com/MeekOnGithub)
+- *| Tzur |#3673*
+- *Olex3#2900*
