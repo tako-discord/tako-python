@@ -26,6 +26,19 @@ class AutoTranslate(commands.Cog):
             )
         )
 
+
+    @app_commands.command(description="Adjust the confidence threshold for auto translate")
+    @app_commands.describe(value="The confidence threshold for auto translate.")
+    @app_commands.checks.has_permissions(manage_guild=True)
+    async def auto_translate_confidence(self, interaction: discord.Interaction, value: app_commands.Range[int, 0, 100]):
+        await self.bot.db_pool.execute(
+            "INSERT INTO guilds (guild_id, auto_translate_confidence) VALUES ($1, $2) ON CONFLICT(guild_id) DO UPDATE SET auto_translate_confidence = $2;",
+            interaction.guild.id,
+            value,
+        )
+        return await interaction.response.send_message(value)
+
+
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
         state = await self.bot.db_pool.fetchval(
@@ -46,11 +59,14 @@ class AutoTranslate(commands.Cog):
             ) as r:
                 data = await r.json()
                 data = data[0]
+                confidence = await self.bot.db_pool.fetchval("SELECT auto_translate_confidence FROM guilds WHERE guild_id = $1", message.guild.id)
                 guild_language = get_language(self.bot, message.guild.id)
-                if data["language"] != guild_language or data["confidence"] < 5:
+                if confidence >= data["confidence"]:
+                    return
+                if data["language"] != guild_language:
                     try:
                         await message.reply(
-                            f"> {await translate(message.content, guild_language)}\n\n` {data['language']} ➜ {guild_language} `"
+                            f"> {await translate(message.content, guild_language)}\n\n` {data['language']} ➜ {guild_language} | {round(data['confidence'])} `"
                         )
                     except discord.Forbidden:
                         return
