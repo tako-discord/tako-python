@@ -67,6 +67,6 @@ Also huge thanks to the other (core) developer(s):
 - [*LyQuid*](https://github.com/LyQuid12)
 
 and all the testers:
-- [*@cmod31*](https://github.com/cmod31)
+- [*@vaporvee*](https://github.com/vaporvee)
 - [*@abUwUser*](https://github.com/abUwUser)
 - *Olex3#3259*
