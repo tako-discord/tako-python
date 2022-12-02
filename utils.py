@@ -9,6 +9,7 @@ from discord import app_commands
 from PIL import Image, ImageColor
 from urllib.parse import quote
 
+
 def clear_console():
     """Clears the console (Supported: Windows & Unix)"""
     command = "clear"
