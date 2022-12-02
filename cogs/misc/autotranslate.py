@@ -4,6 +4,7 @@ import discord
 import config
 from discord import app_commands
 from discord.ext import commands
+from discord.app_commands import Choice
 from utils import get_language, translate
 
 
@@ -23,6 +24,32 @@ class AutoTranslate(commands.Cog):
         return await interaction.response.send_message(
             i18n.t(
                 f"misc.auto_translate_{'activated' if value else 'deactivated'}",
+                locale=get_language(self.bot, interaction.guild.id),
+            ),
+            ephemeral=True,
+        )
+
+    @app_commands.command(description="Set the style of the auto trandlated message")
+    @app_commands.describe(style="The style of the auto translated message")
+    @app_commands.checks.has_permissions(manage_guild=True)
+    @app_commands.choices(
+        style=[
+            Choice(name="Default", value="default"),
+            Choice(name="Webhook", value="webhook"),
+        ]
+    )
+    async def auto_translate_reply_style(
+        self, interaction: discord.Interaction, style: str
+    ):
+        await self.bot.db_pool.execute(
+            "INSERT INTO guilds (guild_id, auto_translate_reply_style) VALUES ($1, $2) ON CONFLICT(guild_id) DO UPDATE SET auto_translate_reply_style = $2",
+            interaction.guild.id,
+            style,
+        )
+        return await interaction.response.send_message(
+            i18n.t(
+                "misc.auto_translate_reply_style_set",
+                style=style,
                 locale=get_language(self.bot, interaction.guild.id),
             ),
             ephemeral=True,
@@ -74,19 +101,36 @@ class AutoTranslate(commands.Cog):
                     "SELECT auto_translate_confidence FROM guilds WHERE guild_id = $1",
                     message.guild.id,
                 )
+                reply_style = await self.bot.db_pool.fetchval(
+                    "SELECT auto_translate_reply_style FROM guilds WHERE guild_id = $1",
+                    message.guild.id,
+                )
                 guild_language = get_language(self.bot, message.guild.id)
                 if confidence >= data["confidence"]:
                     return
                 if data["language"] != guild_language:
                     try:
-                        await message.reply(
-                            "> "
-                            + (
-                                await translate(message.content, guild_language)
-                            ).replace("\n", "\n> ")
-                            + f"\n\n` {data['language']} ➜ {guild_language} | {round(data['confidence'])} `",
-                            allowed_mentions=discord.AllowedMentions.none(),
-                            mention_author=False,
-                        )
+                        if reply_style == "webhook":
+                            webhook = await message.channel.create_webhook(
+                                name="AutoTranslate"
+                            )
+                            await webhook.send(
+                                username=f"{message.author.display_name} ({data['language']} ➜ {guild_language})",
+                                avatar_url=message.author.avatar.url,
+                                embed=discord.Embed(
+                                    description=await translate(message.content, guild_language),
+                                    color=0x2F3136
+                                ).set_footer(text=f"Confidence: {round(data['confidence'])}%")
+                            )
+                        else:
+                            await message.reply(
+                                "> "
+                                + (
+                                    await translate(message.content, guild_language)
+                                ).replace("\n", "\n> ")
+                                + f"\n\n` {data['language']} ➜ {guild_language} | {round(data['confidence'])} `",
+                                allowed_mentions=discord.AllowedMentions.none(),
+                                mention_author=False,
+                            )
                     except discord.Forbidden:
                         return
