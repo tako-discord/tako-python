@@ -36,7 +36,9 @@ class Stats(commands.Cog):
             f"**🏓 Ping**: {round(self.bot.latency * 1000)} ms.",
         ]
         if latest_version > self.bot.version:
-            general.append(f"**<:new_left:1032293616175038536><:new_right:1032293617936633967> Latest version**: {latest_version}")
+            general.append(
+                f"**<:new_left:1032293616175038536><:new_right:1032293617936633967> Latest version**: {latest_version}"
+            )
         cpu_info = get_cpu_info()
         system = [
             f"**🖥️ Platform**: {operating_systems[sys.platform]}",
