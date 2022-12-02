@@ -1,6 +1,7 @@
 import i18n
 import aiohttp
 import discord
+import config
 from discord import app_commands
 from discord.ext import commands
 from utils import get_language, translate
@@ -63,7 +64,7 @@ class AutoTranslate(commands.Cog):
         }
         async with aiohttp.ClientSession() as session:
             async with session.post(
-                f"https://translate.argosopentech.com/detect",
+                f"{config.LIBRE_TRANSLATE}/detect",
                 data=f"q={message.content.replace('&', '%26')}",
                 headers=headers,
             ) as r:
