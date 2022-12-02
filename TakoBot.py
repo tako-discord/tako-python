@@ -76,7 +76,7 @@ class TakoBot(commands.Bot):
                 "type": discord.ActivityType.playing,
             },
             {
-                "name": "translate at translate.tako.rocks",
+                "name": "translate at translate.tako-bot.com",
                 "type": discord.ActivityType.playing,
             },
         ]
