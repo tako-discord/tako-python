@@ -1,5 +1,18 @@
 # Changelog
 
+<a name="0.1.3"></a>
+## 0.1.3 (2022-12-02)
+
+### Fixed
+
+- 🐛 fix owner check not working due to missing params [[a846938](https://github.com/tako-discord/tako/commit/a8469381ce0971ce73458eb4bcc8e15e96fe2898)]
+
+### Miscellaneous
+
+-  👷 add crowding gh-action [[b637e51](https://github.com/tako-discord/tako/commit/b637e51c3d41a24c24b8a9558cf0388c499ad086)]
+-  Merge branch &#x27;dev&#x27; of https://github.com/tako-discord/tako into dev [[34e2a45](https://github.com/tako-discord/tako/commit/34e2a458f1f90f7791677eac6359a0d0f19a10c2)]
+
+
 <a name="0.1.2"></a>
 ## 0.1.2 (2022-12-02)
 
