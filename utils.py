@@ -350,6 +350,6 @@ async def is_owner_func(bot, user: discord.User | discord.Member):
 
 def owner_only():
     async def check(interaction: discord.Interaction):
-        return await is_owner_func(interaction.user)
+        return await is_owner_func(interaction.client, interaction.user)
 
     return app_commands.check(check)
