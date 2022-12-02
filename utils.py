@@ -129,7 +129,7 @@ def get_language(bot, guild_id: int | None = None):
     for guild in bot.postgre_guilds:
         if guild["guild_id"] == guild_id:
             language = guild["language"]
-    return language
+    return language if language else "en"
 
 
 def number_of_pages_needed(elements_per_page: int, total_elements: int):
