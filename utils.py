@@ -4,11 +4,10 @@ import config
 import discord
 import asyncpg
 import aiohttp
-from bs4 import BeautifulSoup
 from datetime import datetime
 from discord import app_commands
 from PIL import Image, ImageColor
-
+from urllib.parse import quote
 
 def clear_console():
     """Clears the console (Supported: Windows & Unix)"""
@@ -273,17 +272,10 @@ def error_embed(title: str, description: str, footer: str = "An error occured"):
 async def translate(text: str, target: str, source: str = "auto"):
     async with aiohttp.ClientSession() as session:
         async with session.get(
-            f"{config.SIMPLY_TRANSLATE}/?engine=google&text={text.replace('&', '%26')}&sl={source}&tl={target}"
-        ) as response:
-            if response.status != 200:
-                return
-            response = await response.text()
-            translation = (
-                BeautifulSoup(response, features="html.parser")
-                .body.find("textarea", attrs={"placeholder": "Translation"})
-                .text
-            )
-            return translation
+            f"{config.SIMPLY_TRANSLATE}/api/translate/?engine=google&text={quote(text)}&from={source}&to={target}"
+        ) as r:
+            data = await r.json()
+            return data["translated-text"]
 
 
 async def new_meme(guild_id: int, user_id: int, bot, db_pool: asyncpg.Pool):
