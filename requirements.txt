@@ -12,4 +12,3 @@ py-cpuinfo
 tmdbsimple
 discord-rpc
 python-youtube
-BeautifulSoup4
