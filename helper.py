@@ -72,7 +72,7 @@ async def main():
             INSERT INTO badges  (name, emoji, description) VALUES ('Translator', '🌐', 'Users who translated this bot receive this badge') ON CONFLICT DO NOTHING;
             INSERT INTO badges  (name, emoji, description) VALUES ('Core Developer', '🧑‍💻', 'Users who are the core developers from the the bot') ON CONFLICT DO NOTHING;
             CREATE TABLE IF NOT EXISTS channels (channel_id BIGINT PRIMARY KEY, crosspost BOOLEAN NOT NULL);
-            CREATE TABLE IF NOT EXISTS guilds (guild_id BIGINT PRIMARY KEY, banned_games TEXT ARRAY, join_roles_user BIGINT ARRAY, join_roles_bot BIGINT ARRAY, language TEXT, reaction_translate BOOLEAN, auto_translate BOOLEAN DEFAULT FALSE, color TEXT, auto_translate_confidence INTEGER DEFAULT 50);
+            CREATE TABLE IF NOT EXISTS guilds (guild_id BIGINT PRIMARY KEY, banned_games TEXT ARRAY, join_roles_user BIGINT ARRAY, join_roles_bot BIGINT ARRAY, language TEXT, reaction_translate BOOLEAN, auto_translate BOOLEAN DEFAULT FALSE, color TEXT, auto_translate_confidence INTEGER DEFAULT 50, auto_translate_reply_style TEXT);
             CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
             CREATE TABLE IF NOT EXISTS tags (id uuid DEFAULT uuid_generate_v4() PRIMARY KEY, name TEXT, content TEXT, thumbnail TEXT, image TEXT, footer TEXT, embed BOOLEAN DEFAULT TRUE, guild_id BIGINT);
             CREATE TABLE IF NOT EXISTS users (user_id BIGINT PRIMARY KEY, wallet BIGINT DEFAULT 1000, bank BIGINT DEFAULT 0, last_meme TEXT);
