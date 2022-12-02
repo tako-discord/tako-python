@@ -1,6 +1,1 @@
 sv:
-  language_success: "Mitt språk är nu satt till `%{language}`."
-  selfrole_created: "Skapelse av din rollurvalsmeny lyckad!"
-  crossposting_not_news: "❌ %{channel} är inte en nyhetskanal!"
-  crossposting_activated: "✅ Auto-crossposting för %{channel} är nu aktiverat"
-  crossposting_deactivated: "❌ Auto-crossposting för %{channel} är nu avaktiverat"
