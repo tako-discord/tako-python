@@ -79,7 +79,9 @@ class AutoTranslate(commands.Cog):
                 if data["language"] != guild_language:
                     try:
                         await message.reply(
-                            f"> {await translate(message.content, guild_language)}\n\n` {data['language']} ➜ {guild_language} | {round(data['confidence'])} `"
+                            "> " + (await translate(message.content, guild_language)).replace("\n", "\n> ") + f"\n\n` {data['language']} ➜ {guild_language} | {round(data['confidence'])} `",
+                            allowed_mentions=discord.AllowedMentions.none(),
+                            mention_author=False,
                         )
                     except discord.Forbidden:
                         return
