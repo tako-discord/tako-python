@@ -1,7 +1,7 @@
 project_id: '515826'
 base_path: .
 base_url: 'https://api.crowdin.com'
-commit_message: "\UF09F8C90ŸŒ Updated %langua"
+commit_message: "ğŸŒ updated %two_letters_code%"
 append_commit_message: 
 preserve_hierarchy: 1
 files:
