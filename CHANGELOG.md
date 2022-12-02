@@ -1,11 +1,39 @@
 # Changelog
 
+<a name="0.1.5"></a>
+## 0.1.5 (2022-12-02)
+
+### Changed
+
+- 👽 update crowdin link in activity [[fdfbbaf](https://github.com/tako-discord/tako/commit/fdfbbaf2ebd545941e8b3c85a0fe870568923c69)]
+
+### Removed
+
+- 🔥 remove crowding gh-action [[e34f20b](https://github.com/tako-discord/tako/commit/e34f20b9ff1714f92db5f3a6f2365a5307f6f14c)]
+
+### Miscellaneous
+
+- 🩹 fixed the webhook syle [[48eb52c](https://github.com/tako-discord/tako/commit/48eb52c92eb4b1b99fa0b8a189a26427f210658d)]
+
+
 <a name="0.1.4"></a>
 ## 0.1.4 (2022-12-02)
 
 ### Added
 
 - ✨ added autotranslate styles [[c490624](https://github.com/tako-discord/tako/commit/c490624334671808903e75b4529c22c52f7d9bb2)]
+
+
+<a name="0.1.3"></a>
+## 0.1.3 (2022-12-02)
+
+### Fixed
+
+- 🐛 fix owner check not working due to missing params [[a846938](https://github.com/tako-discord/tako/commit/a8469381ce0971ce73458eb4bcc8e15e96fe2898)]
+
+### Miscellaneous
+
+-  👷 add crowding gh-action [[b637e51](https://github.com/tako-discord/tako/commit/b637e51c3d41a24c24b8a9558cf0388c499ad086)]
 
 
 <a name="0.1.3"></a>
@@ -64,5 +92,4 @@
 ### Added
 
 - 🎉 Initial Commit (Public Beta) [[5b6cf55](https://github.com/tako-discord/tako/commit/5b6cf5562f42daa636966d25a1d87c4a9d4fc47a)]
-
 
