@@ -2,7 +2,7 @@ name: Crowdin Action
 
 on:
   push:
-    branches: [ master, dev ]
+    branches: [ master ]
   schedule:
     - cron: '0 * * * *'
 
