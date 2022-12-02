@@ -1,5 +1,13 @@
 # Changelog
 
+<a name="0.1.4"></a>
+## 0.1.4 (2022-12-02)
+
+### Added
+
+- ✨ added autotranslate styles [[c490624](https://github.com/tako-discord/tako/commit/c490624334671808903e75b4529c22c52f7d9bb2)]
+
+
 <a name="0.1.3"></a>
 ## 0.1.3 (2022-12-02)
 
