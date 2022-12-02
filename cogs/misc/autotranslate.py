@@ -122,6 +122,7 @@ class AutoTranslate(commands.Cog):
                                     color=0x2F3136
                                 ).set_footer(text=f"Confidence: {round(data['confidence'])}%")
                             )
+                            await webhook.delete()
                         else:
                             await message.reply(
                                 "> "
