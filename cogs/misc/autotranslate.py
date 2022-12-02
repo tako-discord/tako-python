@@ -118,9 +118,13 @@ class AutoTranslate(commands.Cog):
                                 username=f"{message.author.display_name} ({data['language']} ➜ {guild_language})",
                                 avatar_url=message.author.avatar.url,
                                 embed=discord.Embed(
-                                    description=await translate(message.content, guild_language),
-                                    color=0x2F3136
-                                ).set_footer(text=f"Confidence: {round(data['confidence'])}%")
+                                    description=await translate(
+                                        message.content, guild_language
+                                    ),
+                                    color=0x2F3136,
+                                ).set_footer(
+                                    text=f"Confidence: {round(data['confidence'])}%"
+                                ),
                             )
                             await webhook.delete()
                         else:
