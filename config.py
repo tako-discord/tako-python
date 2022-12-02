@@ -11,7 +11,7 @@ ALPHA_TESTER_ROLE = 969306314981376071
 DEV_ROLE = 969285824107642990
 SIMPLY_TRANSLATE = "https://simplytranslate.org"  # no / at the end is important
 LIBRE_TRANSLATE = "https://libretranslate.de"  # no / at the end is important
-IMGEN = "https://imgen.tako.rocks"  # no / at the end is important
+IMGEN = "https://imgen.tako-bot.com"  # no / at the end is important
 REPO = "tako-discord/tako"
 RAW_GH = "https://raw.githubusercontent.com/"
 # Regex used for valid sources on the emoji command (`^https?:\/example[].]org\/` recommended, seperate with `|`)
