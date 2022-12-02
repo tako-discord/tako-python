@@ -1,13 +1,1 @@
 id:
-  balance: "Saldo"
-  wallet: "Dompet"
-  bank: "Bank"
-  #Head or Tail
-  ht: "Kepala atau Ekor"
-  ht_won: "Kamu menang! (%{amount})"
-  ht_lost: "Kamu kalah! (-%{amount})"
-  bet: "Taruhan"
-  guess: "Tebak"
-  head: "Kepala"
-  tail: "Ekor"
-  new_balance: "Saldo baru"
