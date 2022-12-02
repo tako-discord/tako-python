@@ -1,13 +1,15 @@
 import os
 import i18n
+import json
 import config
 import discord
 import asyncpg
 import aiohttp
 from datetime import datetime
+from urllib.parse import quote
+from config import REPO, RAW_GH
 from discord import app_commands
 from PIL import Image, ImageColor
-from urllib.parse import quote
 
 
 def clear_console():
@@ -268,6 +270,15 @@ def error_embed(title: str, description: str, footer: str = "An error occured"):
     embed.set_thumbnail(url="attachment://thumbnail.png")
     embed.set_footer(text=footer)
     return embed, file
+
+
+async def get_latest_version():
+    """Returns the latest version of the bot."""
+    async with aiohttp.ClientSession() as session:
+        async with session.get(RAW_GH + REPO + "/master/.gitmoji-changelogrc") as r:
+            data = await r.read()
+            data = json.loads(data)
+            return data["project"]["version"]
 
 
 async def translate(text: str, target: str, source: str = "auto"):

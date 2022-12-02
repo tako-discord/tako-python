@@ -7,7 +7,7 @@ import datetime
 from discord import app_commands
 from discord.ext import commands
 from cpuinfo import get_cpu_info
-from utils import format_bytes, get_color
+from utils import format_bytes, get_color, get_latest_version
 
 
 class Stats(commands.Cog):
@@ -17,7 +17,7 @@ class Stats(commands.Cog):
     @app_commands.command(description="Get some stats about me")
     async def stats(self, interaction):
         await interaction.response.defer()
-        # latest_version = requests.get("https://raw.githubusercontent.com/kayano-bot/kayano-rewrite/master/cz.json").json()["commitizen"]["version"]
+        latest_version = await get_latest_version()
         operating_systems = {
             "aix": "AIX",
             "darwin": "MacOS",
@@ -35,6 +35,8 @@ class Stats(commands.Cog):
             f"**<:python:968192022232055808> Python Version**: {sys.version.split(' ', 1)[0]}",
             f"**🏓 Ping**: {round(self.bot.latency * 1000)} ms.",
         ]
+        if latest_version > self.bot.version:
+            general.append(f"**<:new_left:1032293616175038536><:new_right:1032293617936633967> Latest version**: {latest_version}")
         cpu_info = get_cpu_info()
         system = [
             f"**🖥️ Platform**: {operating_systems[sys.platform]}",
@@ -43,7 +45,7 @@ class Stats(commands.Cog):
             f"\u3000*Model*: {cpu_info['brand_raw']}",
             f"\u3000*Cores*: {cpu_info['count']}",
             f"\u3000*Speed*: {cpu_info['hz_advertised_friendly'][0]} GHz",
-            f"\u3000*Usage (Systemwide)*: {psutil.cpu_percent()}%",
+            f"\u3000*Usage*: {psutil.cpu_percent()}%",
             f"**🗄️ Memory**:",
             f"\u3000*Total*: {format_bytes(psutil.virtual_memory().total)}",
             f"\u3000*Available*: {format_bytes(psutil.virtual_memory().available)}",
@@ -68,7 +70,7 @@ class Stats(commands.Cog):
             icon_url=self.bot.user.avatar.url,
         )
         embed.add_field(name="General", value="\n".join(general))
-        embed.add_field(name="System", value="\n".join(system))
+        embed.add_field(name="System (Systemwide)", value="\n".join(system))
         if hasattr(config, "YOUTUBE_LINK") or hasattr(config, "TWITTER_LINK"):
             embed.add_field(
                 name="Social Media", value="\n".join(social_media), inline=False

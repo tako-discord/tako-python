@@ -11,6 +11,8 @@ ALPHA_TESTER_ROLE = 969306314981376071
 DEV_ROLE = 969285824107642990
 SIMPLY_TRANSLATE = "https://translate.slipfox.xyz"  # no / at the end is important
 IMGEN = "https://imgen.tako.rocks"  # no / at the end is important
+REPO = "tako-discord/tako"
+RAW_GH = "https://raw.githubusercontent.com/"
 # Regex used for valid sources on the emoji command (`^https?:\/example[].]org\/` recommended, seperate with `|`)
 # ! If removed people can enter every url even non-image ones (viruses etc.).
 ALLOWED_SOURCES = "^https?:\/\/cdn3[.]emoji[.]gg\/|^https:\/\/cdn[.]discordapp[.]com\/|^https?:\/\/i[.]imgur[.]com\/|^https?:\/\/raw[.]githubusercontent[.]com\/"
