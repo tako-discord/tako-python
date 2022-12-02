@@ -1,5 +1,28 @@
 # Changelog
 
+<a name="0.1.2"></a>
+## 0.1.2 (2022-12-02)
+
+### Added
+
+- ✨ add latest version notice to stats [[812ddd6](https://github.com/tako-discord/tako/commit/812ddd6db4f7aa85e741aa84ad24894e02a9c369)]
+
+### Changed
+
+- 🔧 add libre translate and switch simplytranslate service [[0560830](https://github.com/tako-discord/tako/commit/056083057bbc7a3b5b88ba2b9a02b28182c25bfd)]
+- 🔧 remove TEST_GUILD from config [[8a73043](https://github.com/tako-discord/tako/commit/8a730431ec64670e7a5f965ed7aeb94cdc74ae88)]
+
+### Removed
+
+- ➖ removed BeautifulSoup4 from dependencies [[c94ac4a](https://github.com/tako-discord/tako/commit/c94ac4a527f18a82923d8955e487b9d44f81e819)]
+
+### Fixed
+
+- 🐛 fix mentions in autotranslate and add support for multiline messages [[e858545](https://github.com/tako-discord/tako/commit/e858545d86f5c23eb930189f4c408888f14f7287)]
+- 🚑 fixed the autotranslate bug [[6465a6c](https://github.com/tako-discord/tako/commit/6465a6cac8c3d885d278b42af60f8d551aac8a5a)]
+- ✏️ fixed a typo in helper.py [[a8afe83](https://github.com/tako-discord/tako/commit/a8afe834439c3fb2e6b764fd444cb08c4abefa57)]
+
+
 <a name="0.1.1"></a>
 ## 0.1.1 (2022-12-01)
 
