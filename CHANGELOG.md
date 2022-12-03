@@ -1,5 +1,22 @@
 # Changelog
 
+<a name="0.1.7"></a>
+## 0.1.7 (2022-12-03)
+
+### Changed
+
+- ⚡ only use one webhook in autotranslate instead of one for each message [[15c5e0b](https://github.com/tako-discord/tako/commit/15c5e0bd67efff465c67fbbb3c63266d2dcb0e96)]
+- 👽 switch to https://translate.argosopentech.com/ [[12dd6f4](https://github.com/tako-discord/tako/commit/12dd6f49f23c8f5a8540bd602c1cfa00e3a65aea)]
+
+### Fixed
+
+- 🐛 fix autotranslate translating it's own translations [[15c5e0b](https://github.com/tako-discord/tako/commit/15c5e0bd67efff465c67fbbb3c63266d2dcb0e96)]
+
+### Miscellaneous
+
+- 🌐 add auto_translate_delete_original [[c8eeab3](https://github.com/tako-discord/tako/commit/c8eeab30d15e4b922b0d19b85e80d40a205d155a)]
+
+
 <a name="0.1.6"></a>
 ## 0.1.6 (2022-12-03)
 
