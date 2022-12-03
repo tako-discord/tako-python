@@ -1,1 +1,6 @@
 hr:
+  language_success: "Moj jezik je sada postavljen na `%{language}`."
+  selfrole_created: "Uspješno je kreiran tvoj meni za odabir uloga!"
+  crossposting_not_news: "%{channel} nije novinski kanal!"
+  crossposting_activated: "✅ Auto-crossposting za %{channel} sada je aktiviran"
+  crossposting_deactivated: "❌ Auto-crossposting za %{channel} sada je deaktiviran"
