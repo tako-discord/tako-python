@@ -29,7 +29,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
             ephemeral=True,
         )
 
-    @app_commands.command(description="Set the style of the auto trandlated message")
+    @app_commands.command(description="Set the style of the auto translated message")
     @app_commands.describe(style="The style of the auto translated message")
     @app_commands.checks.has_permissions(manage_guild=True)
     @app_commands.choices(
@@ -100,9 +100,8 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
         state = await self.bot.db_pool.fetchval(
             "SELECT auto_translate FROM guilds WHERE guild_id = $1", message.guild.id
         )
-        if not message.content or not state or message.author.id == self.bot.user.id:
+        if not message.content or not state or message.author.id == self.bot.user.id or message.webhook_id:
             return
-
         headers = {
             "accept": "application/json",
             "Content-Type": "application/x-www-form-urlencoded",
@@ -130,13 +129,20 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                 guild_language = get_language(self.bot, message.guild.id)
                 if confidence >= data["confidence"]:
                     return
+                webhook_id = None
+                for webhook in await message.channel.webhooks():
+                    if webhook.name == "AutoTranslate":
+                        webhook_id = webhook.id
+                if not webhook_id:
+                    webhook = await message.channel.create_webhook(
+                        name="AutoTranslate"
+                    )
+                else:
+                    webhook = await self.bot.fetch_webhook(webhook_id)
                 if data["language"] != guild_language:
                     try:
                         match reply_style:
                             case "webhook":
-                                webhook = await message.channel.create_webhook(
-                                    name="AutoTranslate"
-                                )
                                 await webhook.send(
                                     username=f"{message.author.display_name} ({data['language']} ➜ {guild_language})",
                                     avatar_url=message.author.display_avatar.url,
@@ -151,7 +157,6 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                                 )
                                 if delete_original or delete_original is None:
                                     await message.delete()
-                                await webhook.delete()
                             case "min_webhook":
                                 webhook = await message.channel.create_webhook(
                                     name="AutoTranslate"
@@ -165,8 +170,18 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                                 )
                                 if delete_original:
                                     await message.delete()
-                                await webhook.delete()
                             case _:
+                                if delete_original:
+                                    await message.channel.send(
+                                        f"{message.author.mention}:\n> "
+                                        + (
+                                            await translate(message.content, guild_language)
+                                        ).replace("\n", "\n> ")
+                                        + f"\n\n` {data['language']} ➜ {guild_language} | {round(data['confidence'])} `",
+                                        allowed_mentions=discord.AllowedMentions.none(),
+                                    )
+                                    await message.delete()
+                                    return
                                 await message.reply(
                                     "> "
                                     + (
