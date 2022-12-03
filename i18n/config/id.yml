@@ -1,7 +1,1 @@
 id:
-  language_success: "Bahasa diatur ke `%{language}`."
-  selfrole_created: "Berhasil membuat menu pemilihan role Anda!"
-  selfroles_updated: "Berhasil meng-update role Anda!"
-  crossposting_not_news: "❌️ %{channel} bukan channel News!"
-  crossposting_activated: "✅️ Posting silang otomatis untuk %{channel} sekarang aktif"
-  crossposting_deactivated: "❌️ Posting silang otomatis untuk %{channel} dimatikan"
