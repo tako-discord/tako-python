@@ -1,1 +1,19 @@
 hr:
+  translation: "Prijevod"
+  source: "**Izvor**: %{source}"
+  target: "**Cilj**: %{target}"
+  added_emoji: "Uspješno dodan `%{emoji}`"
+  deleted_emoji: "Uspješno uklonjen `%{emoji}`"
+  deleted_emoji_log: "Uklonjeno od %{user}"
+  not_emoji: |
+    Morate proslijediti važeći ID emojija iz [emoji.gg](<https://emoji.gg>) (na primjer: `5345-blobcatblush`) *ILI* važeći url koji upućuje na sliku.
+
+    Napominjemo da podržavamo samo sljedeće izvore:
+    [cdn.betterttv.net](<https://cdn.betterttv.net/>)
+    [cdn.discordapp.com](<https://cdn.discordapp.com>)
+    [emoji.gg](<https://emoji.gg>)
+    [i.imgur.com](<https://i.imgur.com>)
+    [raw.githubusercontent.com](<https://raw.githubusercontent.com>)
+  not_id: "Ovo nije ispravan emoji ID"
+  too_big: "Veličina emojija je prevelika. Pokušali smo ga komprimirati, ali nije uspijelo. Pokušajte ponovno s manjom veličinom."
+  emoji_not_found: "Emotikon nije pronađen 😢"
