@@ -1,1 +1,12 @@
 fr:
+  wallet: "Portefeuille"
+  bank: "Banque"
+  #Head or Tail
+  ht: "Pile ou face"
+  ht_won: "Tu as gagné! (%{amount})"
+  ht_lost: "Tu as perdu! (%{amount})"
+  bet: "Parier"
+  guess: "Deviner"
+  head: "Face"
+  tail: "Pile"
+  new_balance: "Nouvelle balance"
