@@ -1,1 +1,6 @@
 es:
+  language_success: "Mi idioma se ha cambiado a `%{language}`."
+  selfrole_created: "Se ha creado tu menú de selección de roles correctamente!"
+  crossposting_not_news: "❌ %{channel} no es un canal de noticias!"
+  crossposting_activated: "✅ La publicación transversal automática para %{channel} está activada"
+  crossposting_deactivated: "❌ La publicación transversal automática para %{channel} ha sido desactivada"
