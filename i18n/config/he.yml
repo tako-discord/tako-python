@@ -1,1 +1,8 @@
 he:
+  language_success: "השפה שלי מכוון ל `%{language}`."
+  selfrole_created: "כל התפקידים שלך סיימו בהצלחה!"
+  selfroles_updated: "התפקידים שלך מעודכנים בשלום!"
+  crossposting_not_news: "❌ %{channel} הוא לא מקום לחדשות!"
+  crossposting_activated: "✅ פירסום אוטומטי בשביל %{channel} עכשיו הופעל"
+  crossposting_deactivated: "❌ פירסום אוטומטי בשביל %{channel} עכשיו נכבה"
+  invalid_role: "הרובוט או אתה לא יכולים לבחור 1 או יותר תפקידים בגלל שאין לך או לרובוט רשות."
