@@ -8,14 +8,14 @@ from discord.app_commands import Choice
 from utils import get_language, translate
 
 
-class AutoTranslate(commands.Cog):
+class AutoTranslate(commands.GroupCog, name="auto_translate"):
     def __init__(self, bot):
         self.bot = bot
 
     @app_commands.command(description="Disable or enable auto translate")
-    @app_commands.describe(value="Wheter to enable or disable auto translate")
+    @app_commands.describe(value="Whether to enable or disable auto translate")
     @app_commands.checks.has_permissions(manage_guild=True)
-    async def auto_translate(self, interaction: discord.Interaction, value: bool):
+    async def toggle(self, interaction: discord.Interaction, value: bool):
         await self.bot.db_pool.execute(
             "INSERT INTO guilds (guild_id, auto_translate) VALUES ($1, $2) ON CONFLICT(guild_id) DO UPDATE SET auto_translate = $2",
             interaction.guild.id,
@@ -36,9 +36,10 @@ class AutoTranslate(commands.Cog):
         style=[
             Choice(name="Default", value="default"),
             Choice(name="Webhook", value="webhook"),
+            Choice(name="Minimal Webhook", value="min_webhook"),
         ]
     )
-    async def auto_translate_reply_style(
+    async def style(
         self, interaction: discord.Interaction, style: str
     ):
         await self.bot.db_pool.execute(
@@ -60,7 +61,7 @@ class AutoTranslate(commands.Cog):
     )
     @app_commands.describe(value="The confidence threshold for auto translate.")
     @app_commands.checks.has_permissions(manage_guild=True)
-    async def auto_translate_confidence(
+    async def sensitivity(
         self, interaction: discord.Interaction, value: app_commands.Range[int, 0, 100]
     ):
         await self.bot.db_pool.execute(
@@ -76,6 +77,28 @@ class AutoTranslate(commands.Cog):
             ),
             ephemeral=True,
         )
+
+    @app_commands.command(
+        description="Toggle original message deletion for auto translate"
+    )
+    @app_commands.describe(value="Whether to delete the original message or not")
+    async def delete_original(
+        self, interaction: discord.Interaction, value: bool
+    ):
+        await self.bot.db_pool.execute(
+            "INSERT INTO guilds (guild_id, auto_translate_delete_original) VALUES ($1, $2) ON CONFLICT(guild_id) DO UPDATE SET auto_translate_delete_original = $2;",
+            interaction.guild.id,
+            value,
+        )
+        return await interaction.response.send_message(
+            i18n.t(
+                "misc.auto_translate_delete_original",
+                value=value,
+                locale=get_language(self.bot, interaction.guild.id),
+            ),
+            ephemeral=True,
+        )
+
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
@@ -105,37 +128,58 @@ class AutoTranslate(commands.Cog):
                     "SELECT auto_translate_reply_style FROM guilds WHERE guild_id = $1",
                     message.guild.id,
                 )
+                delete_original = await self.bot.db_pool.fetchval(
+                    "SELECT auto_translate_delete_original FROM guilds WHERE guild_id = $1",
+                    message.guild.id,
+                )
                 guild_language = get_language(self.bot, message.guild.id)
                 if confidence >= data["confidence"]:
                     return
                 if data["language"] != guild_language:
                     try:
-                        if reply_style == "webhook":
-                            webhook = await message.channel.create_webhook(
-                                name="AutoTranslate"
-                            )
-                            await webhook.send(
-                                username=f"{message.author.display_name} ({data['language']} ➜ {guild_language})",
-                                avatar_url=message.author.avatar.url,
-                                embed=discord.Embed(
-                                    description=await translate(
+                        match reply_style:
+                            case "webhook":
+                                webhook = await message.channel.create_webhook(
+                                    name="AutoTranslate"
+                                )
+                                await webhook.send(
+                                    username=f"{message.author.display_name} ({data['language']} ➜ {guild_language})",
+                                    avatar_url=message.author.display_avatar.url,
+                                    embed=discord.Embed(
+                                        description=await translate(
+                                            message.content, guild_language
+                                        ),
+                                        color=0x2F3136,
+                                    ).set_footer(
+                                        text=f"Confidence: {round(data['confidence'])}%"
+                                    ),
+                                )
+                                if delete_original or delete_original is None:
+                                    await message.delete()
+                                await webhook.delete()
+                            case "min_webhook":
+                                webhook = await message.channel.create_webhook(
+                                    name="AutoTranslate"
+                                )
+                                await webhook.send(
+                                    username=f"{message.author.display_name} ({data['language']} ➜ {guild_language})",
+                                    avatar_url=message.author.display_avatar.url,
+                                    content=await translate(
                                         message.content, guild_language
                                     ),
-                                    color=0x2F3136,
-                                ).set_footer(
-                                    text=f"Confidence: {round(data['confidence'])}%"
-                                ),
-                            )
-                            await webhook.delete()
-                        else:
-                            await message.reply(
-                                "> "
-                                + (
-                                    await translate(message.content, guild_language)
-                                ).replace("\n", "\n> ")
-                                + f"\n\n` {data['language']} ➜ {guild_language} | {round(data['confidence'])} `",
-                                allowed_mentions=discord.AllowedMentions.none(),
-                                mention_author=False,
-                            )
+                                )
+                                if delete_original:
+                                    await message.delete()
+                                await webhook.delete()
+                            case _:
+                                await message.reply(
+                                    "> "
+                                    + (
+                                        await translate(message.content, guild_language)
+                                    ).replace("\n", "\n> ")
+                                    + f"\n\n` {data['language']} ➜ {guild_language} | {round(data['confidence'])} `",
+                                    allowed_mentions=discord.AllowedMentions.none(),
+                                    mention_author=False,
+                                )
                     except discord.Forbidden:
                         return
