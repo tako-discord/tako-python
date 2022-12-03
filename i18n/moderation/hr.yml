@@ -1,1 +1,2 @@
 hr:
+  malicious_link: "%{user} je pokušao poslati zlonamjeran link. Izbrisao sam ga!"
