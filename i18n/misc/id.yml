@@ -1,7 +1,6 @@
 id:
   translation: "Terjemahan"
   source: "**Sumber**: %{source}"
-  target: "**Target**: %{target}"
   added_emoji: "Berhasil menambahkan `%{emoji}`"
   deleted_emoji: "Berhasil menghapus `%{emoji}`"
   deleted_emoji_log: "Dihilangkan oleh %{user}"

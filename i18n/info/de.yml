@@ -38,3 +38,6 @@ de:
   badge_not_found: "Abzeichen nicht gefunden 😢"
   users_with_badge: "Benutzer mit dem Abzeichen (%{amount})"
   more_badge_info: "*Um mehr Informationen über ein Badge zu erhalten, führe `/info badge` aus*\n\n"
+  no_content: "Diese Nachricht ist leer."
+  embed: "Embed %{count}:"
+  message: "Nachricht:"

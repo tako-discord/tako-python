@@ -27,7 +27,6 @@ fr:
   verified_bot: "Bot vérifié"
   verified_bot_developer: "Développeur de Bot vérifié"
   discord_certified_moderator: "Modérateur certifié de Discord"
-  bot_http_interactions: "Webhook"
   spammer: "Spammeur"
   #Badges
   badge_not_found: "Badge introuvable 😢"

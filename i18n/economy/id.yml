@@ -1,7 +1,6 @@
 id:
   balance: "Saldo"
   wallet: "Dompet"
-  bank: "Bank"
   #Head or Tail
   ht: "Kepala atau Ekor"
   ht_won: "Kamu menang! (%{amount})"

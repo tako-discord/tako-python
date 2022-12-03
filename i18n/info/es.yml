@@ -1,17 +1,14 @@
 es:
   title: "Información para %{name}"
   infos_about: "Aquí hay algunas informaciones sobre %{name}"
-  general: "**General**"
   username_discrim: "**Usuario y discriminador**: %{name}"
   no_flags: "Sin flags"
   created_on: "**Creado el**: %{date}"
   date_format: "%d-%m-%Y"
-  avatar: "**Avatar**: %{avatar}"
   server: "**Servidor**"
   joined_on: "**Se unió el**: %{date}"
   top_role: "**Top Rol**: %{role}"
   hoist_role: "**Rol de Carga**: %{role}"
-  roles: "**Roles**: %{roles}"
   no_roles: "*Sin roles*"
   not_in_server: "*El usuario no esta en este servidor*"
   #Flags
@@ -30,8 +27,6 @@ es:
   verified_bot_developer: "Desarrollador de bots verificado"
   early_verified_bot_developer: "Desarrollador de bots verificado temprano"
   discord_certified_moderator: "Moderador Certificado de Discord"
-  bot_http_interactions: "Webhook"
-  spammer: "Spammer"
   #Badges
   badge_not_found: "Insignia no encontrada 😢"
   users_with_badge: "Usuarios con la insignia (%{amount})"
