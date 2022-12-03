@@ -1,1 +1,12 @@
 fr:
+  warning: "Avertissement"
+  error_occured: "Une erreur est survenue"
+  bot_missing_perms: "J'ai besoin des permission(s) *%{perms}* pour exécuter cette commande."
+  user_missing_perms: "Tu as besoin des permission(s) *%{perms}* pour exécuter cette commande."
+  cooldown: "Cette commande est en cours de rechargement, veuillez réessayer dans %{time}s."
+  no_pm_title: "Pas de support pour les messages privés"
+  no_pm: "Cette commande ne peut pas être utilisée dans les DMs."
+  check_failure_title: "Une vérification a échoué"
+  check_failure: "Vous n'avez pas la permission d'utiliser cette commande. (Une vérification a échoué)"
+  not_owner_title: "Truc secret"
+  not_owner: "Vous devez être le propriétaire du bot pour exécuter cette commande."
