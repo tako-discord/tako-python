@@ -1,5 +1,8 @@
 id:
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ef82fd9 (New translations en.yml (Indonesian))
   balance: "Saldo"
   wallet: "Dompet"
   #Head or Tail
@@ -11,5 +14,8 @@ id:
   head: "Kepala"
   tail: "Ekor"
   new_balance: "Saldo baru"
+<<<<<<< HEAD
 =======
 >>>>>>> 30dd448 (New translations en.yml (Indonesian))
+=======
+>>>>>>> ef82fd9 (New translations en.yml (Indonesian))
