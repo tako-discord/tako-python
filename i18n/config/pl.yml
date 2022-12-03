@@ -1,1 +1,2 @@
 pl:
+  language_success: "Mój język został ustawiony na `%{language}`."
