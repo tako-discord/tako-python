@@ -1,5 +1,14 @@
 # Changelog
 
+<a name="0.1.6"></a>
+## 0.1.6 (2022-12-03)
+
+### Changed
+
+- 🚸 move autotranslate to subcommands and add min_webhook style [[3deae29](https://github.com/tako-discord/tako/commit/3deae29611534bd75462fd9229d1a2822e18fa4a)]
+- 🔧 move &#x60;TEST_GUILD&#x60; to secrets [[e9ebfdd](https://github.com/tako-discord/tako/commit/e9ebfdd17aac991b72cfe8967e221d3f4eea9c8d)]
+
+
 <a name="0.1.5"></a>
 ## 0.1.5 (2022-12-02)
 
