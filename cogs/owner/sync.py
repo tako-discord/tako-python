@@ -1,6 +1,6 @@
 import i18n
 import discord
-import config
+import bot_secrets
 from discord.ext import commands
 from utils import error_embed, get_language
 
@@ -9,9 +9,9 @@ class Sync(commands.Cog):
     @commands.hybrid_command(description="Sync all slash commands")
     @commands.is_owner()
     async def sync(self, ctx):
-        if hasattr(config, "TEST_GUILD"):
-            self.bot.tree.copy_global_to(guild=discord.Object(id=config.TEST_GUILD))
-            await self.bot.tree.sync(guild=discord.Object(id=config.TEST_GUILD))
+        if hasattr(bot_secrets, "TEST_GUILD"):
+            self.bot.tree.copy_global_to(guild=discord.Object(id=bot_secrets.TEST_GUILD))
+            await self.bot.tree.sync(guild=discord.Object(id=bot_secrets.TEST_GUILD))
         else:
             await self.bot.tree.sync()
         await ctx.reply("Successfully synced!", ephemeral=True)
