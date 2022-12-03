@@ -39,9 +39,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
             Choice(name="Minimal Webhook", value="min_webhook"),
         ]
     )
-    async def style(
-        self, interaction: discord.Interaction, style: str
-    ):
+    async def style(self, interaction: discord.Interaction, style: str):
         await self.bot.db_pool.execute(
             "INSERT INTO guilds (guild_id, auto_translate_reply_style) VALUES ($1, $2) ON CONFLICT(guild_id) DO UPDATE SET auto_translate_reply_style = $2",
             interaction.guild.id,
@@ -82,9 +80,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
         description="Toggle original message deletion for auto translate"
     )
     @app_commands.describe(value="Whether to delete the original message or not")
-    async def delete_original(
-        self, interaction: discord.Interaction, value: bool
-    ):
+    async def delete_original(self, interaction: discord.Interaction, value: bool):
         await self.bot.db_pool.execute(
             "INSERT INTO guilds (guild_id, auto_translate_delete_original) VALUES ($1, $2) ON CONFLICT(guild_id) DO UPDATE SET auto_translate_delete_original = $2;",
             interaction.guild.id,
@@ -98,7 +94,6 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
             ),
             ephemeral=True,
         )
-
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):

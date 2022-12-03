@@ -10,7 +10,9 @@ class Sync(commands.Cog):
     @commands.is_owner()
     async def sync(self, ctx):
         if hasattr(bot_secrets, "TEST_GUILD"):
-            self.bot.tree.copy_global_to(guild=discord.Object(id=bot_secrets.TEST_GUILD))
+            self.bot.tree.copy_global_to(
+                guild=discord.Object(id=bot_secrets.TEST_GUILD)
+            )
             await self.bot.tree.sync(guild=discord.Object(id=bot_secrets.TEST_GUILD))
         else:
             await self.bot.tree.sync()
