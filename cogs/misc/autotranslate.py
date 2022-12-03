@@ -100,7 +100,12 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
         state = await self.bot.db_pool.fetchval(
             "SELECT auto_translate FROM guilds WHERE guild_id = $1", message.guild.id
         )
-        if not message.content or not state or message.author.id == self.bot.user.id or message.webhook_id:
+        if (
+            not message.content
+            or not state
+            or message.author.id == self.bot.user.id
+            or message.webhook_id
+        ):
             return
         headers = {
             "accept": "application/json",
@@ -134,9 +139,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                     if webhook.name == "AutoTranslate":
                         webhook_id = webhook.id
                 if not webhook_id:
-                    webhook = await message.channel.create_webhook(
-                        name="AutoTranslate"
-                    )
+                    webhook = await message.channel.create_webhook(name="AutoTranslate")
                 else:
                     webhook = await self.bot.fetch_webhook(webhook_id)
                 if data["language"] != guild_language:
@@ -175,7 +178,9 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                                     await message.channel.send(
                                         f"{message.author.mention}:\n> "
                                         + (
-                                            await translate(message.content, guild_language)
+                                            await translate(
+                                                message.content, guild_language
+                                            )
                                         ).replace("\n", "\n> ")
                                         + f"\n\n` {data['language']} ➜ {guild_language} | {round(data['confidence'])} `",
                                         allowed_mentions=discord.AllowedMentions.none(),
