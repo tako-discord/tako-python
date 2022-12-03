@@ -1,8 +1,1 @@
 fr:
-  language_success: "Mon langage est défini a `%{language}`."
-  selfrole_created: "La création du menu de rôle a était un succès!"
-  selfroles_updated: "Vous avez bien mis à jour vos rôles!"
-  crossposting_not_news: "❌ %{channel} n'est pas un salon d'information!"
-  crossposting_activated: "✅ Publication croisée pour %{channel} est activée"
-  crossposting_deactivated: "❌ Publication croisée pour %{channel} est maintenant désactiver"
-  invalid_role: "Le bot ou vous n'avez pas l'autorisation d'attribuer au moins un rôle que vous avez sélectionné."
