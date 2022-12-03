@@ -1,1 +1,9 @@
 sv:
+  translation: "Översättning"
+  source: "**Källa**: %{source}"
+  target: "**Mål**: %{target}"
+  added_emoji: "Lyckades lägga till `%{emoji}`"
+  deleted_emoji: "Lyckades ta bort `%{emoji}`"
+  deleted_emoji_log: "Borttaget av %{user}"
+  not_id: "Detta emoji-ID är ogiltigt"
+  too_big: "Storleken på emojin är för stor. Vi försökte komprimera den men den fungerade inte. Försök igen med en mindre storlek."
