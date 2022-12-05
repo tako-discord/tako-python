@@ -161,9 +161,6 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                                 if delete_original or delete_original is None:
                                     await message.delete()
                             case "min_webhook":
-                                webhook = await message.channel.create_webhook(
-                                    name="AutoTranslate"
-                                )
                                 await webhook.send(
                                     username=f"{message.author.display_name} ({data['language']} ➜ {guild_language})",
                                     avatar_url=message.author.display_avatar.url,
