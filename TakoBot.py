@@ -8,8 +8,6 @@ import aiohttp
 import requests
 import bot_secrets
 from discord.ext import commands, tasks
-from utils import new_meme, thumbnail, get_color, get_language
-
 trimmer = "----------"
 
 
@@ -30,9 +28,6 @@ class TakoBot(commands.Bot):
         self.presence_update.start()
         self.postgre_guilds = await self.db_pool.fetch("SELECT * FROM guilds")
         self.badges_update.start()
-        self.add_view(MemeButtons(self))
-        self.add_view(AffirmationButtons())
-        self.loop.create_task(self.selfrole_setup())
 
     @tasks.loop(seconds=55)
     async def uptime_kuma(self):
@@ -133,137 +128,3 @@ class TakoBot(commands.Bot):
     @badges_update.before_loop
     async def before_badges_update(self):
         await self.wait_until_ready()
-
-    async def selfrole_setup(self):
-        await self.wait_until_ready()
-        selfrole_menus = await self.db_pool.fetch("SELECT * FROM selfroles")
-        for item in selfrole_menus:
-            view = discord.ui.View(timeout=None)
-            menu = SelfMenu(
-                self,
-                item["select_array"],
-                item["min_values"],
-                item["max_values"],
-                str(item["id"]),
-            )
-            view.add_item(menu)
-            self.add_view(view)
-
-
-class AffirmationButtons(discord.ui.View):
-    def __init__(self):
-        super().__init__(timeout=None)
-
-    @discord.ui.button(
-        label="Another one",
-        style=discord.ButtonStyle.blurple,
-        emoji="❤️",
-        custom_id="next_affirmation",
-    )
-    async def next_affirmation(
-        self, interaction: discord.Interaction, button: discord.ui.Button
-    ):
-        async with aiohttp.ClientSession() as session:
-            async with session.get("https://affirmations.dev/") as r:
-                data = await r.json()
-                await interaction.response.edit_message(
-                    content=data["affirmation"], view=self
-                )
-
-
-class MemeButtons(discord.ui.View):
-    def __init__(self, bot):
-        super().__init__(timeout=None)
-        self.bot = bot
-
-    @discord.ui.button(
-        label="Another one", style=discord.ButtonStyle.blurple, custom_id="next_meme"
-    )
-    async def next_meme(
-        self, interaction: discord.Interaction, button: discord.ui.Button
-    ):
-        embed, file = await new_meme(
-            interaction.guild.id, interaction.user.id, self.bot, self.bot.db_pool
-        )
-
-        await interaction.response.edit_message(
-            embed=embed, attachments=[file], view=self
-        )
-
-    @discord.ui.button(
-        label="Share it",
-        style=discord.ButtonStyle.grey,
-        custom_id="share_meme",
-    )
-    async def share_meme(
-        self, interaction: discord.Interaction, button: discord.ui.Button
-    ):
-        data = await self.bot.db_pool.fetchval(
-            "SELECT last_meme FROM users WHERE user_id = $1;", interaction.user.id
-        )
-        if not data:
-            return await interaction.response.send_message(
-                "We couldn't share this meme!", ephemeral=True
-            )
-
-        data = json.loads(data)
-        thumbnail_path = await thumbnail(interaction.guild.id, "reddit", self)
-        file = discord.File(thumbnail_path, filename="thumbnail.png")
-
-        embed = discord.Embed(
-            title=f"{data['title']}",
-            description=data["postLink"],
-            color=await get_color(self, interaction.guild.id),
-        )
-        embed.set_author(
-            name=data["author"],
-            url=f"https://reddit.com/u/{data['author']}",
-            icon_url="https://www.redditstatic.com/avatars/defaults/v2/avatar_default_1.png",
-        )
-        embed.set_thumbnail(url="attachment://thumbnail.png")
-        embed.set_image(url=data["url"])
-        embed.set_footer(text=f"r/{data['subreddit']} • {data['ups']} 👍")
-
-        await interaction.response.send_message(
-            i18n.t("misc.meme_share", user=interaction.user.display_avatar),
-            embed=embed,
-            file=file,
-        )
-
-
-class SelfMenu(discord.ui.Select):
-    def __init__(
-        self, bot, select_array: list, min_values: int, max_values: int, uuid: str
-    ):
-        options = []
-        for role_id in select_array:
-            for guild in bot.guilds:
-                for role in guild.roles:
-                    if role.id == role_id:
-                        options.append(
-                            discord.SelectOption(label=role.name, value=str(role_id))
-                        )
-        super().__init__(
-            custom_id=uuid,
-            placeholder="No roles selected",
-            options=options,
-            min_values=min_values,
-            max_values=max_values,
-        )
-        self.bot = bot
-
-    async def callback(self, interaction: discord.Interaction):
-        await interaction.response.defer()
-        for option in self.options:
-            role = discord.utils.get(interaction.guild.roles, id=int(option.value))
-            if str(role.id) in self.values:
-                await interaction.user.add_roles(role)
-            else:
-                await interaction.user.remove_roles(role)
-        await interaction.followup.send(
-            content=i18n.t(
-                "config.selfroles_updated",
-                locale=get_language(self.bot, interaction.guild.id),
-            ),
-            ephemeral=True,
-        )

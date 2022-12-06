@@ -1,9 +1,10 @@
 import discord
 import aiohttp
+from TakoBot import TakoBot
 from discord import app_commands
 from discord.ext import commands
-from TakoBot import TakoBot, MemeButtons
 from utils import delete_thumbnail, new_meme
+from persistent_views.meme_buttons import MemeButtons
 
 
 class Reddit(commands.Cog):

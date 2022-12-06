@@ -1,14 +1,15 @@
 import i18n
 import uuid
 import discord
-from TakoBot import TakoBot, SelfMenu
+from TakoBot import TakoBot
 from discord import app_commands
 from discord.ext import commands
+from persistent_views.self_menu import SelfMenu
 from utils import get_language, thumbnail, get_color
 
 
 class Selfroles(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot: TakoBot):
         self.bot = bot
 
     @app_commands.command(description="Create a role selection menu")
