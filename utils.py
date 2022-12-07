@@ -283,7 +283,7 @@ async def get_latest_version():
 
 async def translate(text: str, target: str, source: str = "auto"):
     """Translates a given string to a specified language.
-    
+
     Parameters
     -----------
     text: :class:`str`
@@ -302,7 +302,7 @@ async def translate(text: str, target: str, source: str = "auto"):
 
 async def new_meme(guild_id: int, user_id: int, bot, db_pool: asyncpg.Pool):
     """Returns a new meme embed and it's file from reddit.
-    
+
     Parameters
     -----------
     guild_id: :class:`int`
@@ -312,7 +312,7 @@ async def new_meme(guild_id: int, user_id: int, bot, db_pool: asyncpg.Pool):
     bot: :class:`TakoBot`
     db_pool: :class:`asyncpg.Pool`
         The PostgreSQL pool to use. Generally `bot.db_pool`.
-        
+
     Returns
     --------
     tuple[:class:`discord.Embed`, :class:`discord.File`]"""
@@ -387,6 +387,7 @@ def owner_only():
     """
     An :class:`app_commands.check()` that checks if the user is the owner of the bot.
     """
+
     async def check(interaction: discord.Interaction):
         return await is_owner_func(interaction.client, interaction.user)
 
@@ -395,7 +396,7 @@ def owner_only():
 
 async def poll_embed(question: str, asnwers: list, votes: str, bot, guild_id: int):
     """Returns a poll embed.
-    
+
     Parameters
     -----------
     question: :class:`str`
@@ -426,7 +427,7 @@ async def poll_embed(question: str, asnwers: list, votes: str, bot, guild_id: in
     for user in votes:
         value = votes[user]
         count[value] += 1
-    
+
     percentages = {}
     results = {}
     for answer in count:
@@ -450,8 +451,14 @@ async def poll_embed(question: str, asnwers: list, votes: str, bot, guild_id: in
             highest_percentage[1] = result
     for result in results:
         if result == highest_percentage[1]:
-            embed.add_field(name=f"👑 {result} ({count[result]})", value=results[result], inline=False)
+            embed.add_field(
+                name=f"👑 {result} ({count[result]})",
+                value=results[result],
+                inline=False,
+            )
             continue
-        embed.add_field(name=f"{result} ({count[result]})", value=results[result], inline=False)
+        embed.add_field(
+            name=f"{result} ({count[result]})", value=results[result], inline=False
+        )
 
     return embed

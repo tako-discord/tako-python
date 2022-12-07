@@ -8,6 +8,7 @@ import requests
 import bot_secrets
 import persistent_views
 from discord.ext import commands, tasks
+
 trimmer = "----------"
 
 

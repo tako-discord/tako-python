@@ -14,19 +14,19 @@ async def setup(bot: commands.Bot):
 
 
 async def selfrole_setup(bot):
-        await bot.wait_until_ready()
-        selfrole_menus = await bot.db_pool.fetch("SELECT * FROM selfroles")
-        for item in selfrole_menus:
-            view = discord.ui.View(timeout=None)
-            menu = SelfMenu(
-                bot,
-                item["select_array"],
-                item["min_values"],
-                item["max_values"],
-                str(item["id"]),
-            )
-            view.add_item(menu)
-            bot.add_view(view)
+    await bot.wait_until_ready()
+    selfrole_menus = await bot.db_pool.fetch("SELECT * FROM selfroles")
+    for item in selfrole_menus:
+        view = discord.ui.View(timeout=None)
+        menu = SelfMenu(
+            bot,
+            item["select_array"],
+            item["min_values"],
+            item["max_values"],
+            str(item["id"]),
+        )
+        view.add_item(menu)
+        bot.add_view(view)
 
 
 async def poll_setup(bot):
