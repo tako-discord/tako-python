@@ -1,4 +1,5 @@
 from .tag import Tag
+from .polls import Poll
 from .embed import Embed
 from .emoji import Emoji
 from .image import Image
@@ -14,6 +15,7 @@ from .reaction_translate import ReactionTranslate
 
 async def setup(bot):
     await bot.add_cog(Tag(bot))
+    await bot.add_cog(Poll(bot))
     await bot.add_cog(Embed(bot))
     await bot.add_cog(Emoji(bot))
     await bot.add_cog(Image(bot))

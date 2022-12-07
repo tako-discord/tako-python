@@ -1,4 +1,3 @@
-import json
 import os
 import i18n
 import config
@@ -7,6 +6,7 @@ import discord
 import aiohttp
 import requests
 import bot_secrets
+import persistent_views
 from discord.ext import commands, tasks
 trimmer = "----------"
 
@@ -28,6 +28,7 @@ class TakoBot(commands.Bot):
         self.presence_update.start()
         self.postgre_guilds = await self.db_pool.fetch("SELECT * FROM guilds")
         self.badges_update.start()
+        await persistent_views.setup(self)
 
     @tasks.loop(seconds=55)
     async def uptime_kuma(self):

@@ -282,6 +282,16 @@ async def get_latest_version():
 
 
 async def translate(text: str, target: str, source: str = "auto"):
+    """Translates a given string to a specified language.
+    
+    Parameters
+    -----------
+    text: :class:`str`
+        The text to translate.
+    target: :class:`str`
+        The language to translate to.
+    source: :class:`str` (Default: "auto")
+        The language to translate from."""
     async with aiohttp.ClientSession() as session:
         async with session.get(
             f"{config.SIMPLY_TRANSLATE}/api/translate/?engine=google&text={quote(text)}&from={source}&to={target}"
@@ -291,6 +301,21 @@ async def translate(text: str, target: str, source: str = "auto"):
 
 
 async def new_meme(guild_id: int, user_id: int, bot, db_pool: asyncpg.Pool):
+    """Returns a new meme embed and it's file from reddit.
+    
+    Parameters
+    -----------
+    guild_id: :class:`int`
+        The id of the guild where the language and color is getting fetched from.
+    user_id: :class:`int`
+        The id of the user who requested the meme.
+    bot: :class:`TakoBot`
+    db_pool: :class:`asyncpg.Pool`
+        The PostgreSQL pool to use. Generally `bot.db_pool`.
+        
+    Returns
+    --------
+    tuple[:class:`discord.Embed`, :class:`discord.File`]"""
     async with aiohttp.ClientSession() as session:
         async with session.get("https://meme-api.herokuapp.com/gimme/") as r:
             thumbnail_path = await thumbnail(guild_id, "reddit", bot)
@@ -338,6 +363,16 @@ async def new_meme(guild_id: int, user_id: int, bot, db_pool: asyncpg.Pool):
 
 
 async def is_owner_func(bot, user: discord.User | discord.Member):
+    """
+    Checks if the given user is the owner of the bot.
+
+    Parameters
+    -----------
+    bot: :class:`TakoBot`
+        The bot instance.
+    user: :class:`discord.User` | :class:`discord.Member`
+        The user to check.
+    """
     app_info = await bot.application_info()
     if hasattr(app_info, "team") and hasattr(app_info.team, "members"):
         owners = []
@@ -349,7 +384,74 @@ async def is_owner_func(bot, user: discord.User | discord.Member):
 
 
 def owner_only():
+    """
+    An :class:`app_commands.check()` that checks if the user is the owner of the bot.
+    """
     async def check(interaction: discord.Interaction):
         return await is_owner_func(interaction.client, interaction.user)
 
     return app_commands.check(check)
+
+
+async def poll_embed(question: str, asnwers: list, votes: str, bot, guild_id: int):
+    """Returns a poll embed.
+    
+    Parameters
+    -----------
+    question: :class:`str`
+        The question of the poll.
+    asnwers: :class:`list`
+        The answers of the poll.
+    votes: :class:`str`
+        A stringified dictonary from the votes of the poll.
+    guild_id: :class:`int`
+        The id of the guild where the color is getting fetched from.
+
+    Returns
+    --------
+    :class:`discord.Embed`"""
+    votes = json.loads(votes)
+    total_votes = len(votes)
+    embed = discord.Embed(
+        title=f"**{question}**",
+        color=await get_color(bot, guild_id),
+        timestamp=datetime.now(),
+    )
+    embed.set_footer(text="Last updated")
+
+    count = {}
+    for answer in asnwers:
+        count[f"{answer}"] = 0
+
+    for user in votes:
+        value = votes[user]
+        count[value] += 1
+    
+    percentages = {}
+    results = {}
+    for answer in count:
+        if total_votes != 0:
+            percentages[answer] = round(count[answer] / total_votes * 100)
+        else:
+            percentages[answer] = 0
+        progress = []
+        for i in range(1, 10):
+            if i < percentages[answer] // 10:
+                progress.append("▬")
+            else:
+                progress.append("-")
+        end = ">"
+        if percentages[answer] >= 90:
+            end = ">>"
+        results[answer] = f"<<{''.join(progress)}{end} - {percentages[answer]}%"
+    highest_percentage = [0, ""]
+    for result in results:
+        if percentages[result] > highest_percentage[0]:
+            highest_percentage[1] = result
+    for result in results:
+        if result == highest_percentage[1]:
+            embed.add_field(name=f"👑 {result} ({count[result]})", value=results[result], inline=False)
+            continue
+        embed.add_field(name=f"{result} ({count[result]})", value=results[result], inline=False)
+
+    return embed
