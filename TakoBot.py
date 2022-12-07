@@ -10,7 +10,7 @@ import persistent_views
 from discord.ext import commands, tasks
 
 trimmer = "----------"
-
+# Bolo is a good boi, but is a big L
 
 class TakoBot(commands.Bot):
     async def on_ready(self):
