@@ -11,6 +11,7 @@ from discord.ext import commands, tasks
 
 trimmer = "----------"
 
+
 class TakoBot(commands.Bot):
     async def on_ready(self):
         print(trimmer)
