@@ -1,1 +1,35 @@
 he:
+  translation: "תרגום"
+  source: "**מקור**:%{source}"
+  target: "**מטרה**:%{target}"
+  added_emoji: "נוסף בהצלחה `%{emoji}`"
+  deleted_emoji: "נמחק בהצלחה `%{emoji}`"
+  deleted_emoji_log: "נמחק על ידי %{user}"
+  not_emoji: |
+    אתה צריך להעביר מזהה אימוג'י תקף מ [emoji.gg] (<https://emoji.gg>) (למשל: `5345-blobcatblush`) *או* כתובת אתר חוקית שמצביעה על תמונה
+
+    בבקשה לשים לב שאנו תומכים רק במקורי המידע ההבאים:
+    [cdn.betterttv.net](<https://cdn.betterttv.net/>)
+    [cdn.discordapp.com](<https://cdn.discordapp.com>)
+    [emoji.gg](<https://emoji.gg>)
+    [i.imgur.com](<https://i.imgur.com>)
+    [raw.githubusercontent.com](<https://raw.githubusercontent.com>)D
+  not_id: "זה לא אימוג'י תקין"
+  too_big: "נפח האימוג'י גדול מדי. ניסינו להקטין אותו אבל לא הוצלח. בבקשה נסה שנית עם גודל נפח קטן יותר."
+  emoji_not_found: "אימוג'י לא נמצא 😢"
+  lgbtq_tip: "טיפ: אתה יכול להשתמש בתמונה שלמטה כבתור תמונת פרופיל."
+  no_gif_support: "*ברגע זה אנו לא תומכים בתמונות פרופיל זזות C:*"
+  jail_desc_1: "%{user} יהיה בכלא למשל כל חייו."
+  jail_desc_2: "%{user} היה לא נחמד ל %{officer}. %{officer} אולם הוא שוטר."
+  jail_desc_3: "%{user} מקווה שלא יעשה זאת שוב."
+  jail_desc_4: "אולי %{user} לא נעצר..."
+  jail_desc_5: "%{officer} עצר %{user} לפעם ה1000🎉 [תלחץ על לינק זה](https://tako.rocks) כדי לקבל פרס!"
+  meme_share: "%{user} חושב שזה מצחיק. אפילו שזה לא, בבקשה אל תספרו להם. הם רגישים מאוד."
+  reaction_translate_activated: "תרגום תגובה מופעל כעת ✅"
+  reaction_translate_deactivated: "❌ תרגום תגובה הפסיק לעבוד "
+  reaction_translate_footer: "מבוקש על ידי %{user}"
+  auto_translate_activated: "תרגום אוטומתי הופעל ✅"
+  auto_translate_deactivated: "תרגום אוטומתי הפסיק פעולה ❌"
+  auto_translate_confidence_set: "בטחון מפתן הוגדר ל %{value}"
+  auto_translate_reply_style_set: "סגנון התשובה של תרגום אוטומטי מוגדר כעת ל %{style}"
+  auto_translate_delete_original: "אנחנו ברגע זה נמחק את ההודעה המקורית"
