@@ -40,6 +40,11 @@ class PollButtons(discord.ui.View):
                     )
 
             embed = await poll_embed(
-                self.question, self.answers, votes, self.bot, interaction.guild_id, self.uuid
+                self.question,
+                self.answers,
+                votes,
+                self.bot,
+                interaction.guild_id,
+                self.uuid,
             )
             await interaction.response.edit_message(embed=embed, view=self.view)

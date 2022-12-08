@@ -395,7 +395,9 @@ def owner_only():
     return app_commands.check(check)
 
 
-async def poll_embed(question: str, asnwers: list, votes: str, bot, guild_id: int, uuid: UUID):
+async def poll_embed(
+    question: str, asnwers: list, votes: str, bot, guild_id: int, uuid: UUID
+):
     """Returns a poll embed.
 
     Parameters

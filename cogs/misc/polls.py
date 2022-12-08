@@ -56,9 +56,8 @@ class Poll(commands.Cog):
         )
         embed = await poll_embed(
             question, answers, votes, self.bot, interaction.guild_id, uuid
-        )   
+        )
 
         await interaction.response.send_message(
             embed=embed, view=PollButtons(uuid, question, answers, self.bot)
         )
-    
