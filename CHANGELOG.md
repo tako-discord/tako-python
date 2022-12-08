@@ -1,5 +1,29 @@
 # Changelog
 
+<a name="0.2.0"></a>
+## 0.2.0 (2022-12-08)
+
+### Added
+
+- ✨ add &#x60;/poll&#x60; [[ccea7e0](https://github.com/tako-discord/tako/commit/ccea7e07e31a76712c3916d28458e570e19fd483)]
+
+### Changed
+
+- ⚡ only use one webhook in autotranslate instead of one for each message [[8453859](https://github.com/tako-discord/tako/commit/8453859322da37f475d09d6349a837c29c79b393)]
+- 👽 switch to https://translate.argosopentech.com/ [[f40e954](https://github.com/tako-discord/tako/commit/f40e9549c19b1aacb4b9e33310b75e79223043ba)]
+- 🔧 switch imgen to &#x60;imgen.tako-bot.com&#x60; [[a6dd0fd](https://github.com/tako-discord/tako/commit/a6dd0fdedc5a3436ba8c50b156f3782249e36bd4)]
+- 🚚 move persistent views to &#x60;persistent_views&#x60; dir [[54c0265](https://github.com/tako-discord/tako/commit/54c0265410f3e7f3d5a960aec9481c5424d53d7c)]
+
+### Fixed
+
+- 🚑 forgot something [[6ffb59a](https://github.com/tako-discord/tako/commit/6ffb59a000d879e5b8618dd93accbf3cde996e93)]
+- 🐛 only use webhook for the minimal autotranslate [[d474d22](https://github.com/tako-discord/tako/commit/d474d22fa27c55b355909c45cb7619c55c098002)]
+
+### Miscellaneous
+
+-  👷 remove lint workflow on PRs [[722b0b8](https://github.com/tako-discord/tako/commit/722b0b887be1231f5d03d456a69e7f6f6fd114c9)]
+
+
 <a name="0.1.7"></a>
 ## 0.1.7 (2022-12-03)
 
