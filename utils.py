@@ -5,6 +5,7 @@ import config
 import discord
 import asyncpg
 import aiohttp
+from uuid import UUID
 from datetime import datetime
 from urllib.parse import quote
 from config import REPO, RAW_GH
@@ -394,7 +395,7 @@ def owner_only():
     return app_commands.check(check)
 
 
-async def poll_embed(question: str, asnwers: list, votes: str, bot, guild_id: int):
+async def poll_embed(question: str, asnwers: list, votes: str, bot, guild_id: int, uuid: UUID):
     """Returns a poll embed.
 
     Parameters
@@ -416,9 +417,8 @@ async def poll_embed(question: str, asnwers: list, votes: str, bot, guild_id: in
     embed = discord.Embed(
         title=f"**{question}**",
         color=await get_color(bot, guild_id),
-        timestamp=datetime.now(),
     )
-    embed.set_footer(text="Last updated")
+    embed.set_footer(text=uuid)
 
     count = {}
     for answer in asnwers:
@@ -436,15 +436,18 @@ async def poll_embed(question: str, asnwers: list, votes: str, bot, guild_id: in
         else:
             percentages[answer] = 0
         progress = []
-        for i in range(1, 10):
-            if i < percentages[answer] // 10:
-                progress.append("▬")
+        for i in range(1, 11):
+            if i <= percentages[answer] // 10:
+                progress.append(config.EMOJI_MIDDLE_BAR_FULL)
             else:
-                progress.append("-")
-        end = ">"
+                progress.append(config.EMOJI_MIDDLE_BAR)
+        end = config.EMOJI_END_BAR
         if percentages[answer] >= 90:
-            end = ">>"
-        results[answer] = f"<<{''.join(progress)}{end} - {percentages[answer]}%"
+            end = config.EMOJI_END_BAR_FULL
+        start = config.EMOJI_START_BAR_FULL
+        if percentages[answer] < 1:
+            start = config.EMOJI_START_BAR
+        results[answer] = f"{start}{''.join(progress)}{end} - {percentages[answer]}%"
     highest_percentage = [0, ""]
     for result in results:
         if percentages[result] > highest_percentage[0]:
