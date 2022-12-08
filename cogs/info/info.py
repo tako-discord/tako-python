@@ -33,6 +33,7 @@ def handle_flags(flags: discord.UserFlags, language: str):
         ),
         "bot_http_interactions": i18n.t("info.bot_http_interactions", locale=language),
         "spammer": i18n.t("info.spammer", locale=language),
+        "active_developer": i18n.t("info.active_developer", locale=language),
     }
     for flag in flags:
         flag_for_dict = str(flag).replace("UserFlags.", "")
