@@ -7,7 +7,7 @@ he:
   username_discrim: "**שם משתמש ו מאבחן**: %{name}"
   no_flags: "אין תגי דיסקורד"
   created_on: "**נוצר ב-**: %{date}"
-  date_format: "%Y/%m/%d"
+  date_format: "%d/%m/%Y"
   avatar: "**תמונת פרופיל**: %{avatar}"
   server: "**שרת**"
   joined_on: "**הצתרף ב-**: %{date}"
