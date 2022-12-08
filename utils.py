@@ -449,7 +449,7 @@ async def poll_embed(
         start = config.EMOJI_START_BAR_FULL
         if percentages[answer] < 1:
             start = config.EMOJI_START_BAR
-        results[answer] = f"{start}{''.join(progress)}{end} - {percentages[answer]}%"
+        results[answer] = f"{start}{''.join(progress)}{end} {percentages[answer]}%"
     for result in results:
         embed.add_field(
             name=f"{result} ({count[result]})", value=results[result], inline=False
