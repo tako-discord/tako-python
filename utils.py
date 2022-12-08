@@ -450,18 +450,7 @@ async def poll_embed(
         if percentages[answer] < 1:
             start = config.EMOJI_START_BAR
         results[answer] = f"{start}{''.join(progress)}{end} - {percentages[answer]}%"
-    highest_percentage = [0, ""]
     for result in results:
-        if percentages[result] > highest_percentage[0]:
-            highest_percentage[1] = result
-    for result in results:
-        if result == highest_percentage[1]:
-            embed.add_field(
-                name=f"👑 {result} ({count[result]})",
-                value=results[result],
-                inline=False,
-            )
-            continue
         embed.add_field(
             name=f"{result} ({count[result]})", value=results[result], inline=False
         )
