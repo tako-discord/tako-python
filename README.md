@@ -1,5 +1,8 @@
 # Tako
 [![Crowdin](https://badges.crowdin.net/tako/localized.svg)](https://translate.tako.rocks)
+[![Discord Server](https://img.shields.io/discord/952558753859919922?label=Discord%20Server)](https://dsc.gg/tako-server)
+![latest tag](https://img.shields.io/github/v/tag/tako-discord/tako?color=sucess&label=latest%20tag&include_prereleases)
+![last commit](https://img.shields.io/github/last-commit/tako-discord/tako)
 
 A Discord bot done right. No bullshit like pay- or votewalls.
 
@@ -7,8 +10,6 @@ This is the rewrite for Kayano (now Tako). Before the rewrite it was written in 
 
 > **Warning** |
 > This project is still in *beta* and might be unstable and buggy
-
-> **Note** | We strongly recommend using [the public bot](https://top.gg/bot/878366398269771847) instead of selfhosting as it's well configured and does not have any disadvantages. Selfhosting is very complicated if you want everything to work perfectly.
 
 ## 🏃‍♂️ Get Started
 > Do you need help or found a bug?
@@ -22,7 +23,10 @@ Be sure to install everything before heading to the next step.
 ### 📥 Installation
 Please note that instead of `python` your command may be `python3` or similar.
 1. Clone this repository
-    - `git clone https://github.com/tako-discord/tako`
+    - Stable (Latest tag)
+        - `REPO=https://github.com/tako-discord/tako.git && git clone $REPO --single-branch --branch $(git ls-remote --tags --refs $REPO | tail -n1 | cut -d/ -f3) -c advice.detachedHead=false`
+    - Unstable/Development (Latest commit)
+        - `git clone https://github.com/tako-discord/tako.git`
 2. Install dependencies
     - `cd tako`
     - `pip install -r requirements.txt`
@@ -51,6 +55,13 @@ Please note that instead of `python` your command may be `python3` or similar.
     - Inside discord run `tk!sync` (or if available: `/sync`) in a channel the bot has access to. This is to make all slash commands visible.
 8. Enjoy! 😀
 
+### 🔁 Updating
+1. Switch to newest tag (recommended)
+    - `git checkout $(git ls-remote --tags --refs $REPO | tail -n1 | cut -d/ -f3)`
+2. Get latest code (unstable)
+    - `git checkout master` (If you used the stable version previously)
+    - `git pull`
+
 ## 🤝 Contributing
 1. Fork this repository
 2. Create a new branch
@@ -60,14 +71,13 @@ Please note that instead of `python` your command may be `python3` or similar.
 6. Be proud of yourself 👍
 
 ## 💖 Credits
-Huge thanks to the discord.py Community, helping out if I had any question.
-Another big thanks goes out to the users using this bot and all the contributors to this project.
+**Huge thanks to**
 
-Also huge thanks to the other (core) developer(s):
-- [*@boloped*](https://github.com/boloped)
-- [*LyQuid*](https://github.com/LyQuid12)
+...the core team
+- 👑 [*@Pukimaa*](https://github.com/Pukimaa) - Creator & Developer
+- 💻 [*@boloped*](https://github.com/boloped) - Developer
 
-and all the testers:
+...all the testers
 - [*@vaporvee*](https://github.com/vaporvee)
 - [*@abUwUser*](https://github.com/abUwUser)
 - [*@cmod31*](https://github.com/cmod31)
@@ -75,3 +85,10 @@ and all the testers:
 - [*@MeekOnGithub*](https://github.com/MeekOnGithub)
 - *| Tzur |#3673*
 - *Olex3#2900*
+
+...and every other person helping. Like Contributors, Translators etc.
+
+It's a big journey and we are happy to be on it with you!
+<br /><br /><hr />
+*Wow! You reached the end.*
+<hr />
