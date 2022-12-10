@@ -1,4 +1,4 @@
-git+https://github.com/kayano-bot/python-i18n.git
+git+https://github.com/tako-discord/python-i18n.git
 pick
 black
 psutil
