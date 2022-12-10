@@ -4,7 +4,29 @@ from TakoBot import TakoBot
 from datetime import datetime
 from discord import app_commands
 from discord.ext import commands
-from utils import get_color, get_language
+from utils import get_language, get_color
+
+
+class ClearAll(discord.ui.View):
+    def __init__(self, bot, channel: discord.TextChannel):
+        super().__init__()
+        self.bot = bot
+        self.channel = channel
+
+    @discord.ui.button(label='Confirm', style=discord.ButtonStyle.danger)
+    async def confirm(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await interaction.response.send_message(i18n.t("moderation.deleting", locale=get_language(self.bot, interaction.guild.id)), ephemeral=True)
+        channel = self.channel
+        await interaction.guild.create_text_channel(name=channel.name, position=channel.position, topic=channel.topic, slowmode_delay=channel.slowmode_delay, nsfw=channel.nsfw,
+        overwrites=channel.overwrites, default_auto_archive_duration=channel.default_auto_archive_duration)
+        await channel.delete()
+        self.stop()
+
+    @discord.ui.button(label='Cancel', style=discord.ButtonStyle.secondary)
+    async def cancel(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await interaction.response.send_message(i18n.t("moderation.cancelled", locale=get_language(self.bot, interaction.guild.id)), ephemeral=True)
+        self.stop()
+
 
 
 class Clear(commands.Cog):
@@ -13,7 +35,7 @@ class Clear(commands.Cog):
 
     @app_commands.command(description="Delete multiple messages at once")
     @app_commands.describe(
-        amount="The amount of messages to be deleted",
+        amount="The amount of messages to be deleted (0 to delete every message)",
         target="The user to delete the messages from",
         channel="The channel to delete the messages from",
     )
@@ -28,6 +50,11 @@ class Clear(commands.Cog):
     ):
         await interaction.response.defer(ephemeral=True)
         language = get_language(self.bot, interaction.guild.id)
+        if not channel:
+            channel = interaction.channel
+        if amount == 0:
+            embed = discord.Embed(title=i18n.t("moderation.sure_to_delete", channel=channel.name, locale=language), color=await get_color(self.bot, interaction.guild.id))
+            return await interaction.followup.send(embed=embed, view=ClearAll(self.bot, channel))
         too_many_messages = False
         if amount > 100:
             amount = 100
@@ -45,8 +72,6 @@ class Clear(commands.Cog):
                 text=i18n.t("errors.warning", locale=language)
             )
             too_many_messages = True
-        if not channel:
-            channel = interaction.channel
         if not target:
             await interaction.channel.purge(
                 limit=amount,
