@@ -22,7 +22,7 @@ Be sure to install everything before heading to the next step.
 ### 📥 Installation
 Please note that instead of `python` your command may be `python3` or similar.
 1. Clone this repository
-    - `git clone https://github.com/kayano-bot/tako`
+    - `git clone https://github.com/tako-discord/tako`
 2. Install dependencies
     - `cd tako`
     - `pip install -r requirements.txt`
