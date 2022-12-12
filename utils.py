@@ -249,7 +249,14 @@ async def balance_embed(
     return embed, file
 
 
-def error_embed(bot, title: str, description: str, guild_id: int, footer: str = None, style: str = "error"):
+def error_embed(
+    bot,
+    title: str,
+    description: str,
+    guild_id: int,
+    footer: str = None,
+    style: str = "error",
+):
     """tuple[:class:`discord.Embed`, :class:`discord.File`]: Returns an error embed and a file for it's Thumbnail.
     The first value is the embed and the second value is the file.
 
@@ -262,16 +269,24 @@ def error_embed(bot, title: str, description: str, guild_id: int, footer: str = 
     footer: :class:`str` = "An error occured"
         The footer of the embed. (Mostly just the translation of "An error occured")
     style: :class:`str` = "error"
-        The style of the embed. (Either 'error' or 'warning')    
+        The style of the embed. (Either 'error' or 'warning')
     """
     match style:
         case "error":
             file = discord.File("assets/alert.png", filename="thumbnail.png")
             if not footer:
-                footer = i18n.t("errors.error_occured", locale=get_language(bot, guild_id)) if not footer else footer
+                footer = (
+                    i18n.t("errors.error_occured", locale=get_language(bot, guild_id))
+                    if not footer
+                    else footer
+                )
         case _:
             file = discord.File("assets/warning.png", filename="thumbnail.png")
-            footer = i18n.t("errors.warning_occured", locale=get_language(bot, guild_id)) if not footer else footer
+            footer = (
+                i18n.t("errors.warning_occured", locale=get_language(bot, guild_id))
+                if not footer
+                else footer
+            )
     embed = discord.Embed(
         title=f"**{title}**",
         description=description,
