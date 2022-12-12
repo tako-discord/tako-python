@@ -1,0 +1,8 @@
+nl:
+  lgbtq_tip: "Tip: U kunt de onderstaande afbeelding perfect gebruiken als profielfoto."
+  no_gif_support: "*We ondersteunen momenteel geen geanimeerde avatars :c*"
+  jail_desc_1: "%{user} zal levenslang in de gevangenis zitten."
+  jail_desc_2: "%{user} was gemeen tegen %{officer}. %{officer} is echter een politieagent."
+  jail_desc_3: "%{user} zal dat hopelijk niet meer doen."
+  jail_desc_4: "Misschien is %{user} niet gearresteerd..."
+  jail_desc_5: "%{officer} heeft %{user} gearresteerd voor de 1000e keer 🎉 [Klik op deze link](https://tako.rocks) om een prijs te krijgen!"
