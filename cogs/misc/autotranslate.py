@@ -1,11 +1,15 @@
+import io
+import os
 import i18n
 import aiohttp
 import discord
 import config
+from PIL import Image
 from discord import app_commands
 from discord.ext import commands
 from discord.app_commands import Choice
-from utils import get_language, translate
+from langdetect import detect
+from utils import get_language, translate, error_embed
 
 
 class AutoTranslate(commands.GroupCog, name="auto_translate"):
@@ -107,6 +111,36 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
             or message.webhook_id
         ):
             return
+        attachments: list[dict] = []
+        if message.attachments:
+            for attachment in message.attachments:
+                bytes = await attachment.read()
+                attachments.append({
+                    "bytes": bytes,
+                    "spoiler": attachment.is_spoiler(),
+                    "filename": attachment.filename,
+                    "description": attachment.description
+                })
+        size = 0
+        boost_level = message.guild.premium_tier if hasattr(message, "guild") else 0
+        size_limit = 8000000
+        match boost_level:
+            case 2:
+                size_limit = 50000000
+            case 3:
+                size_limit = 100000000
+        new_attachments = []
+        attachment_removed = False
+        for attachment in attachments:
+            file_size = len(attachment["bytes"])
+            size += file_size
+            if size > size_limit:
+                size -= file_size
+                attachment_removed = True
+                continue
+            attachment_bytes = io.BytesIO(attachment["bytes"])
+            new_attachments.append(discord.File(attachment_bytes, spoiler=attachment["spoiler"], filename=attachment["filename"], description=attachment["description"]))
+        attachments = new_attachments
         headers = {
             "accept": "application/json",
             "Content-Type": "application/x-www-form-urlencoded",
@@ -132,6 +166,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                     message.guild.id,
                 )
                 guild_language = get_language(self.bot, message.guild.id)
+                too_large_embed, too_large_file = error_embed(self.bot, i18n.t("errors.too_large_title", locale=guild_language), i18n.t("errors.too_large", locale=guild_language), message.guild.id, style="warning")
                 if confidence >= data["confidence"]:
                     return
                 webhook_id = None
@@ -149,6 +184,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                                 await webhook.send(
                                     username=f"{message.author.display_name} ({data['language']} ➜ {guild_language})",
                                     avatar_url=message.author.display_avatar.url,
+                                    files = attachments,
                                     embed=discord.Embed(
                                         description=await translate(
                                             message.content, guild_language
@@ -160,16 +196,45 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                                 )
                                 if delete_original or delete_original is None:
                                     await message.delete()
+                                    if attachment_removed:
+                                        await message.channel.send(
+                                            message.author.mention,
+                                            embed=too_large_embed,
+                                            file=too_large_file,
+                                            allowed_mentions=discord.AllowedMentions(everyone=False, users=[message.author], roles=False, replied_user=False),
+                                        )
+                                    return
+                                if attachment_removed:
+                                    await message.reply(
+                                        embed=too_large_embed,
+                                        file=too_large_file,
+                                        mention_author=True,
+                                    )
                             case "min_webhook":
                                 await webhook.send(
                                     username=f"{message.author.display_name} ({data['language']} ➜ {guild_language})",
                                     avatar_url=message.author.display_avatar.url,
+                                    files = attachments,
                                     content=await translate(
                                         message.content, guild_language
                                     ),
                                 )
                                 if delete_original:
                                     await message.delete()
+                                    if attachment_removed:
+                                        await message.channel.send(
+                                            message.author.mention,
+                                            embed=too_large_embed,
+                                            file=too_large_file,
+                                            allowed_mentions=discord.AllowedMentions(everyone=False, users=[message.author], roles=False, replied_user=False),
+                                        )
+                                    return
+                                if attachment_removed:
+                                    await message.reply(
+                                        embed=too_large_embed,
+                                        file=too_large_file,
+                                        mention_author=True,
+                                    )
                             case _:
                                 if delete_original:
                                     await message.channel.send(
@@ -181,7 +246,15 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                                         ).replace("\n", "\n> ")
                                         + f"\n\n` {data['language']} ➜ {guild_language} | {round(data['confidence'])} `",
                                         allowed_mentions=discord.AllowedMentions.none(),
+                                        files = attachments,
                                     )
+                                    if attachment_removed:
+                                        await message.channel.send(
+                                            message.author.mention,
+                                            embed=too_large_embed,
+                                            file=too_large_file,
+                                            allowed_mentions=discord.AllowedMentions(everyone=False, users=[message.author], roles=False, replied_user=False),
+                                        )
                                     await message.delete()
                                     return
                                 await message.reply(
@@ -192,6 +265,13 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                                     + f"\n\n` {data['language']} ➜ {guild_language} | {round(data['confidence'])} `",
                                     allowed_mentions=discord.AllowedMentions.none(),
                                     mention_author=False,
+                                    files = attachments,
                                 )
+                                if attachment_removed:
+                                    await message.reply(
+                                        embed=too_large_embed,
+                                        file=too_large_file,
+                                        mention_author=True,
+                                    )
                     except discord.Forbidden:
                         return

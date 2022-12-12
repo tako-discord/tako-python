@@ -19,7 +19,6 @@ class CommandErrorHandler(commands.Cog):
                 return
 
             language = get_language(bot, interaction.guild.id)
-            footer = i18n.t("errors.error_occured", locale=language)
 
             if isinstance(error, app_commands.BotMissingPermissions):
                 missing = [
@@ -31,9 +30,10 @@ class CommandErrorHandler(commands.Cog):
                 else:
                     fmt = " & ".join(missing)
                 embed, file = error_embed(
+                    self.bot,
                     i18n.t("errors.bot_missing_perms_title", locale=language),
                     i18n.t("errors.bot_missing_perms", perms=fmt, locale=language),
-                    footer=footer,
+                    interaction.guild.id
                 )
                 return await interaction.response.send_message(
                     embed=embed, file=file, ephemeral=True
@@ -49,9 +49,10 @@ class CommandErrorHandler(commands.Cog):
                 else:
                     fmt = " & ".join(missing)
                 embed, file = error_embed(
+                    self.bot,
                     i18n.t("errors.user_missing_perms_title", locale=language),
                     i18n.t("errors.user_missing_perms", perms=fmt, locale=language),
-                    footer=footer,
+                    interaction.guild.id
                 )
                 return await interaction.response.send_message(
                     embed=embed, file=file, ephemeral=True
@@ -59,9 +60,10 @@ class CommandErrorHandler(commands.Cog):
 
             if isinstance(error, app_commands.CommandOnCooldown):
                 embed, file = error_embed(
+                    self.bot,
                     i18n.t("errors.cooldown_title", locale=language),
-                    i18n.t("errors.cooldown", time=error.retry_after, locale=language),
-                    footer=footer,
+                    i18n.t("errors.cooldown", perms=fmt, locale=language),
+                    interaction.guild.id
                 )
                 return await interaction.response.send_message(
                     embed=embed, file=file, ephemeral=True
@@ -70,9 +72,10 @@ class CommandErrorHandler(commands.Cog):
             if isinstance(error, app_commands.NoPrivateMessage):
                 try:
                     embed, file = error_embed(
+                        self.bot,
                         i18n.t("errors.no_pm_title", locale=language),
-                        i18n.t("errors.no_pm", locale=language),
-                        footer=footer,
+                        i18n.t("errors.no_pm", perms=fmt, locale=language),
+                        interaction.guild.id
                     )
                     return await interaction.response.send_message(
                         embed=embed, file=file, ephemeral=True
@@ -83,9 +86,10 @@ class CommandErrorHandler(commands.Cog):
 
             if isinstance(error, app_commands.CheckFailure):
                 embed, file = error_embed(
+                    self.bot,
                     i18n.t("errors.check_failure_title", locale=language),
-                    i18n.t("errors.check_failure", locale=language),
-                    footer=footer,
+                    i18n.t("errors.check_failure", perms=fmt, locale=language),
+                    interaction.guild.id
                 )
                 return await interaction.response.send_message(
                     embed=embed, file=file, ephemeral=True

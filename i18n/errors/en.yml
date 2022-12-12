@@ -1,6 +1,7 @@
 en:
   warning: "Warning"
   error_occured: "An error occured"
+  warning_occured: "A wild warning appeared"
   bot_missing_perms_title: "Missing Bot Permission(s)"
   bot_missing_perms: "I need the *%{perms}* permission(s) in order to run this command."
   user_missing_perms_title: "Missing User Permission(s)"
@@ -13,3 +14,5 @@ en:
   check_failure: "You do not have permission to use this command. (A check has failed)"
   not_owner_title: "Secret Stuff"
   not_owner: "You need to be the Owner of the bot in order to run this command."
+  too_large_title: "That's large!"
+  too_large: "One or more attachments you attached couldn't be send due to it's high size."
