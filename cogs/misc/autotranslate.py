@@ -1,14 +1,11 @@
 import io
-import os
 import i18n
 import aiohttp
 import discord
 import config
-from PIL import Image
 from discord import app_commands
 from discord.ext import commands
 from discord.app_commands import Choice
-from langdetect import detect
 from utils import get_language, translate, error_embed
 
 
