@@ -1,5 +1,30 @@
 # Changelog
 
+<a name="0.3.0"></a>
+## 0.3.0 (2022-12-13)
+
+### Added
+
+- ✨ add clear all (&#x60;/clear amount:0&#x60;) [[9421d10](https://github.com/tako-discord/tako/commit/9421d10f15b44d7743519cd59d176289b51f0f32)]
+
+### Changed
+
+- 🔧 don&#x27;t hide entries from &#x60;.gitignore&#x60; in vsls [[9ea50a4](https://github.com/tako-discord/tako/commit/9ea50a48044970d0c39ba71ba1e5c89c381f0643)]
+- 🚸 automatically remove attachments that are too large [[c04876f](https://github.com/tako-discord/tako/commit/c04876ff33ef047746f591e8a38f63bcbf960fc2)]
+- 🍱 update bars [[9fd2488](https://github.com/tako-discord/tako/commit/9fd24884a15fa0ab1dff92fe229eca5f1bf89fe3)]
+- 💄 beautify da README.md [[0cedaa0](https://github.com/tako-discord/tako/commit/0cedaa0fdb58d2ba26e4794442b34254f9f78746)]
+- 👽 switch translation api to tl.tako-bot.com [[3505691](https://github.com/tako-discord/tako/commit/35056915ab977ffd14905059214756600eca1a14)]
+
+### Fixed
+
+- 🚑 add support for &#x60;active_dev&#x60; flag [[c94bc23](https://github.com/tako-discord/tako/commit/c94bc235bfb49d1f69fb81d3ada7b05a9fe76e4b)]
+
+### Miscellaneous
+
+- ⚰️ removed unused imports in &#x60;autotranslate.py&#x60; [[acb3352](https://github.com/tako-discord/tako/commit/acb335289f4633a80a96feb88e9b295ae8d08366)]
+- 🌐 new hebrew translations ([#9](https://github.com/tako-discord/tako/issues/9)) [[b706eb6](https://github.com/tako-discord/tako/commit/b706eb66d73d2c0b857d7b2af77ea08318856bf2)]
+
+
 <a name="0.2.0"></a>
 ## 0.2.0 (2022-12-08)
 
