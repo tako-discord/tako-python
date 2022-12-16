@@ -1,6 +1,7 @@
 de:
   warning: "Warnung"
   error_occured: "Ein Fehler ist aufgetreten"
+  warning_occured: "Eine wilde Warnung ist erschienen"
   bot_missing_perms_title: "Fehlende Bot Berechtigung(en)"
   bot_missing_perms: "Ich brauche *%{perms}* Berechtigung(en) um diesen Befehl auszuführen."
   user_missing_perms_title: "Fehlende Nutzer Berechtigung(en)"
@@ -13,3 +14,5 @@ de:
   check_failure: "Du hast nicht die Berechtigung diesen Befehl zu benutzen. (Eine Überprüfung ist fehlgeschlagen)"
   not_owner_title: "Geheime Sachen"
   not_owner: "Du musst der Besitzer des Bots sein, um diesen Befehl ausführen zu können."
+  too_large_title: "Das ist groß!"
+  too_large: "Ein oder mehrere Anhänge, die du angehangen hast, konnte aufgrund ihrer hohen Größe nicht gesendet werden."

@@ -32,3 +32,4 @@ de:
   auto_translate_deactivated: "❌ Automatische Übersetzung ist jetzt deaktiviert"
   auto_translate_confidence_set: "Sicherseinsschwelle ist jetzt auf %{value}% gesetzt"
   auto_translate_reply_style_set: "Antwortstil fürs Automatische übersetzen wurde auf %{style} gesetzt"
+  auto_translate_delete_original: "Wir löschen nun die ursprüngliche Nachricht"
