@@ -7,3 +7,6 @@ he:
   cleared_target: "נמחקו %{amount} הודעות מ %{target} ב %{channel}."
   too_many_messages_title: "אתה משוגע?!"
   too_many_messages: "אתה יכול למחוק רק עד 100 הודעות כל פעם. אנחנו מתאימים אוטומטית את הכמות בשבילך."
+  sure_to_delete: "אתה בטוח שאתה רוצה __למחוק כל הודעה__ של *%{channel}*?"
+  deleting: "מוחק..."
+  cancelled: "התבטל!"
