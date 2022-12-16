@@ -7,3 +7,6 @@ de:
   cleared_target: "%{amount} Nachricht(en) von %{target} in %{channel} gelöscht."
   too_many_messages_title: "Bist du verrückt?!"
   too_many_messages: "Du kannst nur 100 Nachrichten gleichzeitig löschen. Wir haben die Anzahl automatisch für dich angepasst."
+  sure_to_delete: "Bist du sicher, dass du __jede Nachricht__ von *%{channel} * __löschen__ möchtest?"
+  deleting: "Lösche..."
+  cancelled: "Abgebrochen!"
