@@ -1,4 +1,3 @@
-import sys
 import i18n
 import discord
 import logging
