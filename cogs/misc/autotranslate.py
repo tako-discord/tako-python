@@ -98,9 +98,12 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
-        state = await self.bot.db_pool.fetchval(
-            "SELECT auto_translate FROM guilds WHERE guild_id = $1", message.guild.id
-        )
+        try:
+            state = await self.bot.db_pool.fetchval(
+                "SELECT auto_translate FROM guilds WHERE guild_id = $1", message.guild.id
+            )
+        except AttributeError:
+            return
         if (
             not message.content
             or not state
