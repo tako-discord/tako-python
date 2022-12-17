@@ -43,15 +43,31 @@ class ReactionTranslate(commands.Cog):
                     "SELECT last_reaction_translation FROM users WHERE user_id = $1",
                     payload.user_id,
                 )
-                last_reaction_translation = datetime.now() - last_reaction_translation if last_reaction_translation else None
+                last_reaction_translation = (
+                    datetime.now() - last_reaction_translation
+                    if last_reaction_translation
+                    else None
+                )
         try:
             if not state or not language_dict[payload.emoji.name] or payload.member.bot:
                 return
         except KeyError:
             return
         cooldown = 1
-        if last_reaction_translation and last_reaction_translation.total_seconds() < cooldown:
-            embed, file = error_embed(self.bot, i18n.t("errors.cooldown_title", locale=language), i18n.t("errors.reaction_translate_cooldown", locale=language, time=round(cooldown - last_reaction_translation.total_seconds())), payload.guild_id)
+        if (
+            last_reaction_translation
+            and last_reaction_translation.total_seconds() < cooldown
+        ):
+            embed, file = error_embed(
+                self.bot,
+                i18n.t("errors.cooldown_title", locale=language),
+                i18n.t(
+                    "errors.reaction_translate_cooldown",
+                    locale=language,
+                    time=round(cooldown - last_reaction_translation.total_seconds()),
+                ),
+                payload.guild_id,
+            )
             try:
                 await payload.member.send(embed=embed, file=file)
             except discord.Forbidden:
@@ -87,5 +103,9 @@ class ReactionTranslate(commands.Cog):
             )
         )
 
-        await self.bot.db_pool.execute("INSERT INTO users(user_id, last_reaction_translation) VALUES($1, $2) ON CONFLICT(user_id) DO UPDATE SET user_id = $1, last_reaction_translation = $2", payload.user_id, datetime.now())
+        await self.bot.db_pool.execute(
+            "INSERT INTO users(user_id, last_reaction_translation) VALUES($1, $2) ON CONFLICT(user_id) DO UPDATE SET user_id = $1, last_reaction_translation = $2",
+            payload.user_id,
+            datetime.now(),
+        )
         await message.reply(embed=embed, mention_author=False)
