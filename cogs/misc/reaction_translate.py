@@ -1,9 +1,12 @@
 import i18n
 import discord
+import logging
+from TakoBot import TakoBot
+from datetime import datetime
 from .flags import language_dict
 from discord import app_commands
 from discord.ext import commands
-from utils import get_language, get_color, translate, thumbnail, delete_thumbnail
+from utils import get_language, get_color, translate, thumbnail, delete_thumbnail, error_embed
 
 
 class ReactionTranslate(commands.Cog):
@@ -28,14 +31,33 @@ class ReactionTranslate(commands.Cog):
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload: discord.RawReactionActionEvent):
-        state = await self.bot.db_pool.fetchval(
-            "SELECT reaction_translate FROM guilds WHERE guild_id = $1",
-            payload.guild_id,
-        )
+        self.bot: TakoBot = self.bot
+        language = get_language(self.bot, payload.guild_id)
+
+        async with self.bot.db_pool.acquire() as conn:
+            async with conn.transaction():
+                state = await self.bot.db_pool.fetchval(
+                    "SELECT reaction_translate FROM guilds WHERE guild_id = $1",
+                    payload.guild_id,
+                )
+                last_reaction_translation = await self.bot.db_pool.fetchval(
+                    "SELECT last_reaction_translation FROM users WHERE user_id = $1",
+                    payload.user_id,
+                )
+                last_reaction_translation = datetime.now() - last_reaction_translation if last_reaction_translation else None
         try:
             if not state or not language_dict[payload.emoji.name] or payload.member.bot:
                 return
         except KeyError:
+            return
+        cooldown = 60
+        if last_reaction_translation.total_seconds() < cooldown:
+            user = await self.bot.fetch_user(payload.user_id)
+            embed, file = error_embed(self.bot, i18n.t("errors.cooldown_title", locale=language), i18n.t("errors.reaction_translate_cooldown", locale=language, time=round(cooldown - last_reaction_translation.total_seconds())), payload.guild_id)
+            try:
+                await user.send(embed=embed, file=file)
+            except discord.Forbidden:
+                pass
             return
 
         message: discord.Message = await self.bot.get_channel(
@@ -47,9 +69,6 @@ class ReactionTranslate(commands.Cog):
         if not message.content:
             return
 
-        thumbnail_path = await thumbnail(payload.guild_id, "translation", self.bot)
-        file = discord.File(thumbnail_path, filename="thumbnail.png")
-
         embed = discord.Embed(
             description=translation, color=await get_color(self.bot, payload.guild_id)
         )
@@ -59,11 +78,10 @@ class ReactionTranslate(commands.Cog):
         embed.set_footer(
             text=i18n.t(
                 "misc.reaction_translate_footer",
-                locale=get_language(self.bot, payload.guild_id),
+                locale=language,
                 user=payload.member.display_name,
             )
         )
-        embed.set_thumbnail(url="attachment://thumbnail.png")
 
-        await message.reply(embed=embed, mention_author=False, file=file)
-        await delete_thumbnail(payload.guild_id, "translation")
+        await self.bot.db_pool.execute("INSERT INTO users(user_id, last_reaction_translation) VALUES($1, $2) ON CONFLICT(user_id) DO UPDATE SET user_id = $1, last_reaction_translation = $2", payload.user_id, datetime.now())
+        await message.reply(embed=embed, mention_author=False)

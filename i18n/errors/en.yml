@@ -8,6 +8,7 @@ en:
   user_missing_perms: "You need the *%{perms}* permission(s) in order to run this command."
   cooldown_title: "Cooldown"
   cooldown: "This command is on cooldown, please retry in %{time}s."
+  reaction_translate_cooldown: "Reaction Translation is currently on cooldown to prevent spam, please rety in %{time}s."
   no_pm_title: "No Private Message Support"
   no_pm: "This command cannot be used in private messages."
   check_failure_title: "A Check has failed"
