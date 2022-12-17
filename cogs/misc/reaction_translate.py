@@ -1,12 +1,11 @@
 import i18n
 import discord
-import logging
 from TakoBot import TakoBot
 from datetime import datetime
 from .flags import language_dict
 from discord import app_commands
 from discord.ext import commands
-from utils import get_language, get_color, translate, thumbnail, delete_thumbnail, error_embed
+from utils import get_language, get_color, translate, error_embed
 
 
 class ReactionTranslate(commands.Cog):
@@ -50,20 +49,25 @@ class ReactionTranslate(commands.Cog):
                 return
         except KeyError:
             return
-        cooldown = 60
-        if last_reaction_translation.total_seconds() < cooldown:
-            user = await self.bot.fetch_user(payload.user_id)
+        cooldown = 1
+        if last_reaction_translation and last_reaction_translation.total_seconds() < cooldown:
             embed, file = error_embed(self.bot, i18n.t("errors.cooldown_title", locale=language), i18n.t("errors.reaction_translate_cooldown", locale=language, time=round(cooldown - last_reaction_translation.total_seconds())), payload.guild_id)
             try:
-                await user.send(embed=embed, file=file)
+                await payload.member.send(embed=embed, file=file)
             except discord.Forbidden:
                 pass
+            return
+        channel = await self.bot.fetch_channel(payload.channel_id)
+        if not channel.permissions_for(payload.member).send_messages:
             return
 
         message: discord.Message = await self.bot.get_channel(
             payload.channel_id
         ).fetch_message(payload.message_id)
-        language = language_dict[payload.emoji.name]
+        try:
+            language = language_dict[payload.emoji.name]
+        except KeyError:
+            return
         translation = await translate(message.content, language)
 
         if not message.content:
@@ -79,7 +83,7 @@ class ReactionTranslate(commands.Cog):
             text=i18n.t(
                 "misc.reaction_translate_footer",
                 locale=language,
-                user=payload.member.display_name,
+                user=payload.member,
             )
         )
 
