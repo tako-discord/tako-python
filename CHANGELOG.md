@@ -1,5 +1,26 @@
 # Changelog
 
+<a name="1.0.0"></a>
+## 1.0.0 (2022-12-18)
+We are now stable 🎉
+
+### Added
+
+- ✨ add dutch to language selection [[e10a1f0](https://github.com/tako-discord/tako/commit/e10a1f049fc64efa5a950cb2a08ffa0edc713e58)]
+
+### Fixed
+
+- 🐛 &#x60;send_message&#x60;requirement &amp;  cooldown for reactiontranslate [[2de0ed4](https://github.com/tako-discord/tako/commit/2de0ed407d576ce7190f62733ec48ee4864b1fcb)]
+
+### Miscellaneous
+
+- ⚰️ remove a script that was only used for testing [[46a4124](https://github.com/tako-discord/tako/commit/46a412466ab998fc83451dcb25104ffab7d1c90f)]
+- 🩹 remove keyerror from logs (autotranslation) [[b0e3286](https://github.com/tako-discord/tako/commit/b0e32862fb7a7a127d94bccc593ee21087738807)]
+- ⚰️ removed unused imports from error cog [[ca1d330](https://github.com/tako-discord/tako/commit/ca1d3307c47fcc5670225f602a5cec7a1e6e7e9d)]
+- 🌐 added nl, updated he &amp; de [[e4656bc](https://github.com/tako-discord/tako/commit/e4656bc47893037f045d244a0e29ce377c56441d)]
+- 🩹 add israel flag for reaction translate [[b7c168a](https://github.com/tako-discord/tako/commit/b7c168ac70b089526e2d9ab50311363cefb02f8d)]
+
+
 <a name="0.3.0"></a>
 ## 0.3.0 (2022-12-13)
 
