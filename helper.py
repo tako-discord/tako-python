@@ -71,7 +71,8 @@ async def main():
             INSERT INTO badges  (name, emoji, description) VALUES ('Donator', '<a:ablobcatheart:950763824154284082>', 'Users who donated to the Tako Team receive this badge') ON CONFLICT DO NOTHING;
             INSERT INTO badges  (name, emoji, description) VALUES ('Translator', '🌐', 'Users who translated this bot receive this badge') ON CONFLICT DO NOTHING;
             INSERT INTO badges  (name, emoji, description) VALUES ('Core Developer', '🧑‍💻', 'Users who are the core developers from the the bot') ON CONFLICT DO NOTHING;
-            CREATE TABLE IF NOT EXISTS channels (channel_id BIGINT PRIMARY KEY, crosspost BOOLEAN NOT NULL);
+            CREATE TABLE IF NOT EXISTS channels (channel_id BIGINT PRIMARY KEY, crosspost BOOLEAN NOT NULL DEFAULT FALSE, synced BOOLEAN);
+            CREATE TABLE IF NOT EXISTS permissions (channel_id BIGINT, target_id BIGINT, allow INT, deny INT, type TEXT, UNIQUE (channel_id, target_id));
             CREATE TABLE IF NOT EXISTS guilds (guild_id BIGINT PRIMARY KEY, banned_games TEXT ARRAY, join_roles_user BIGINT ARRAY, join_roles_bot BIGINT ARRAY, language TEXT, reaction_translate BOOLEAN, auto_translate BOOLEAN DEFAULT FALSE, color TEXT, auto_translate_confidence INTEGER DEFAULT 50, auto_translate_reply_style TEXT, auto_translate_delete_original BOOLEAN DEFAULT TRUE);
             CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
             CREATE TABLE IF NOT EXISTS tags (id uuid DEFAULT uuid_generate_v4() PRIMARY KEY, name TEXT, content TEXT, thumbnail TEXT, image TEXT, footer TEXT, embed BOOLEAN DEFAULT TRUE, guild_id BIGINT);
