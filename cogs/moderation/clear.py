@@ -28,6 +28,7 @@ class ClearAll(discord.ui.View):
         await interaction.guild.create_text_channel(
             name=channel.name,
             position=channel.position,
+            category=channel.category,
             topic=channel.topic,
             slowmode_delay=channel.slowmode_delay,
             nsfw=channel.nsfw,
