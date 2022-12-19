@@ -17,3 +17,7 @@ en:
   not_owner: "You need to be the Owner of the bot in order to run this command."
   too_large_title: "That's large!"
   too_large: "One or more attachments you attached couldn't be send due to it's high size."
+  already_locked_title: "Don't close the channel (again)"
+  already_locked: "%{channel} is already locked!"
+  not_locked_title: "Uh Oh! You tried to unlock the wrong channel"
+  not_locked: "%{channel} is currently not locked!"

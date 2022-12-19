@@ -8,6 +8,7 @@ millify
 asyncpg
 requests
 discord.py==2.1.0
+langdetect
 py-cpuinfo
 tmdbsimple
 discord-rpc
