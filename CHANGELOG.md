@@ -1,5 +1,17 @@
 # Changelog
 
+<a name="1.1.0"></a>
+## 1.1.0 (2022-12-19)
+
+### Added
+
+- ✨ add channel locking (its pretty cool) [[9abe679](https://github.com/tako-discord/tako/commit/9abe6793d1d6e5e39d6a9c6ec67b925e4a083c48)]
+
+### Fixed
+
+- 🐛 fix clear all not setting the right category [[15bd974](https://github.com/tako-discord/tako/commit/15bd97498e6a2db05770b94906c74c217f5d3bda)]
+
+
 <a name="1.0.0"></a>
 ## 1.0.0 (2022-12-18)
 We are now stable 🎉
