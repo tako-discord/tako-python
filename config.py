@@ -1,6 +1,9 @@
 DEFAULT_BANK = 0
 DEFAULT_WALLET = 1000
-ANTI_PHISHING_LIST = ["https://raw.githubusercontent.com/tako-discord/discord-phishing-links/main/domain-list.json", "https://raw.githubusercontent.com/tako-discord/discord-phishing-links/main/suspicious-list.json"]
+ANTI_PHISHING_LIST = [
+    "https://raw.githubusercontent.com/tako-discord/discord-phishing-links/main/domain-list.json",
+    "https://raw.githubusercontent.com/tako-discord/discord-phishing-links/main/suspicious-list.json",
+]
 DEFAULT_COLOR = 0x4ADE80
 DELETE_THUMBNAILS = True
 DEFAULT_COLOR_STR = "0x4ADE80"
