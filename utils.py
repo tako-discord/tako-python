@@ -322,7 +322,7 @@ async def translate(text: str, target: str, source: str = "auto"):
         async with session.get(
             f"{config.SIMPLY_TRANSLATE}/api/translate/?engine=google&text={quote(text)}&from={source}&to={target}"
         ) as r:
-            data = await r.json()
+            data = await r.json(content_type="application/json")
             return data["translated-text"]
 
 
