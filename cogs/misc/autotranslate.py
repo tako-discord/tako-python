@@ -187,6 +187,9 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
         else:
             webhook = await self.bot.fetch_webhook(webhook_id)
         if data["lang"] != guild_language:
+            translation = await translate(message.content, guild_language)
+            if translation.lower() == message.content.lower():
+                return
             try:
                 match reply_style:
                     case "webhook":
@@ -195,9 +198,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                             avatar_url=message.author.display_avatar.url,
                             files=attachments,
                             embed=discord.Embed(
-                                description=await translate(
-                                    message.content, guild_language
-                                ),
+                                description=translation,
                                 color=0x2F3136,
                             ).set_footer(text=f"Confidence: {round(data['score'])}%"),
                         )
@@ -254,9 +255,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                         if delete_original:
                             await message.channel.send(
                                 f"{message.author.mention}:\n> "
-                                + (
-                                    await translate(message.content, guild_language)
-                                ).replace("\n", "\n> ")
+                                + (translation).replace("\n", "\n> ")
                                 + f"\n\n` {data['lang']} ➜ {guild_language} | {round(data['score'])} `",
                                 allowed_mentions=discord.AllowedMentions.none(),
                                 files=attachments,
@@ -277,9 +276,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                             return
                         await message.reply(
                             "> "
-                            + (
-                                await translate(message.content, guild_language)
-                            ).replace("\n", "\n> ")
+                            + (translation).replace("\n", "\n> ")
                             + f"\n\n` {data['lang']} ➜ {guild_language} | {round(data['score'])} `",
                             allowed_mentions=discord.AllowedMentions.none(),
                             mention_author=False,
