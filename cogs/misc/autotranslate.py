@@ -151,8 +151,10 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                 )
             )
         attachments = new_attachments
-        
-        data = await detect(message.content, path= os.path.join(os.getcwd(), "assets/lid.176.bin"))
+
+        data = await detect(
+            message.content, path=os.path.join(os.getcwd(), "assets/lid.176.bin")
+        )
         data["score"] = data["score"] * 100
         confidence = await self.bot.db_pool.fetchval(
             "SELECT auto_translate_confidence FROM guilds WHERE guild_id = $1",
@@ -197,9 +199,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                                     message.content, guild_language
                                 ),
                                 color=0x2F3136,
-                            ).set_footer(
-                                text=f"Confidence: {round(data['score'])}%"
-                            ),
+                            ).set_footer(text=f"Confidence: {round(data['score'])}%"),
                         )
                         if delete_original or delete_original is None:
                             await message.delete()
@@ -227,9 +227,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                             username=f"{message.author.display_name} ({data['lang']} ➜ {guild_language})",
                             avatar_url=message.author.display_avatar.url,
                             files=attachments,
-                            content=await translate(
-                                message.content, guild_language
-                            ),
+                            content=await translate(message.content, guild_language),
                         )
                         if delete_original:
                             await message.delete()
@@ -257,9 +255,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                             await message.channel.send(
                                 f"{message.author.mention}:\n> "
                                 + (
-                                    await translate(
-                                        message.content, guild_language
-                                    )
+                                    await translate(message.content, guild_language)
                                 ).replace("\n", "\n> ")
                                 + f"\n\n` {data['lang']} ➜ {guild_language} | {round(data['score'])} `",
                                 allowed_mentions=discord.AllowedMentions.none(),
