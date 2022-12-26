@@ -10,3 +10,8 @@ he:
   sure_to_delete: "אתה בטוח שאתה רוצה __למחוק כל הודעה__ של *%{channel}*?"
   deleting: "מוחק..."
   cancelled: "התבטל!"
+  locked_title: "🔒 Locked *%{channel}*!"
+  locked_desc: "Once the channel is unlocked, everything will be restored. No need to worry, the *View Channels* permissions remain unchanged."
+  unlocked_title: "🔓 Unlocked *%{channel}*!"
+  unlocked_desc: "All permissions are now like they were before the channel was locked."
+  unlocked_footer: "The channel was synced with its category before it was locked, and thus is now in sync with the *current* one."
