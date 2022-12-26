@@ -57,7 +57,10 @@ class TakoBot(commands.Bot):
         for category in os.listdir("cogs"):
             categories += 1
             await self.load_extension(f"cogs.{category}")
-        logger.info(f"Loaded {len(self.cogs)} cogs from {categories} categories", extra={"status": "✅"})
+        logger.info(
+            f"Loaded {len(self.cogs)} cogs from {categories} categories",
+            extra={"status": "✅"},
+        )
         logger.info("Loading i18n", extra={"status": f"{trimmer}\n🔄"})
         i18n.set("filename_format", "{locale}.{format}")
         i18n.set("fallback", "en")
@@ -66,7 +69,10 @@ class TakoBot(commands.Bot):
         for locale in os.listdir("i18n/misc"):
             locales.append(locale.split(".")[0])
         logger.info(f"Loaded i18n", extra={"status": "✅"})
-        logger.info(f"Available locales ({len(locales)}): {', '.join(locales)}", extra={"status": "✅"})
+        logger.info(
+            f"Available locales ({len(locales)}): {', '.join(locales)}",
+            extra={"status": "✅"},
+        )
         self.update_phishing_list.start(logger=logger)
         if hasattr(bot_secrets, "UPTIME_KUMA"):
             self.uptime_kuma.start()
@@ -92,14 +98,19 @@ class TakoBot(commands.Bot):
     async def update_phishing_list(self, logger: logging.Logger):
         self.sussy_domains = []
         if hasattr(config, "ANTI_PHISHING_LIST"):
-            logger.info("Updating suspicious domains", extra={"status": f"{trimmer}\n🔄"})
+            logger.info(
+                "Updating suspicious domains", extra={"status": f"{trimmer}\n🔄"}
+            )
             async with aiohttp.ClientSession() as cs:
                 for list in config.ANTI_PHISHING_LIST:
                     async with cs.get(list) as r:
                         r = await r.read()
                         r = json.loads(r)
                         self.sussy_domains.extend(r["domains"])
-            logger.info(f"Updated suspicious domains ({len(self.sussy_domains)})", extra={"status": "✅"})
+            logger.info(
+                f"Updated suspicious domains ({len(self.sussy_domains)})",
+                extra={"status": "✅"},
+            )
 
     @tasks.loop(seconds=7.5)
     async def presence_update(self):
