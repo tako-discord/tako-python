@@ -1,5 +1,25 @@
 # Changelog
 
+<a name="1.2.0"></a>
+## 1.2.0 (2022-12-26)
+
+### Added
+
+- ✨ new language detection (modified version of fasttext) [[feb71dc](https://github.com/tako-discord/tako/commit/feb71dc992e2e9911b446227045c9e1741ab7849)]
+- ✨ automatically remove suspicious links and use new translation service [[921ea1a](https://github.com/tako-discord/tako/commit/921ea1af44fd666245767f871581a117d97e3890)]
+- ✨ add ephemeral option to translation command [[269347a](https://github.com/tako-discord/tako/commit/269347a3b3e78e69cac9f35250e0156c439e7a2e)]
+
+### Changed
+
+- 🚸 use dsc.gg link for RPC Ad [[c70bef8](https://github.com/tako-discord/tako/commit/c70bef8be11e9c20b96dc57a770cfec4cde859b4)]
+- 🍱 move thumbnail icons to &#x60;/assets/icons&#x60; [[687e80e](https://github.com/tako-discord/tako/commit/687e80ecb948ada793fdfbc4c77a4d47792ac3b0)]
+- ⚡ add content type to translation util [[e9c4a74](https://github.com/tako-discord/tako/commit/e9c4a74e3e855f579593f8700a1f4e15f9e31968)]
+
+### Removed
+
+- 🔥 remove &#x60;state&#x60; from RPC [[cd06588](https://github.com/tako-discord/tako/commit/cd06588156cfe93c283b1cacc4d0f3f09dffb207)]
+
+
 <a name="1.1.0"></a>
 ## 1.1.0 (2022-12-19)
 

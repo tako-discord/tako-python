@@ -31,7 +31,7 @@ async def main():
 
         buttons = DiscordRPC.button(
             button_one_label="Join Server",
-            button_one_url="https://discord.gg/dfmXNTmzyp",
+            button_one_url="https://dsc.gg/tako-server",
             button_two_label="View on top.gg",
             button_two_url="https://top.gg/bot/878366398269771847",
         )

@@ -1,8 +1,8 @@
 import io
+import os
 import i18n
-import aiohttp
 import discord
-import config
+from ftlangdetect import detect
 from discord import app_commands
 from discord.ext import commands
 from discord.app_commands import Choice
@@ -151,158 +151,149 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                 )
             )
         attachments = new_attachments
-        headers = {
-            "accept": "application/json",
-            "Content-Type": "application/x-www-form-urlencoded",
-        }
-        async with aiohttp.ClientSession() as session:
-            async with session.post(
-                f"{config.LIBRE_TRANSLATE}/detect",
-                data=f"q={message.content.replace('&', '%26')}",
-                headers=headers,
-            ) as r:
-                data = await r.json()
-                data = data[0]
-                confidence = await self.bot.db_pool.fetchval(
-                    "SELECT auto_translate_confidence FROM guilds WHERE guild_id = $1",
-                    message.guild.id,
-                )
-                reply_style = await self.bot.db_pool.fetchval(
-                    "SELECT auto_translate_reply_style FROM guilds WHERE guild_id = $1",
-                    message.guild.id,
-                )
-                delete_original = await self.bot.db_pool.fetchval(
-                    "SELECT auto_translate_delete_original FROM guilds WHERE guild_id = $1",
-                    message.guild.id,
-                )
-                guild_language = get_language(self.bot, message.guild.id)
-                too_large_embed, too_large_file = error_embed(
-                    self.bot,
-                    i18n.t("errors.too_large_title", locale=guild_language),
-                    i18n.t("errors.too_large", locale=guild_language),
-                    message.guild.id,
-                    style="warning",
-                )
-                if confidence >= data["confidence"]:
-                    return
-                webhook_id = None
-                for webhook in await message.channel.webhooks():
-                    if webhook.name == "AutoTranslate":
-                        webhook_id = webhook.id
-                if not webhook_id:
-                    webhook = await message.channel.create_webhook(name="AutoTranslate")
-                else:
-                    webhook = await self.bot.fetch_webhook(webhook_id)
-                if data["language"] != guild_language:
-                    try:
-                        match reply_style:
-                            case "webhook":
-                                await webhook.send(
-                                    username=f"{message.author.display_name} ({data['language']} ➜ {guild_language})",
-                                    avatar_url=message.author.display_avatar.url,
-                                    files=attachments,
-                                    embed=discord.Embed(
-                                        description=await translate(
-                                            message.content, guild_language
-                                        ),
-                                        color=0x2F3136,
-                                    ).set_footer(
-                                        text=f"Confidence: {round(data['confidence'])}%"
+        
+        data = await detect(message.content, path= os.path.join(os.getcwd(), "assets/lid.176.bin"))
+        data["score"] = data["score"] * 100
+        confidence = await self.bot.db_pool.fetchval(
+            "SELECT auto_translate_confidence FROM guilds WHERE guild_id = $1",
+            message.guild.id,
+        )
+        if confidence >= data["score"]:
+            return
+        reply_style = await self.bot.db_pool.fetchval(
+            "SELECT auto_translate_reply_style FROM guilds WHERE guild_id = $1",
+            message.guild.id,
+        )
+        delete_original = await self.bot.db_pool.fetchval(
+            "SELECT auto_translate_delete_original FROM guilds WHERE guild_id = $1",
+            message.guild.id,
+        )
+        guild_language = get_language(self.bot, message.guild.id)
+        too_large_embed, too_large_file = error_embed(
+            self.bot,
+            i18n.t("errors.too_large_title", locale=guild_language),
+            i18n.t("errors.too_large", locale=guild_language),
+            message.guild.id,
+            style="warning",
+        )
+        webhook_id = None
+        for webhook in await message.channel.webhooks():
+            if webhook.name == "AutoTranslate":
+                webhook_id = webhook.id
+        if not webhook_id:
+            webhook = await message.channel.create_webhook(name="AutoTranslate")
+        else:
+            webhook = await self.bot.fetch_webhook(webhook_id)
+        if data["lang"] != guild_language:
+            try:
+                match reply_style:
+                    case "webhook":
+                        await webhook.send(
+                            username=f"{message.author.display_name} ({data['lang']} ➜ {guild_language})",
+                            avatar_url=message.author.display_avatar.url,
+                            files=attachments,
+                            embed=discord.Embed(
+                                description=await translate(
+                                    message.content, guild_language
+                                ),
+                                color=0x2F3136,
+                            ).set_footer(
+                                text=f"Confidence: {round(data['score'])}%"
+                            ),
+                        )
+                        if delete_original or delete_original is None:
+                            await message.delete()
+                            if attachment_removed:
+                                await message.channel.send(
+                                    message.author.mention,
+                                    embed=too_large_embed,
+                                    file=too_large_file,
+                                    allowed_mentions=discord.AllowedMentions(
+                                        everyone=False,
+                                        users=[message.author],
+                                        roles=False,
+                                        replied_user=False,
                                     ),
                                 )
-                                if delete_original or delete_original is None:
-                                    await message.delete()
-                                    if attachment_removed:
-                                        await message.channel.send(
-                                            message.author.mention,
-                                            embed=too_large_embed,
-                                            file=too_large_file,
-                                            allowed_mentions=discord.AllowedMentions(
-                                                everyone=False,
-                                                users=[message.author],
-                                                roles=False,
-                                                replied_user=False,
-                                            ),
-                                        )
-                                    return
-                                if attachment_removed:
-                                    await message.reply(
-                                        embed=too_large_embed,
-                                        file=too_large_file,
-                                        mention_author=True,
-                                    )
-                            case "min_webhook":
-                                await webhook.send(
-                                    username=f"{message.author.display_name} ({data['language']} ➜ {guild_language})",
-                                    avatar_url=message.author.display_avatar.url,
-                                    files=attachments,
-                                    content=await translate(
+                            return
+                        if attachment_removed:
+                            await message.reply(
+                                embed=too_large_embed,
+                                file=too_large_file,
+                                mention_author=True,
+                            )
+                    case "min_webhook":
+                        await webhook.send(
+                            username=f"{message.author.display_name} ({data['lang']} ➜ {guild_language})",
+                            avatar_url=message.author.display_avatar.url,
+                            files=attachments,
+                            content=await translate(
+                                message.content, guild_language
+                            ),
+                        )
+                        if delete_original:
+                            await message.delete()
+                            if attachment_removed:
+                                await message.channel.send(
+                                    message.author.mention,
+                                    embed=too_large_embed,
+                                    file=too_large_file,
+                                    allowed_mentions=discord.AllowedMentions(
+                                        everyone=False,
+                                        users=[message.author],
+                                        roles=False,
+                                        replied_user=False,
+                                    ),
+                                )
+                            return
+                        if attachment_removed:
+                            await message.reply(
+                                embed=too_large_embed,
+                                file=too_large_file,
+                                mention_author=True,
+                            )
+                    case _:
+                        if delete_original:
+                            await message.channel.send(
+                                f"{message.author.mention}:\n> "
+                                + (
+                                    await translate(
                                         message.content, guild_language
+                                    )
+                                ).replace("\n", "\n> ")
+                                + f"\n\n` {data['lang']} ➜ {guild_language} | {round(data['score'])} `",
+                                allowed_mentions=discord.AllowedMentions.none(),
+                                files=attachments,
+                            )
+                            if attachment_removed:
+                                await message.channel.send(
+                                    message.author.mention,
+                                    embed=too_large_embed,
+                                    file=too_large_file,
+                                    allowed_mentions=discord.AllowedMentions(
+                                        everyone=False,
+                                        users=[message.author],
+                                        roles=False,
+                                        replied_user=False,
                                     ),
                                 )
-                                if delete_original:
-                                    await message.delete()
-                                    if attachment_removed:
-                                        await message.channel.send(
-                                            message.author.mention,
-                                            embed=too_large_embed,
-                                            file=too_large_file,
-                                            allowed_mentions=discord.AllowedMentions(
-                                                everyone=False,
-                                                users=[message.author],
-                                                roles=False,
-                                                replied_user=False,
-                                            ),
-                                        )
-                                    return
-                                if attachment_removed:
-                                    await message.reply(
-                                        embed=too_large_embed,
-                                        file=too_large_file,
-                                        mention_author=True,
-                                    )
-                            case _:
-                                if delete_original:
-                                    await message.channel.send(
-                                        f"{message.author.mention}:\n> "
-                                        + (
-                                            await translate(
-                                                message.content, guild_language
-                                            )
-                                        ).replace("\n", "\n> ")
-                                        + f"\n\n` {data['language']} ➜ {guild_language} | {round(data['confidence'])} `",
-                                        allowed_mentions=discord.AllowedMentions.none(),
-                                        files=attachments,
-                                    )
-                                    if attachment_removed:
-                                        await message.channel.send(
-                                            message.author.mention,
-                                            embed=too_large_embed,
-                                            file=too_large_file,
-                                            allowed_mentions=discord.AllowedMentions(
-                                                everyone=False,
-                                                users=[message.author],
-                                                roles=False,
-                                                replied_user=False,
-                                            ),
-                                        )
-                                    await message.delete()
-                                    return
-                                await message.reply(
-                                    "> "
-                                    + (
-                                        await translate(message.content, guild_language)
-                                    ).replace("\n", "\n> ")
-                                    + f"\n\n` {data['language']} ➜ {guild_language} | {round(data['confidence'])} `",
-                                    allowed_mentions=discord.AllowedMentions.none(),
-                                    mention_author=False,
-                                    files=attachments,
-                                )
-                                if attachment_removed:
-                                    await message.reply(
-                                        embed=too_large_embed,
-                                        file=too_large_file,
-                                        mention_author=True,
-                                    )
-                    except discord.Forbidden:
-                        return
+                            await message.delete()
+                            return
+                        await message.reply(
+                            "> "
+                            + (
+                                await translate(message.content, guild_language)
+                            ).replace("\n", "\n> ")
+                            + f"\n\n` {data['lang']} ➜ {guild_language} | {round(data['score'])} `",
+                            allowed_mentions=discord.AllowedMentions.none(),
+                            mention_author=False,
+                            files=attachments,
+                        )
+                        if attachment_removed:
+                            await message.reply(
+                                embed=too_large_embed,
+                                file=too_large_file,
+                                mention_author=True,
+                            )
+            except discord.Forbidden:
+                return

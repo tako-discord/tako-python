@@ -1,4 +1,5 @@
 git+https://github.com/tako-discord/python-i18n.git
+git+https://github.com/tako-discord/fasttext-langdetect
 pick
 black
 psutil
@@ -7,8 +8,8 @@ pyyaml
 millify
 asyncpg
 requests
-discord.py==2.1.0
 py-cpuinfo
 tmdbsimple
 discord-rpc
 python-youtube
+discord.py>=2.1.0

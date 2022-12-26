@@ -94,7 +94,7 @@ async def thumbnail(id: int, icon_name: str, bot):
     color = await get_color(bot, id, False)
     img = Image.new("RGB", (512, 512), color=color.replace("0x", "#"))
     icon = Image.open(
-        f"assets/{icon_name}{'' if color_check(color.replace('0x', '#')) or icon_name is 'reddit' else '_dark'}.png"
+        f"assets/icons/{icon_name}{'' if color_check(color.replace('0x', '#')) or icon_name is 'reddit' else '_dark'}.png"
     )
     img.paste(icon, (56, 56), mask=icon)
     img.save(f"assets/thumbnails/{icon_name}_{id}.png")
@@ -273,7 +273,7 @@ def error_embed(
     """
     match style:
         case "error":
-            file = discord.File("assets/alert.png", filename="thumbnail.png")
+            file = discord.File("assets/icons/alert.png", filename="thumbnail.png")
             if not footer:
                 footer = (
                     i18n.t("errors.error_occured", locale=get_language(bot, guild_id))
@@ -281,7 +281,7 @@ def error_embed(
                     else footer
                 )
         case _:
-            file = discord.File("assets/warning.png", filename="thumbnail.png")
+            file = discord.File("assets/icons/warning.png", filename="thumbnail.png")
             footer = (
                 i18n.t("errors.warning_occured", locale=get_language(bot, guild_id))
                 if not footer
