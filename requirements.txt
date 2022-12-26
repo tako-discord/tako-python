@@ -7,7 +7,6 @@ pillow
 pyyaml
 millify
 asyncpg
-requests
 py-cpuinfo
 tmdbsimple
 discord-rpc
