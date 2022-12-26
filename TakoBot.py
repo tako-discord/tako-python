@@ -14,6 +14,7 @@ from discord.ext import commands, tasks
 
 trimmer = "----------"
 start_time = datetime.now()
+initialized = False
 ascii_art = """
 $$$$$$$$\        $$\                 
 \__$$  __|       $$ |                
@@ -29,12 +30,15 @@ $$$$$$$$\        $$\
 class TakoBot(commands.Bot):
     async def on_ready(self):
         print(f"🔓 | Logged in as {self.user.name} (ID: {self.user.id})")
+        if initialized:
+            return
         print(trimmer)
         print(f"🕐 Startup took {(datetime.now() - start_time).total_seconds()}s")
         print("> Now running and listening to commands")
         print("> Everything will be logged to discord.log")
         print("> Press CTRL+C to exit")
         print(trimmer)
+        initialized = True
 
     async def setup_hook(self):
         print(ascii_art)
