@@ -23,7 +23,7 @@ class TakoBot(commands.Bot):
         i18n.set("filename_format", "{locale}.{format}")
         i18n.set("fallback", "en")
         i18n.load_path.append(f"i18n")
-        self.update_phishing_list.start()
+        # self.update_phishing_list.start()
         if hasattr(bot_secrets, "UPTIME_KUMA"):
             self.uptime_kuma.start()
         self.presence_update.start()
