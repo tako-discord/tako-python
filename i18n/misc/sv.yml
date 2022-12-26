@@ -5,5 +5,31 @@ sv:
   added_emoji: "Lyckades lägga till `%{emoji}`"
   deleted_emoji: "Lyckades ta bort `%{emoji}`"
   deleted_emoji_log: "Borttaget av %{user}"
+  not_emoji: |
+    You need to pass in a valid emoji ID from [emoji.gg](<https://emoji.gg>) (for example: `5345-blobcatblush`) *OR* an valid url pointing to an image.
+
+    Please note that we only support the following sources:
+    [cdn.betterttv.net](<https://cdn.betterttv.net/>)
+    [cdn.discordapp.com](<https://cdn.discordapp.com>)
+    [emoji.gg](<https://emoji.gg>)
+    [i.imgur.com](<https://i.imgur.com>)
+    [raw.githubusercontent.com](<https://raw.githubusercontent.com>)
   not_id: "Detta emoji-ID är ogiltigt"
   too_big: "Storleken på emojin är för stor. Vi försökte komprimera den men den fungerade inte. Försök igen med en mindre storlek."
+  emoji_not_found: "Emoji not found 😢"
+  lgbtq_tip: "Tip: You can use the image below perfectly as a profile picture."
+  no_gif_support: "*We currently do not support animated avatars :c*"
+  jail_desc_1: "%{user} will be in prison for lifetime."
+  jail_desc_2: "%{user} was mean to %{officer}. %{officer} however is a police officer."
+  jail_desc_3: "%{user} hopefully won't do that again."
+  jail_desc_4: "Maybe %{user} didn't got arrested..."
+  jail_desc_5: "%{officer} arrested %{user} for the 1000th time 🎉 [Click this link](https://tako.rocks) to get a prize!"
+  meme_share: "%{user} thinks that's funny. Even if it's not please don't tell them. They are very sensitive."
+  reaction_translate_activated: "✅ Reaction Translate is now activated"
+  reaction_translate_deactivated: "❌ Reaction Translate is now deactivated"
+  reaction_translate_footer: "Requested by %{user}"
+  auto_translate_activated: "✅ Autotranslate is now activated"
+  auto_translate_deactivated: "❌ Autotranslate is now deactivated"
+  auto_translate_confidence_set: "Confidence Threshold is now set to %{value}%"
+  auto_translate_reply_style_set: "Autotranslate reply style is now set to %{style}"
+  auto_translate_delete_original: "We will now delete the original message"

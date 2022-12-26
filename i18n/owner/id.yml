@@ -1,1 +1,3 @@
 id:
+  success: "Success!"
+  announcement_not_found: "Could not find the announcement you were looking for :c"
