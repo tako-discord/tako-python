@@ -1,5 +1,5 @@
 hr:
-  no_announcements: "There are currently no announcements!"
+  no_announcements: "Trenutno nema najava!"
   no_more_announcements: "There are no more announcements to show!"
   title: "Informacije o %{name}"
   infos_about: "Ovdje su neke informacije o %{name}"
@@ -11,10 +11,10 @@ hr:
   avatar: "**Avatar**: %{avatar}"
   server: "**Poslužitelj**"
   joined_on: "**Pridružio se**: %{date}"
-  top_role: "**Top Role**: %{role}"
+  top_role: "**Najviša uloga**: %{role}"
   hoist_role: "**Hoist Role**: %{role}"
-  roles: "**Roles**: %{roles}"
-  no_roles: "*No roles*"
+  roles: "**Uloge**: %{roles}"
+  no_roles: "*Bez uloga*"
   not_in_server: "*Korisnik nije u ovom serveru*"
   #Flags
   staff: "Discord osoblje"
@@ -37,7 +37,7 @@ hr:
   #Badges
   badge_not_found: "Značka nije pronađena 😢"
   users_with_badge: "Korisnici sa značkom (%{amount})"
-  more_badge_info: "*To get more information about a badge run `/info badge`*\n\n"
-  no_content: "This message is empty."
+  more_badge_info: "*Da biste dobili više informacija o znački, pokrenite `/info badge`*\n\n"
+  no_content: "Ova poruka je prazna."
   embed: "Embed %{count}:"
-  message: "Message:"
+  message: "Poruka:"
