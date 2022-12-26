@@ -1,6 +1,9 @@
 DEFAULT_BANK = 0
 DEFAULT_WALLET = 1000
-ANTI_PHISHING_LIST = []
+ANTI_PHISHING_LIST = [
+    "https://raw.githubusercontent.com/tako-discord/discord-phishing-links/main/domain-list.json",
+    "https://raw.githubusercontent.com/tako-discord/discord-phishing-links/main/suspicious-list.json",
+]
 DEFAULT_COLOR = 0x4ADE80
 DELETE_THUMBNAILS = True
 DEFAULT_COLOR_STR = "0x4ADE80"
@@ -9,7 +12,7 @@ TRANSLATOR_ROLE = 980904580286140426
 CURRENCY = " <:TK:1025679113777848320>"
 ALPHA_TESTER_ROLE = 969306314981376071
 DEV_ROLE = 969285824107642990
-SIMPLY_TRANSLATE = "https://tl.tako-bot.com"  # no / at the end is important
+SIMPLY_TRANSLATE = "https://simplytranslate.org"  # no / at the end is important
 LIBRE_TRANSLATE = "https://translate.argosopentech.com"  # no / at the end is important
 IMGEN = "https://imgen.tako-bot.com"  # no / at the end is important
 REPO = "tako-discord/tako"

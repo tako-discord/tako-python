@@ -1,35 +1,88 @@
 import os
 import i18n
+import json
 import config
 import random
+import logging
 import discord
 import aiohttp
-import requests
 import bot_secrets
 import persistent_views
+from datetime import datetime
 from discord.ext import commands, tasks
 
+
 trimmer = "----------"
+start_time = datetime.now()
+ascii_art = """
+$$$$$$$$\        $$\                 
+\__$$  __|       $$ |                
+   $$ | $$$$$$\  $$ |  $$\  $$$$$$\  
+   $$ | \____$$\ $$ | $$  |$$  __$$\ 
+   $$ | $$$$$$$ |$$$$$$  / $$ /  $$ |
+   $$ |$$  __$$ |$$  _$$<  $$ |  $$ |
+   $$ |\$$$$$$$ |$$ | \$$\ \$$$$$$  |
+   \__| \_______|\__|  \__| \______/
+"""
 
 
 class TakoBot(commands.Bot):
     async def on_ready(self):
+        print(f"🔓 | Logged in as {self.user.name} (ID: {self.user.id})")
+        if self.initialized:
+            return
         print(trimmer)
-        print(f"Logged in as {self.user} ({self.user.id})\n{trimmer}")
+        print(f"🕐 Startup took {(datetime.now() - start_time).total_seconds()}s")
+        print("> Now running and listening to commands")
+        print("> Everything will be logged to discord.log")
+        print("> Press CTRL+C to exit")
+        print(trimmer)
+        self.initialized = True
 
     async def setup_hook(self):
+        print(ascii_art)
+        self.initialized = False
+        logger = logging.getLogger("startup")
+        logger.setLevel(logging.INFO)
+        handler = logging.StreamHandler()
+        formatter = logging.Formatter(
+            "{status} | {message}",
+            style="{",
+        )
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+
+        logger.info("Loading cogs", extra={"status": f"{trimmer}\n🔄"})
+        categories = 0
         for category in os.listdir("cogs"):
+            categories += 1
             await self.load_extension(f"cogs.{category}")
+        logger.info(
+            f"Loaded {len(self.cogs)} cogs from {categories} categories",
+            extra={"status": "✅"},
+        )
+        logger.info("Loading i18n", extra={"status": f"{trimmer}\n🔄"})
         i18n.set("filename_format", "{locale}.{format}")
         i18n.set("fallback", "en")
         i18n.load_path.append(f"i18n")
-        self.update_phishing_list.start()
+        locales = []
+        for locale in os.listdir("i18n/misc"):
+            locales.append(locale.split(".")[0])
+        logger.info(f"Loaded i18n", extra={"status": "✅"})
+        logger.info(
+            f"Available locales ({len(locales)}): {', '.join(locales)}",
+            extra={"status": "✅"},
+        )
+        self.update_phishing_list.start(logger=logger)
         if hasattr(bot_secrets, "UPTIME_KUMA"):
             self.uptime_kuma.start()
-        self.presence_update.start()
         self.postgre_guilds = await self.db_pool.fetch("SELECT * FROM guilds")
-        self.badges_update.start()
+        logger.info("Adding persistent views", extra={"status": f"{trimmer}\n🔄"})
         await persistent_views.setup(self)
+        logger.info("Added persistent views", extra={"status": "✅"})
+        self.presence_update.start()
+        self.badges_update.start()
+        logger.info("Logging in...", extra={"status": f"{trimmer}\n🔄"})
 
     @tasks.loop(seconds=55)
     async def uptime_kuma(self):
@@ -42,11 +95,22 @@ class TakoBot(commands.Bot):
         await self.wait_until_ready()
 
     @tasks.loop(hours=1)
-    async def update_phishing_list(self):
+    async def update_phishing_list(self, logger: logging.Logger):
         self.sussy_domains = []
         if hasattr(config, "ANTI_PHISHING_LIST"):
-            for list in config.ANTI_PHISHING_LIST:
-                self.sussy_domains.extend(requests.get(list).json()["domains"])
+            logger.info(
+                "Updating suspicious domains", extra={"status": f"{trimmer}\n🔄"}
+            )
+            async with aiohttp.ClientSession() as cs:
+                for list in config.ANTI_PHISHING_LIST:
+                    async with cs.get(list) as r:
+                        r = await r.read()
+                        r = json.loads(r)
+                        self.sussy_domains.extend(r["domains"])
+            logger.info(
+                f"Updated suspicious domains ({len(self.sussy_domains)})",
+                extra={"status": "✅"},
+            )
 
     @tasks.loop(seconds=7.5)
     async def presence_update(self):

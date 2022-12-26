@@ -1,5 +1,58 @@
 # Changelog
 
+<a name="1.2.0"></a>
+## 1.2.0 (2022-12-26)
+
+### Added
+
+- ✨ new language detection (modified version of fasttext) [[feb71dc](https://github.com/tako-discord/tako/commit/feb71dc992e2e9911b446227045c9e1741ab7849)]
+- ✨ automatically remove suspicious links and use new translation service [[921ea1a](https://github.com/tako-discord/tako/commit/921ea1af44fd666245767f871581a117d97e3890)]
+- ✨ add ephemeral option to translation command [[269347a](https://github.com/tako-discord/tako/commit/269347a3b3e78e69cac9f35250e0156c439e7a2e)]
+
+### Changed
+
+- 🚸 use dsc.gg link for RPC Ad [[c70bef8](https://github.com/tako-discord/tako/commit/c70bef8be11e9c20b96dc57a770cfec4cde859b4)]
+- 🍱 move thumbnail icons to &#x60;/assets/icons&#x60; [[687e80e](https://github.com/tako-discord/tako/commit/687e80ecb948ada793fdfbc4c77a4d47792ac3b0)]
+- ⚡ add content type to translation util [[e9c4a74](https://github.com/tako-discord/tako/commit/e9c4a74e3e855f579593f8700a1f4e15f9e31968)]
+
+### Removed
+
+- 🔥 remove &#x60;state&#x60; from RPC [[cd06588](https://github.com/tako-discord/tako/commit/cd06588156cfe93c283b1cacc4d0f3f09dffb207)]
+
+
+<a name="1.1.0"></a>
+## 1.1.0 (2022-12-19)
+
+### Added
+
+- ✨ add channel locking (its pretty cool) [[9abe679](https://github.com/tako-discord/tako/commit/9abe6793d1d6e5e39d6a9c6ec67b925e4a083c48)]
+
+### Fixed
+
+- 🐛 fix clear all not setting the right category [[15bd974](https://github.com/tako-discord/tako/commit/15bd97498e6a2db05770b94906c74c217f5d3bda)]
+
+
+<a name="1.0.0"></a>
+## 1.0.0 (2022-12-18)
+We are now stable 🎉
+
+### Added
+
+- ✨ add dutch to language selection [[e10a1f0](https://github.com/tako-discord/tako/commit/e10a1f049fc64efa5a950cb2a08ffa0edc713e58)]
+
+### Fixed
+
+- 🐛 &#x60;send_message&#x60;requirement &amp;  cooldown for reactiontranslate [[2de0ed4](https://github.com/tako-discord/tako/commit/2de0ed407d576ce7190f62733ec48ee4864b1fcb)]
+
+### Miscellaneous
+
+- ⚰️ remove a script that was only used for testing [[46a4124](https://github.com/tako-discord/tako/commit/46a412466ab998fc83451dcb25104ffab7d1c90f)]
+- 🩹 remove keyerror from logs (autotranslation) [[b0e3286](https://github.com/tako-discord/tako/commit/b0e32862fb7a7a127d94bccc593ee21087738807)]
+- ⚰️ removed unused imports from error cog [[ca1d330](https://github.com/tako-discord/tako/commit/ca1d3307c47fcc5670225f602a5cec7a1e6e7e9d)]
+- 🌐 added nl, updated he &amp; de [[e4656bc](https://github.com/tako-discord/tako/commit/e4656bc47893037f045d244a0e29ce377c56441d)]
+- 🩹 add israel flag for reaction translate [[b7c168a](https://github.com/tako-discord/tako/commit/b7c168ac70b089526e2d9ab50311363cefb02f8d)]
+
+
 <a name="0.3.0"></a>
 ## 0.3.0 (2022-12-13)
 

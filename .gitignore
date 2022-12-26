@@ -5,4 +5,5 @@ assets/thumbnails/*
 !assets/thumbnails/.exists
 discord.log
 venv
+.idea
 .vscode/settings.json

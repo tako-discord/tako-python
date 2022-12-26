@@ -23,6 +23,7 @@ class Language(commands.Cog):
             Choice(name="עִברִית", value="he"),
             Choice(name="Hrvatski", value="hr"),
             Choice(name="Indonesia", value="id"),
+            Choice(name="Nederlands", value="nl"),
             Choice(name="Polski", value="pl"),
             Choice(name="Português (brasileiro)", value="pt"),
             Choice(name="Svenska", value="sv"),
