@@ -41,6 +41,7 @@ class TakoBot(commands.Bot):
 
     async def setup_hook(self):
         print(ascii_art)
+        self.initialized = False
         logger = logging.getLogger("startup")
         logger.setLevel(logging.INFO)
         handler = logging.StreamHandler()
