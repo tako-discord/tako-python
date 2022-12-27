@@ -29,9 +29,13 @@ class TakoBot(commands.Bot):
     async def on_ready(self):
         if self.initialized:
             return
-        print(f"\033[1F\033[2K🔓 \033[90m|\033[0m \033[93mLogged in as {self.user.name} (ID: {self.user.id})\033[0m")
+        print(
+            f"\033[1F\033[2K🔓 \033[90m|\033[0m \033[93mLogged in as {self.user.name} (ID: {self.user.id})\033[0m"
+        )
         print(trimmer)
-        print(f"\033[90m>\033[0m Startup took {round((datetime.now() - start_time).total_seconds(), 2)}s")
+        print(
+            f"\033[90m>\033[0m Startup took {round((datetime.now() - start_time).total_seconds(), 2)}s"
+        )
         print("\033[90m>\033[0m Now running and listening to commands")
         print("\033[90m>\033[0m Everything will be logged to discord.log")
         print("\033[90m>\033[0m Press CTRL+C to exit")
@@ -78,15 +82,17 @@ class TakoBot(commands.Bot):
         )
         self.update_phishing_list.start()
         logger.info(
-                f"\033[92mUpdated suspicious domains\033[0m",
-                extra={"status": "\033[1F\033[2K✅"},
-            )
+            f"\033[92mUpdated suspicious domains\033[0m",
+            extra={"status": "\033[1F\033[2K✅"},
+        )
         if hasattr(bot_secrets, "UPTIME_KUMA"):
             self.uptime_kuma.start()
         self.postgre_guilds = await self.db_pool.fetch("SELECT * FROM guilds")
         logger.info("\033[94mAdding persistent views\033[0m", extra={"status": f"🔄"})
         await persistent_views.setup(self)
-        logger.info("\033[92mAdded persistent views\033[0m", extra={"status": "\033[1F\033[2K✅"})
+        logger.info(
+            "\033[92mAdded persistent views\033[0m", extra={"status": "\033[1F\033[2K✅"}
+        )
         self.presence_update.start()
         self.badges_update.start()
         logger.info("\033[94mLogging in...\033[0m", extra={"status": f"{trimmer}\n🔄"})
