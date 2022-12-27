@@ -11,78 +11,85 @@ import persistent_views
 from datetime import datetime
 from discord.ext import commands, tasks
 
-
-trimmer = "----------"
+trimmer = "\033[90m----------\033[0m"
 start_time = datetime.now()
 ascii_art = """
-$$$$$$$$\        $$\                 
+\033[93m$$$$$$$$\        $$\                 
 \__$$  __|       $$ |                
    $$ | $$$$$$\  $$ |  $$\  $$$$$$\  
    $$ | \____$$\ $$ | $$  |$$  __$$\ 
    $$ | $$$$$$$ |$$$$$$  / $$ /  $$ |
    $$ |$$  __$$ |$$  _$$<  $$ |  $$ |
    $$ |\$$$$$$$ |$$ | \$$\ \$$$$$$  |
-   \__| \_______|\__|  \__| \______/
+   \__| \_______|\__|  \__| \______/\033[0m
 """
 
 
 class TakoBot(commands.Bot):
     async def on_ready(self):
-        print(f"🔓 | Logged in as {self.user.name} (ID: {self.user.id})")
         if self.initialized:
             return
+        print(f"\033[1F\033[2K🔓 \033[90m|\033[0m \033[93mLogged in as {self.user.name} (ID: {self.user.id})\033[0m")
         print(trimmer)
-        print(f"🕐 Startup took {(datetime.now() - start_time).total_seconds()}s")
-        print("> Now running and listening to commands")
-        print("> Everything will be logged to discord.log")
-        print("> Press CTRL+C to exit")
+        print(f"\033[90m>\033[0m Startup took {round((datetime.now() - start_time).total_seconds(), 2)}s")
+        print("\033[90m>\033[0m Now running and listening to commands")
+        print("\033[90m>\033[0m Everything will be logged to discord.log")
+        print("\033[90m>\033[0m Press CTRL+C to exit")
         print(trimmer)
         self.initialized = True
 
     async def setup_hook(self):
         print(ascii_art)
+        print(trimmer)
         self.initialized = False
         logger = logging.getLogger("startup")
         logger.setLevel(logging.INFO)
         handler = logging.StreamHandler()
         formatter = logging.Formatter(
-            "{status} | {message}",
+            "{status} \033[90m|\033[0m {message}",
             style="{",
         )
         handler.setFormatter(formatter)
         logger.addHandler(handler)
 
-        logger.info("Loading cogs", extra={"status": f"{trimmer}\n🔄"})
+        logger.info("\033[94mLoading cogs\033[0m", extra={"status": f"🔄"})
         categories = 0
         for category in os.listdir("cogs"):
             categories += 1
             await self.load_extension(f"cogs.{category}")
         logger.info(
-            f"Loaded {len(self.cogs)} cogs from {categories} categories",
-            extra={"status": "✅"},
+            f"\033[92mLoaded {len(self.cogs)} cogs from {categories} categories\033[0m",
+            extra={"status": "\033[1F\033[2K✅"},
         )
-        logger.info("Loading i18n", extra={"status": f"{trimmer}\n🔄"})
+        logger.info("\033[94mLoading i18n\033[0m", extra={"status": f"🔄"})
         i18n.set("filename_format", "{locale}.{format}")
         i18n.set("fallback", "en")
         i18n.load_path.append(f"i18n")
         locales = []
         for locale in os.listdir("i18n/misc"):
             locales.append(locale.split(".")[0])
-        logger.info(f"Loaded i18n", extra={"status": "✅"})
+        logger.info(f"\033[92mLoaded i18n\033[0m", extra={"status": "\033[1F\033[2K✅"})
         logger.info(
-            f"Available locales ({len(locales)}): {', '.join(locales)}",
+            f"\033[92mAvailable locales ({len(locales)}): {', '.join(locales)}\033[0m",
             extra={"status": "✅"},
         )
-        self.update_phishing_list.start(logger=logger)
+        logger.info(
+            "\033[94mUpdating suspicious domains\033[0m", extra={"status": f"🔄"}
+        )
+        self.update_phishing_list.start()
+        logger.info(
+                f"\033[92mUpdated suspicious domains\033[0m",
+                extra={"status": "\033[1F\033[2K✅"},
+            )
         if hasattr(bot_secrets, "UPTIME_KUMA"):
             self.uptime_kuma.start()
         self.postgre_guilds = await self.db_pool.fetch("SELECT * FROM guilds")
-        logger.info("Adding persistent views", extra={"status": f"{trimmer}\n🔄"})
+        logger.info("\033[94mAdding persistent views\033[0m", extra={"status": f"🔄"})
         await persistent_views.setup(self)
-        logger.info("Added persistent views", extra={"status": "✅"})
+        logger.info("\033[92mAdded persistent views\033[0m", extra={"status": "\033[1F\033[2K✅"})
         self.presence_update.start()
         self.badges_update.start()
-        logger.info("Logging in...", extra={"status": f"{trimmer}\n🔄"})
+        logger.info("\033[94mLogging in...\033[0m", extra={"status": f"{trimmer}\n🔄"})
 
     @tasks.loop(seconds=55)
     async def uptime_kuma(self):
@@ -95,22 +102,15 @@ class TakoBot(commands.Bot):
         await self.wait_until_ready()
 
     @tasks.loop(hours=1)
-    async def update_phishing_list(self, logger: logging.Logger):
+    async def update_phishing_list(self):
         self.sussy_domains = []
         if hasattr(config, "ANTI_PHISHING_LIST"):
-            logger.info(
-                "Updating suspicious domains", extra={"status": f"{trimmer}\n🔄"}
-            )
             async with aiohttp.ClientSession() as cs:
                 for list in config.ANTI_PHISHING_LIST:
                     async with cs.get(list) as r:
                         r = await r.read()
                         r = json.loads(r)
                         self.sussy_domains.extend(r["domains"])
-            logger.info(
-                f"Updated suspicious domains ({len(self.sussy_domains)})",
-                extra={"status": "✅"},
-            )
 
     @tasks.loop(seconds=7.5)
     async def presence_update(self):
