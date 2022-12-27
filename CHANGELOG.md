@@ -1,5 +1,28 @@
 # Changelog
 
+<a name="1.2.1"></a>
+## 1.2.1 (2022-12-27)
+
+### Changed
+
+- 💄 beautify da console output [[e3809e0](https://github.com/tako-discord/tako/commit/e3809e09cd69c67283628bb6e2dcdd100471b932)]
+
+### Removed
+
+- ➖ remove &#x60;requests&#x60; dep (unused) [[67e1994](https://github.com/tako-discord/tako/commit/67e1994516ad3f2b7ac31697c59be5d97e4fc0f6)]
+
+### Fixed
+
+- 🚑 remove error showing up every message [[afc8244](https://github.com/tako-discord/tako/commit/afc8244d471e74d15836fed592b28a587385107c)]
+- 🚑 don&#x27;t autotranslate if the content is the same [[085cf0b](https://github.com/tako-discord/tako/commit/085cf0b2b2e274ed9f7c56b742098b04ca7f854f)]
+
+### Miscellaneous
+
+-  New Crowdin updates ([#11](https://github.com/tako-discord/tako/issues/11)) [[cd9d409](https://github.com/tako-discord/tako/commit/cd9d409b32aa3eafa7f951a50b5a866bf3bd23a5)]
+-  New Crowdin updates ([#12](https://github.com/tako-discord/tako/issues/12)) [[4fdffa4](https://github.com/tako-discord/tako/commit/4fdffa484cb4cc7c8f3d7ed335d17a2e22d2a4c8)]
+- 🙈 add &#x60;.idea&#x60; to &#x60;.gitignore&#x60; [[1549bd9](https://github.com/tako-discord/tako/commit/1549bd9ecd1ad8d50203213c8748adbfa53d4fe6)]
+
+
 <a name="1.2.0"></a>
 ## 1.2.0 (2022-12-26)
 
