@@ -32,4 +32,6 @@ pt:
   auto_translate_deactivated: "❌ Autotranslate is now deactivated"
   auto_translate_confidence_set: "Confidence Threshold is now set to %{value}%"
   auto_translate_reply_style_set: "Autotranslate reply style is now set to %{style}"
-  auto_translate_delete_original: "We will now delete the original message"
+  auto_translate_delete_original: "Deletion of the original message is now set to %{value}"
+  topic_title: "Here's your topic:"
+  topic_footer: "Topic ID: %{id}"
