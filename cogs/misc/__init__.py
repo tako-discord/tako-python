@@ -4,6 +4,7 @@ from .embed import Embed
 from .emoji import Emoji
 from .image import Image
 from .media import Media
+from .revive import Revive
 from .reddit import Reddit
 from .youtube import Youtube
 from .show_tag import ShowTag
@@ -20,6 +21,7 @@ async def setup(bot):
     await bot.add_cog(Emoji(bot))
     await bot.add_cog(Image(bot))
     await bot.add_cog(Media(bot))
+    await bot.add_cog(Revive(bot))
     await bot.add_cog(Reddit(bot))
     await bot.add_cog(Youtube(bot))
     await bot.add_cog(ShowTag(bot))
