@@ -170,17 +170,23 @@ class Autojoin(commands.GroupCog, group_name="autojoinroles"):
         if not data:
             return
         if member.bot:
-            for role in data["join_roles_bot"]:
-                role = member.guild.get_role(int(role))
-                if role:
-                    await member.add_roles(role)
-            return
+            try:
+                for role in data["join_roles_bot"]:
+                    role = member.guild.get_role(int(role))
+                    if role:
+                        await member.add_roles(role)
+                return
+            except TypeError:
+                return
         if "MEMBER_VERIFICATION_GATE_ENABLED" in member.guild.features:
             return
         for role in data["join_roles_user"]:
-            role = member.guild.get_role(int(role))
-            if role:
-                await member.add_roles(role)
+            try:
+                role = member.guild.get_role(int(role))
+                if role:
+                    await member.add_roles(role)
+            except TypeError:
+                return
 
     @commands.Cog.listener()
     async def on_member_update(self, before: discord.Member, after: discord.Member):
