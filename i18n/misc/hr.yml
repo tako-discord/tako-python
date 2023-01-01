@@ -32,4 +32,6 @@ hr:
   auto_translate_deactivated: "❌ Automatski prijevod sada je deaktiviran"
   auto_translate_confidence_set: "Prag pouzdanosti sada je postavljen na %{value}%"
   auto_translate_reply_style_set: "Stil odgovora automatskog prijevoda sada je postavljen na %{style}"
-  auto_translate_delete_original: "Sada ćemo izbrisati izvornu poruku"
+  auto_translate_delete_original: "Deletion of the original message is now set to %{value}"
+  topic_title: "Here's your topic:"
+  topic_footer: "Topic ID: %{id}"
