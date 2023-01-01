@@ -19,7 +19,7 @@ class Revive(commands.Cog):
         self,
         interaction: discord.Interaction,
         id: app_commands.Range[
-            int, 1, 2  # <-- Change the 2 to the amount of topics you have.
+            int, 1, 2 # <-- Change the 2 to the amount of topics you have.
         ]
         | None = None,
     ):
