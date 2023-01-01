@@ -1,5 +1,21 @@
 # Changelog
 
+<a name="1.3.0"></a>
+## 1.3.0 (2023-01-01)
+
+### Added
+
+- ✨ add topic command [[fc9d68c](https://github.com/tako-discord/tako/commit/fc9d68cd1881dfa39290acc9b09415a8a8deb9d9)]
+
+### Fixed
+
+- 🐛 fix error messages not being shown [[eebcba3](https://github.com/tako-discord/tako/commit/eebcba38020f8f6dae035e34d37c60f78b5ab3a0)]
+
+### Miscellaneous
+
+- 🩹 remove error that is safe to ignore [[b61ca11](https://github.com/tako-discord/tako/commit/b61ca11b51353daa02a9a9435cae3caa10a29fbf)]
+
+
 <a name="1.2.1"></a>
 ## 1.2.1 (2022-12-27)
 
