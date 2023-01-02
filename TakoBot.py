@@ -108,12 +108,10 @@ class TakoBot(commands.Bot):
     async def before_uptime_kuma(self):
         await self.wait_until_ready()
 
-
     @tasks.loop(hours=1)
     async def update_version(self):
         with open(".gitmoji-changelogrc", "r") as f:
             self.version = json.load(f)["project"]["version"]
-
 
     @tasks.loop(hours=1)
     async def update_phishing_list(self):
