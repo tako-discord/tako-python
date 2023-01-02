@@ -39,8 +39,6 @@ async def main():
         user=bot_secrets.DB_USER,
         password=bot_secrets.DB_PASSWORD,
     )
-    with open(".gitmoji-changelogrc", "r") as f:
-        bot.version = json.load(f)["project"]["version"]
 
     await bot.start(bot_secrets.TOKEN)
 

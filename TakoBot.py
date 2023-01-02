@@ -95,6 +95,7 @@ class TakoBot(commands.Bot):
         )
         self.presence_update.start()
         self.badges_update.start()
+        self.update_version.start()
         logger.info("\033[94mLogging in...\033[0m", extra={"status": f"{trimmer}\n🔄"})
 
     @tasks.loop(seconds=55)
@@ -106,6 +107,13 @@ class TakoBot(commands.Bot):
     @uptime_kuma.before_loop
     async def before_uptime_kuma(self):
         await self.wait_until_ready()
+
+
+    @tasks.loop(hours=1)
+    async def update_version(self):
+        with open(".gitmoji-changelogrc", "r") as f:
+            self.version = json.load(f)["project"]["version"]
+
 
     @tasks.loop(hours=1)
     async def update_phishing_list(self):
