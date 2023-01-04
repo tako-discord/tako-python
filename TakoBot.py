@@ -11,6 +11,11 @@ import persistent_views
 from datetime import datetime
 from discord.ext import commands, tasks
 
+try:
+    import tomllib
+except ModuleNotFoundError:
+    import tomli as tomllib
+
 trimmer = "\033[90m----------\033[0m"
 start_time = datetime.now()
 ascii_art = """
@@ -110,8 +115,8 @@ class TakoBot(commands.Bot):
 
     @tasks.loop(hours=1)
     async def update_version(self):
-        with open(".gitmoji-changelogrc", "r") as f:
-            self.version = json.load(f)["project"]["version"]
+        with open("pyproject.toml", "rb") as f:
+            self.version = tomllib.load(f)["tool"]["commitizen"]["version"]
 
     @tasks.loop(hours=1)
     async def update_phishing_list(self):

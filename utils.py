@@ -12,6 +12,11 @@ from config import REPO, RAW_GH
 from discord import app_commands
 from PIL import Image, ImageColor
 
+try:
+    import tomllib
+except ModuleNotFoundError:
+    import tomli as tomllib
+
 
 def clear_console():
     """Clears the console (Supported: Windows & Unix)"""
@@ -301,10 +306,10 @@ def error_embed(
 async def get_latest_version():
     """Returns the latest version of the bot."""
     async with aiohttp.ClientSession() as session:
-        async with session.get(RAW_GH + REPO + "/master/.gitmoji-changelogrc") as r:
+        async with session.get(RAW_GH + REPO + "/master/pyproject.toml") as r:
             data = await r.read()
-            data = json.loads(data)
-            return data["project"]["version"]
+            data = tomllib.loads(data)
+            return data["tool"]["commitizen"]["version"]
 
 
 async def translate(text: str, target: str, source: str = "auto"):
