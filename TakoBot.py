@@ -175,7 +175,7 @@ class TakoBot(commands.Bot):
                     for member in role.members:
                         users.append(member.id)
                     await self.db_pool.execute(
-                        "UPDATE badges SET users = $1 WHERE name = 'Donator';", users
+                        "UPDATE badges SET users = $1 WHERE name = 'donator';", users
                     )
                     continue
                 if role.id == config.TRANSLATOR_ROLE:
@@ -183,7 +183,7 @@ class TakoBot(commands.Bot):
                     for member in role.members:
                         users.append(member.id)
                     await self.db_pool.execute(
-                        "UPDATE badges SET users = $1 WHERE name = 'Translator';", users
+                        "UPDATE badges SET users = $1 WHERE name = 'translator';", users
                     )
                     continue
                 if role.id == config.ALPHA_TESTER_ROLE:
@@ -191,7 +191,7 @@ class TakoBot(commands.Bot):
                     for member in role.members:
                         users.append(member.id)
                     await self.db_pool.execute(
-                        "UPDATE badges SET users = $1 WHERE name = 'Alpha Tester';",
+                        "UPDATE badges SET users = $1 WHERE name = 'alpha_tester';",
                         users,
                     )
                     continue
@@ -200,7 +200,7 @@ class TakoBot(commands.Bot):
                     for member in role.members:
                         users.append(member.id)
                     await self.db_pool.execute(
-                        "UPDATE badges SET users = $1 WHERE name = 'Core Developer';",
+                        "UPDATE badges SET users = $1 WHERE name = 'core_developer';",
                         users,
                     )
                     continue

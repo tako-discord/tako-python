@@ -65,11 +65,11 @@ async def main():
         print(f"Initializing database with {next(version[0].values())}")
         await conn.execute(
             """
-            CREATE TABLE IF NOT EXISTS badges (name TEXT PRIMARY KEY, emoji TEXT NOT NULL, description TEXT, users BIGINT ARRAY);
-            INSERT INTO badges  (name, emoji, description) VALUES ('Alpha Tester', '🧪', 'Users who tested the bot in its early stage receive this badge') ON CONFLICT DO NOTHING;
-            INSERT INTO badges  (name, emoji, description) VALUES ('Donator', '<a:ablobcatheart:950763824154284082>', 'Users who donated to the Tako Team receive this badge') ON CONFLICT DO NOTHING;
-            INSERT INTO badges  (name, emoji, description) VALUES ('Translator', '🌐', 'Users who translated this bot receive this badge') ON CONFLICT DO NOTHING;
-            INSERT INTO badges  (name, emoji, description) VALUES ('Core Developer', '🧑‍💻', 'Users who are the core developers from the the bot') ON CONFLICT DO NOTHING;
+            CREATE TABLE IF NOT EXISTS badges (name TEXT PRIMARY KEY, emoji TEXT NOT NULL, users BIGINT ARRAY);
+            INSERT INTO badges  (name, emoji) VALUES ('alpha_tester', '🧪') ON CONFLICT DO NOTHING;
+            INSERT INTO badges  (name, emoji) VALUES ('donator', '💖') ON CONFLICT DO NOTHING;
+            INSERT INTO badges  (name, emoji) VALUES ('translator', '🌐') ON CONFLICT DO NOTHING;
+            INSERT INTO badges  (name, emoji) VALUES ('core_developer', '💻') ON CONFLICT DO NOTHING;
             CREATE TABLE IF NOT EXISTS channels (channel_id BIGINT PRIMARY KEY, crosspost BOOLEAN NOT NULL DEFAULT FALSE, synced BOOLEAN, locked BOOLEAN);
             CREATE TABLE IF NOT EXISTS permissions (channel_id BIGINT, target_id BIGINT, allow INT, deny INT, type TEXT, UNIQUE (channel_id, target_id));
             CREATE TABLE IF NOT EXISTS guilds (guild_id BIGINT PRIMARY KEY, banned_games TEXT ARRAY, join_roles_user BIGINT ARRAY, join_roles_bot BIGINT ARRAY, language TEXT, reaction_translate BOOLEAN, auto_translate BOOLEAN DEFAULT FALSE, color TEXT, auto_translate_confidence INTEGER DEFAULT 50, auto_translate_reply_style TEXT, auto_translate_delete_original BOOLEAN DEFAULT TRUE);
