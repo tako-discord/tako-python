@@ -34,7 +34,7 @@ de:
   discord_certified_moderator: "Von Discord zertifizierter Moderator"
   bot_http_interactions: "Webhook"
   spammer: "Spammer"
-  active_developer: "Active Developer"
+  active_developer: "Aktiver Entwickler"
   #Badges
   badge_not_found: "Abzeichen nicht gefunden 😢"
   users_with_badge: "Benutzer mit dem Abzeichen (%{amount})"
