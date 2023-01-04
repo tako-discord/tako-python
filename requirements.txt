@@ -13,3 +13,4 @@ discord-rpc
 python-youtube
 discord.py>=2.1.0
 tomli >= 2.0.1 ; python_version < "3.11"
+pre-commit

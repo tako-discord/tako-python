@@ -66,7 +66,11 @@ Please note that instead of `python` your command may be `python3` or similar.
 1. Fork this repository
 2. Create a new branch
 3. Make your changes in that branch
-4. Commit with [gitmoji](https://gitmoji.dev/) as a commit guide
+4.  * If you cloned your fork:
+        * Run `pre-commit install --hook-type commit-msg` to install the needed pre-commit
+        * Run `cz commit` to commit the changes (you need to `git add` the files first)
+    * Otherwise:
+        * Just follow the [Conventional Commit v1.0.0 Schema](https://www.conventionalcommits.org/en/v1.0.0/#specification)
 5. Make a Pull Request
 6. Be proud of yourself 👍
 
