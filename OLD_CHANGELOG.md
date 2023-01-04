@@ -1,4 +1,14 @@
 # Changelog
+<a name="1.3.1"></a>
+## 1.3.0 (2023-01-04)
+
+### Added
+
+- ✨ add localization support for badges
+
+### Changed
+
+- Switched to Conventional Commits ([New Changelog](CHANGELOG.md))
 
 <a name="1.3.0"></a>
 ## 1.3.0 (2023-01-01)
