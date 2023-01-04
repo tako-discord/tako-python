@@ -1,0 +1,9 @@
+de:
+  alpha_tester_title: "Alpha Tester"
+  alpha_tester_desc: "Benutzer, die den Bot im geschlossenen Alpha-Programm getestet haben"
+  donator_title: "Spender"
+  donator_desc: "Benutzer, die über [Tako's Open Collective](https://opencollective.com/tako) gespendet haben, erhalten dieses Abzeichen"
+  translator_title: "Übersetzer"
+  translator_desc: "Übersetzer des Bots über [Tako's Crowdin](https://translate.tako-bot.com)."
+  core_developer_title: "Core Entwickler"
+  core_developer_desc: "Core Entwickler von Tako. Sie sind diejenigen, die sehr hart arbeiten, um Tako besser zu machen."

@@ -8,7 +8,7 @@ hr:
   user_missing_perms: "You need the *%{perms}* permission(s) in order to run this command."
   cooldown_title: "Cooldown"
   cooldown: "Ova naredba je na cooldownu, pokušajte ponovno za %{time}s."
-  reaction_translate_cooldown: "Reaction Translation trenutno je na cooldown kako bi se spriječio neželjeni sadržaj, molimo ponovite naredbu za %{time}s."
+  reaction_translate_cooldown: "Reaction Translation is currently on cooldown to prevent spam, please retry in %{time}s."
   no_pm_title: "No Private Message Support"
   no_pm: "Ova komanda ne može biti korištena unutar privatnih poruka."
   check_failure_title: "Provjera nije uspjela"

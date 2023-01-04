@@ -34,6 +34,7 @@ hr:
   discord_certified_moderator: "Moderator s Discordovim odobrenjem"
   bot_http_interactions: "Webhook"
   spammer: "Spamer"
+  active_developer: "Active Developer"
   #Badges
   badge_not_found: "Značka nije pronađena 😢"
   users_with_badge: "Korisnici sa značkom (%{amount})"

@@ -34,6 +34,7 @@ nl:
   discord_certified_moderator: "Discord Certified Moderator"
   bot_http_interactions: "Webhook"
   spammer: "Spammer"
+  active_developer: "Active Developer"
   #Badges
   badge_not_found: "Badge not found 😢"
   users_with_badge: "Users with the badge (%{amount})"
