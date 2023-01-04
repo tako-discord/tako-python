@@ -195,7 +195,9 @@ class InfoGroup(commands.GroupCog, group_name="info"):
                 ephemeral=True,
             )
         embed = discord.Embed(
-            title=badge["emoji"] + " " + i18n.t(f"badges.{badge['name']}_title", locale=locale),
+            title=badge["emoji"]
+            + " "
+            + i18n.t(f"badges.{badge['name']}_title", locale=locale),
             description=i18n.t(f"badges.{badge['name']}_desc", locale=locale),
             color=(await get_color(self.bot, interaction.guild.id)),
         )
@@ -216,13 +218,16 @@ class InfoGroup(commands.GroupCog, group_name="info"):
     ):
         def localized_badge_name(badge: str, locale: str):
             return i18n.t(f"badges.{badge}_title", locale=locale)
+
         current = current.lower()
         badges = await self.bot.db_pool.fetch("SELECT * FROM badges")
         locale = get_language(self.bot, interaction.guild.id)
         return [
             app_commands.Choice(
-                name=f"{localized_badge_name(badge['name'], locale)} ({badge['emoji']})", value=badge["name"]
+                name=f"{localized_badge_name(badge['name'], locale)} ({badge['emoji']})",
+                value=badge["name"],
             )
             for badge in badges
-            if current.lower() in badge["name"].lower() or current in badge["emoji"].lower()
+            if current.lower() in badge["name"].lower()
+            or current in badge["emoji"].lower()
         ]
