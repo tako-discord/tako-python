@@ -8,7 +8,7 @@ he:
   user_missing_perms: "אתה צריך את *%{perms}* אישור כדי לעשות דבר זה."
   cooldown_title: "משך המתנה לאחר שימוש"
   cooldown: "פקודה זו בפסק זמן, בבקשה תנסה עוד הפעם ב %{time}."
-  reaction_translate_cooldown: "תרגום תגובה נמצא כרגע על קירור כדי למנוע דואר זבל, אנא נסה שוב ב%{time} שניות.\n"
+  reaction_translate_cooldown: "Reaction Translation is currently on cooldown to prevent spam, please retry in %{time}s."
   no_pm_title: "אין תמיכה בהודעות פרטיות"
   no_pm: "פקודה זו לא נותנת בהודעה פרטית."
   check_failure_title: "בדיקה נכשלה"
