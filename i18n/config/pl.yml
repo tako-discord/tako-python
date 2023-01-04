@@ -1,6 +1,6 @@
 pl:
   language_success: "Mój język został ustawiony na `%{language}`."
-  selfrole_created: "Successfully created your role selection menu!"
+  selfrole_created: "Pomyślnie utworzono menu wyboru roli!"
   selfroles_updated: "Successfully updated your roles!"
   crossposting_not_news: "❌ %{channel} is not a news channel!"
   crossposting_activated: "✅ Auto-crossposting for %{channel} is now activated"
