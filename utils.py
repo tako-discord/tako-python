@@ -307,7 +307,7 @@ async def get_latest_version():
     """Returns the latest version of the bot."""
     async with aiohttp.ClientSession() as session:
         async with session.get(RAW_GH + REPO + "/master/pyproject.toml") as r:
-            data = await r.read()
+            data = await r.text()
             data = tomllib.loads(data)
             return data["tool"]["commitizen"]["version"]
 
