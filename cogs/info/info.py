@@ -185,17 +185,18 @@ class InfoGroup(commands.GroupCog, group_name="info"):
         badge = await self.bot.db_pool.fetchrow(
             "SELECT * FROM badges WHERE name = $1", badge
         )
+        locale = get_language(self.bot, interaction.guild.id)
         if badge is None:
             return await interaction.response.send_message(
                 i18n.t(
                     "info.badge_not_found",
-                    locale=get_language(self.bot, interaction.guild.id),
+                    locale=locale,
                 ),
                 ephemeral=True,
             )
         embed = discord.Embed(
-            title=badge["emoji"] + " " + badge["name"],
-            description=badge["description"],
+            title=badge["emoji"] + " " + i18n.t(f"badges.{badge['name']}_title", locale=locale),
+            description=i18n.t(f"badges.{badge['name']}_desc", locale=locale),
             color=(await get_color(self.bot, interaction.guild.id)),
         )
         if badge["users"]:
@@ -213,12 +214,15 @@ class InfoGroup(commands.GroupCog, group_name="info"):
     async def autocomplete_callback(
         self, interaction: discord.Interaction, current: str
     ):
+        def localized_badge_name(badge: str, locale: str):
+            return i18n.t(f"badges.{badge}_title", locale=locale)
         current = current.lower()
         badges = await self.bot.db_pool.fetch("SELECT * FROM badges")
+        locale = get_language(self.bot, interaction.guild.id)
         return [
             app_commands.Choice(
-                name=f"{badge['name']} ({badge['emoji']})", value=badge["name"]
+                name=f"{localized_badge_name(badge['name'], locale)} ({badge['emoji']})", value=badge["name"]
             )
             for badge in badges
-            if current in badge["name"].lower() or current in badge["emoji"].lower()
+            if current.lower() in badge["name"].lower() or current in badge["emoji"].lower()
         ]
