@@ -8,7 +8,7 @@ de:
   user_missing_perms: "Du brauchst *%{perms}* Berechtigung(en) um diesen Befehl auszuführen."
   cooldown_title: "Cooldown"
   cooldown: "Dieser Befehl befindet sich im Cooldown. Bitte versuche es erneut in %{time}s."
-  reaction_translate_cooldown: "Reaction Translation is currently on cooldown to prevent spam, please retry in %{time}s."
+  reaction_translate_cooldown: "Reaktionsübersetzung ist derzeit im Cooldown, um Spam zu verhindern. Bitte versuche es in %{time}s erneut."
   no_pm_title: "Keine Unterstützung für private Nachrichten"
   no_pm: "Dieser Befehl kann nicht in Direktnachrichten genutzt werden."
   check_failure_title: "Eine Überprüfung ist fehlgeschlagen"
