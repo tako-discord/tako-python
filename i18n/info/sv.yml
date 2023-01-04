@@ -34,6 +34,7 @@ sv:
   discord_certified_moderator: "Discord-certifierad moderator"
   bot_http_interactions: "Webhook"
   spammer: "Spammare"
+  active_developer: "Active Developer"
   #Badges
   badge_not_found: "Märket hittades inte 😢"
   users_with_badge: "Användare med märket (%{amount})"
