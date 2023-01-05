@@ -312,7 +312,9 @@ async def get_latest_version():
             return data["tool"]["commitizen"]["version"]
 
 
-async def translate_logic(session: aiohttp.ClientSession, text: str, target: str, source: str, url: str):
+async def translate_logic(
+    session: aiohttp.ClientSession, text: str, target: str, source: str, url: str
+):
     async with session.get(
         f"{config.SIMPLY_TRANSLATE}/api/translate/?engine=google&text={quote(text)}&from={source}&to={target}"
     ) as r:
@@ -337,9 +339,21 @@ async def translate(text: str, target: str, source: str = "auto"):
         The language to translate from."""
     async with aiohttp.ClientSession() as session:
         try:
-            await translate_logic(session, text, target, source, f"{config.SIMPLY_TRANSLATE}/api/translate/?engine=google&text={quote(text)}&from={source}&to={target}")
+            await translate_logic(
+                session,
+                text,
+                target,
+                source,
+                f"{config.SIMPLY_TRANSLATE}/api/translate/?engine=google&text={quote(text)}&from={source}&to={target}",
+            )
         except json.JSONDecodeError:
-            await translate_logic(session, text, target, source, f"{config.SIMPLY_TRANSLATE_FALLBACK}/api/translate/?engine=google&text={quote(text)}&from={source}&to={target}")
+            await translate_logic(
+                session,
+                text,
+                target,
+                source,
+                f"{config.SIMPLY_TRANSLATE_FALLBACK}/api/translate/?engine=google&text={quote(text)}&from={source}&to={target}",
+            )
         finally:
             return text
 
