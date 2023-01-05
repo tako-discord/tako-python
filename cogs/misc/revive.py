@@ -19,7 +19,7 @@ class Revive(commands.Cog):
         self,
         interaction: discord.Interaction,
         id: app_commands.Range[
-            int, 1, 2  # <-- Change the 2 to the amount of topics you have.
+            int, 1, 144  # <-- Change the 2 to the amount of topics you have.
         ]
         | None = None,
     ):
@@ -29,7 +29,7 @@ class Revive(commands.Cog):
 
         embed = discord.Embed(
             title=i18n.t("misc.topic_title", locale=locale),
-            description=await translate(questions[index], locale),
+            description=await translate(questions[index], locale, "en"),
             color=await get_color(self.bot, interaction.guild.id),
         )
         embed.set_footer(text=i18n.t("misc.topic_footer", locale=locale, id=id))

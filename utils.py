@@ -312,6 +312,18 @@ async def get_latest_version():
             return data["tool"]["commitizen"]["version"]
 
 
+async def translate_logic(session: aiohttp.ClientSession, text: str, target: str, source: str, url: str):
+    async with session.get(
+        f"{config.SIMPLY_TRANSLATE}/api/translate/?engine=google&text={quote(text)}&from={source}&to={target}"
+    ) as r:
+        data = await r.text()
+        try:
+            data = json.loads(data)
+        except json.JSONDecodeError:
+            return json.JSONDecodeError
+        return data["translated-text"]
+
+
 async def translate(text: str, target: str, source: str = "auto"):
     """Translates a given string to a specified language.
 
@@ -324,11 +336,12 @@ async def translate(text: str, target: str, source: str = "auto"):
     source: :class:`str` (Default: "auto")
         The language to translate from."""
     async with aiohttp.ClientSession() as session:
-        async with session.get(
-            f"{config.SIMPLY_TRANSLATE}/api/translate/?engine=google&text={quote(text)}&from={source}&to={target}"
-        ) as r:
-            data = await r.json(content_type="application/json")
-            return data["translated-text"]
+        try:
+            await translate_logic(session, text, target, source, f"{config.SIMPLY_TRANSLATE}/api/translate/?engine=google&text={quote(text)}&from={source}&to={target}")
+        except json.JSONDecodeError:
+            await translate_logic(session, text, target, source, f"{config.SIMPLY_TRANSLATE_FALLBACK}/api/translate/?engine=google&text={quote(text)}&from={source}&to={target}")
+        finally:
+            return text
 
 
 async def new_meme(guild_id: int, user_id: int, bot, db_pool: asyncpg.Pool):
