@@ -316,7 +316,7 @@ async def translate_logic(
     session: aiohttp.ClientSession, text: str, target: str, source: str, url: str
 ):
     async with session.get(
-        f"{config.SIMPLY_TRANSLATE}/api/translate/?engine=google&text={quote(text)}&from={source}&to={target}"
+        url
     ) as r:
         data = await r.text()
         try:
@@ -338,24 +338,22 @@ async def translate(text: str, target: str, source: str = "auto"):
     source: :class:`str` (Default: "auto")
         The language to translate from."""
     async with aiohttp.ClientSession() as session:
-        try:
-            await translate_logic(
-                session,
-                text,
-                target,
-                source,
-                f"{config.SIMPLY_TRANSLATE}/api/translate/?engine=google&text={quote(text)}&from={source}&to={target}",
-            )
-        except json.JSONDecodeError:
-            await translate_logic(
+        data = await translate_logic(
+            session,
+            text,
+            target,
+            source,
+            f"{config.SIMPLY_TRANSLATE}/api/translate/?engine=google&text={quote(text)}&from={source}&to={target}",
+        )
+        if data is json.JSONDecodeError:
+            data = await translate_logic(
                 session,
                 text,
                 target,
                 source,
                 f"{config.SIMPLY_TRANSLATE_FALLBACK}/api/translate/?engine=google&text={quote(text)}&from={source}&to={target}",
             )
-        finally:
-            return text
+        return data if data is not json.JSONDecodeError else text
 
 
 async def new_meme(guild_id: int, user_id: int, bot, db_pool: asyncpg.Pool):
