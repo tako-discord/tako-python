@@ -315,9 +315,7 @@ async def get_latest_version():
 async def translate_logic(
     session: aiohttp.ClientSession, text: str, target: str, source: str, url: str
 ):
-    async with session.get(
-        url
-    ) as r:
+    async with session.get(url) as r:
         data = await r.text()
         try:
             data = json.loads(data)
