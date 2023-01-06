@@ -15,3 +15,6 @@ en:
   unlocked_title: "🔓 Unlocked *%{channel}*!"
   unlocked_desc: "All permissions are now like they were before the channel was locked."
   unlocked_footer: "The channel was synced with its category before it was locked, and thus is now in sync with the *current* one."
+  roles_provide_member: "Please provide a member."
+  roles_provide_role: "Please provide a role."
+  roles_provide_reason: "Please provide a reason."
