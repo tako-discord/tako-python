@@ -1,3 +1,16 @@
+## 1.5.0 (2023-01-07)
+
+### Feat
+
+- **moderation**: add slowmode command
+- **economy**: remove gambling
+- **topics**: add all topics
+- **utils**: addtranslation api fallback
+
+### Fix
+
+- **utils**: fix translate function
+
 ## 1.4.1 (2023-01-04)
 
 ### Fix
