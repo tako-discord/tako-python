@@ -9,8 +9,8 @@ class Roles(commands.Cog):
         self.bot = bot
 
     @app_commands.command(description="Adds a role to the provided member.")
-    @app_commands.checks.has_permissions(manage_channels=True)
-    @app_commands.checks.bot_has_permissions(manage_channels=True)
+    @app_commands.checks.has_permissions(manage_members=True)
+    @app_commands.checks.bot_has_permissions(manage_members=True)
     @app_commands.describe(member="The member to add the role to.")
     @app_commands.describe(role="The role to add to the member.")
     @app_commands.describe(reason="Why are you adding the role?")
@@ -38,8 +38,8 @@ class Roles(commands.Cog):
 
 
     @app_commands.command(description="Removes a role from the provided member.")
-    @app_commands.checks.has_permissions(manage_channels=True)
-    @app_commands.checks.bot_has_permissions(manage_channels=True)
+    @app_commands.checks.has_permissions(manage_members=True)
+    @app_commands.checks.bot_has_permissions(manage_members=True)
     @app_commands.describe(member="The member to remove the role from.")
     @app_commands.describe(role="The role to remove from the member.")
     @app_commands.describe(reason="Why are you removing the role?")
@@ -66,11 +66,11 @@ class Roles(commands.Cog):
             await interaction.reply(f"You can't remove a role from that user!")
 
     @app_commands.command(description="Adds a role to every member")
-    @app_commands.checks.has_permissions(manage_channels=True)
-    @app_commands.checks.bot_has_permissions(manage_channels=True)
+    @app_commands.checks.has_permissions(manage_members=True)
+    @app_commands.checks.bot_has_permissions(manage_members=True)
     @app_commands.describe(role="The role to add to everyone.")
     @app_commands.describe(reason="Why are you adding the role?")
-    @app_commands.describe(option="[1] Everyone  [2] Only Human  [3] Only Bots")
+    @app_commands.describe(option="[1] Everyone  [2] Only Humans  [3] Only Bots")
     async def addroletoeveryone(self, interaction: discord.Interaction, role: discord.Role = None, reason = None, option = 1):
         language = get_language(self.bot, interaction.guild.id)
         if role is None:
@@ -102,3 +102,43 @@ class Roles(commands.Cog):
                     counter =+ 1
                     await user.add_roles(role, reason=f"Role added by {interaction.user}, reason: {reason}")
             await interaction.reply(f"{role.name} has been given to {counter} Bots.")
+        
+    
+
+    @app_commands.command(description="Removes a role from every member")
+    @app_commands.checks.has_permissions(manage_members=True)
+    @app_commands.checks.bot_has_permissions(manage_members=True)
+    @app_commands.describe(role="The role to remove from everyone.")
+    @app_commands.describe(reason="Why are you removing the role?")
+    @app_commands.describe(option="[1] Everyone  [2] Only Humans  [3] Only Bots")
+    async def removerolefromeveryone(self, interaction: discord.Interaction, role: discord.Role = None, reason = None, option = 1):
+        language = get_language(self.bot, interaction.guild.id)
+        if role is None:
+            interaction.reply(i18n.t("moderation.roles_provide_role", locale=language))
+            return
+        if reason is None:
+            interaction.reply(i18n.t("moderation.roles_provide_reason", locale=language))
+            return
+        
+        all_members = interaction.guild.members(limit=None)
+        counter = 0
+        if option == 1:
+            # @everyone
+            for user in all_members:
+                counter =+ 1
+                await user.remove_roles(role, reason=f"Role removed by {interaction.user}, reason: {reason}")
+            await interaction.reply(f"{role.name} has been removed from {counter} Members."  
+        elif option == 2:
+            # @humans
+            for user in all_members:
+                if not user.bot:
+                    counter =+ 1
+                    await user.remove_roles(role, reason=f"Role removed by {interaction.user}, reason: {reason}")
+            await interaction.reply(f"{role.name} has been removed from {counter} Humans."        
+        elif option == 3:
+            # @bots
+            for user in all_members:
+                if user.bot:
+                    counter =+ 1
+                    await user.remove_roles(role, reason=f"Role removed by {interaction.user}, reason: {reason}")
+            await interaction.reply(f"{role.name} has been removed from {counter} Bots.")
