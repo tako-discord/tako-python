@@ -87,14 +87,14 @@ class Roles(commands.Cog):
             for user in all_members:
                 counter =+ 1
                 await user.add_roles(role, reason=f"Role added by {interaction.user}, reason: {reason}")
-            await interaction.reply(f"{role.name} has been given to {counter} Members."  
+            await interaction.reply(f"{role.name} has been given to {counter} Members.")
         elif option == 2:
             # @humans
             for user in all_members:
                 if not user.bot:
                     counter =+ 1
                     await user.add_roles(role, reason=f"Role added by {interaction.user}, reason: {reason}")
-            await interaction.reply(f"{role.name} has been given to {counter} Humans."        
+            await interaction.reply(f"{role.name} has been given to {counter} Humans.")      
         elif option == 3:
             # @bots
             for user in all_members:
@@ -127,14 +127,14 @@ class Roles(commands.Cog):
             for user in all_members:
                 counter =+ 1
                 await user.remove_roles(role, reason=f"Role removed by {interaction.user}, reason: {reason}")
-            await interaction.reply(f"{role.name} has been removed from {counter} Members."  
+            await interaction.reply(f"{role.name} has been removed from {counter} Members.")
         elif option == 2:
             # @humans
             for user in all_members:
                 if not user.bot:
                     counter =+ 1
                     await user.remove_roles(role, reason=f"Role removed by {interaction.user}, reason: {reason}")
-            await interaction.reply(f"{role.name} has been removed from {counter} Humans."        
+            await interaction.reply(f"{role.name} has been removed from {counter} Humans.")      
         elif option == 3:
             # @bots
             for user in all_members:
