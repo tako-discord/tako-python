@@ -17,15 +17,13 @@ class Roles(commands.Cog):
     async def addrole(self, interaction: discord.Interaction, member: discord.Member = None, role: discord.Role = None, reason = None):
         language = get_language(self.bot, interaction.guild.id)
 
-        if member is None:
-            interaction.reply(i18n.t("moderation.roles_provide_member", locale=language))
-            return
-        if role is None:
-            interaction.reply(i18n.t("moderation.roles_provide_role", locale=language))
-            return
+        if member is None:            
+            return interaction.reply(i18n.t("moderation.roles_provide_member", locale=language))
+        if role is None:            
+            return interaction.reply(i18n.t("moderation.roles_provide_role", locale=language))
         if reason is None:
-            interaction.reply(i18n.t("moderation.roles_provide_reason", locale=language))
-            return
+            return interaction.reply(i18n.t("moderation.roles_provide_reason", locale=language))
+
         
         member_top = member.top_role
         interaction_top = interaction.user.top_role
@@ -46,15 +44,13 @@ class Roles(commands.Cog):
     async def removerole(self, interaction: discord.Interaction, member: discord.Member = None, role: discord.Role = None, reason = None, aliases=["remrole"]):
         language = get_language(self.bot, interaction.guild.id)
 
-        if member is None:
-            interaction.reply(i18n.t("moderation.roles_provide_member", locale=language))
-            return
-        if role is None:
-            interaction.reply(i18n.t("moderation.roles_provide_role", locale=language))
-            return
+        if member is None:           
+            return interaction.reply(i18n.t("moderation.roles_provide_member", locale=language))
+        if role is None:           
+            return interaction.reply(i18n.t("moderation.roles_provide_role", locale=language))
         if reason is None:
-            interaction.reply(i18n.t("moderation.roles_provide_reason", locale=language))
-            return
+            
+            return interaction.reply(i18n.t("moderation.roles_provide_reason", locale=language))
         
         member_top = member.top_role
         interaction_top = interaction.user.top_role
@@ -73,12 +69,10 @@ class Roles(commands.Cog):
     @app_commands.describe(option="[1] Everyone  [2] Only Humans  [3] Only Bots")
     async def addroletoeveryone(self, interaction: discord.Interaction, role: discord.Role = None, reason = None, option = 1):
         language = get_language(self.bot, interaction.guild.id)
-        if role is None:
-            interaction.reply(i18n.t("moderation.roles_provide_role", locale=language))
-            return
-        if reason is None:
-            interaction.reply(i18n.t("moderation.roles_provide_reason", locale=language))
-            return
+        if role is None:            
+            return interaction.reply(i18n.t("moderation.roles_provide_role", locale=language))
+        if reason is None:            
+            return interaction.reply(i18n.t("moderation.roles_provide_reason", locale=language))
         
         
         interaction_top = interaction.user.top_role
@@ -86,8 +80,7 @@ class Roles(commands.Cog):
         if roleList[role] > roleList[interaction_top]:
             pass
         else:
-            await interaction.reply(f"You can't add this role to the members!")
-            return
+            return await interaction.reply(f"You can't add this role to the members!")
         
         
         all_members = interaction.guild.members(limit=None)
@@ -145,12 +138,11 @@ class Roles(commands.Cog):
     @app_commands.describe(option="[1] Everyone  [2] Only Humans  [3] Only Bots")
     async def removerolefromeveryone(self, interaction: discord.Interaction, role: discord.Role = None, reason = None, option = 1):
         language = get_language(self.bot, interaction.guild.id)
-        if role is None:
-            interaction.reply(i18n.t("moderation.roles_provide_role", locale=language))
-            return
+        if role is None:           
+            return interaction.reply(i18n.t("moderation.roles_provide_role", locale=language))
         if reason is None:
-            interaction.reply(i18n.t("moderation.roles_provide_reason", locale=language))
-            return
+            return interaction.reply(i18n.t("moderation.roles_provide_reason", locale=language))
+
         
         all_members = interaction.guild.members(limit=None)
         counter = 0
