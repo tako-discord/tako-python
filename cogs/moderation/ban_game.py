@@ -18,7 +18,7 @@ class BanGame(commands.Cog):
         data = await self.bot.db_pool.fetchrow(
             "SELECT * FROM guilds WHERE guild_id = $1;", ctx.author.guild.id
         )
-        if data == None:
+        if data is None:
             data = await self.bot.db_pool.execute(
                 "INSERT INTO guilds (guild_id, banned_games) VALUES ($1, $2);",
                 ctx.author.guild.id,

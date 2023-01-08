@@ -21,7 +21,7 @@ class Color(commands.Cog):
                 None,
             )
             return await interaction.response.send_message(
-                f"Your personal embed color is now back to default.", ephemeral=True
+                "Your personal embed color is now back to default.", ephemeral=True
             )
         if color.startswith("#"):
             color = color.replace("#", "0x")
