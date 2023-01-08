@@ -6,7 +6,7 @@ changelog_start_rev = "aa6eaaee2467fe8f2e26151fc930ec49cdea027b"
 update_changelog_on_bump = true
 
 [tool.ruff]
-fix-only = true
+fix = true
 ignore = ["E999", "E501", "E722"]
 exclude = [
     ".git",
