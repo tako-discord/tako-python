@@ -15,13 +15,26 @@ class Slowmode(commands.Cog):
     @app_commands.guild_only()
     @app_commands.describe(
         seconds="The amount of seconds to set the slowmode to",
-        channel="The channel to set the slowmode of (defaults to the current channel)"
+        channel="The channel to set the slowmode of (defaults to the current channel)",
     )
-    async def slowmode(self, interaction: discord.Interaction, seconds: app_commands.Range[int, 0, 21600], channel: discord.TextChannel | discord.Thread | discord.ForumChannel = None):
+    async def slowmode(
+        self,
+        interaction: discord.Interaction,
+        seconds: app_commands.Range[int, 0, 21600],
+        channel: discord.TextChannel | discord.Thread | discord.ForumChannel = None,
+    ):
         locale = get_language(self.bot, interaction.guild.id)
-        
+
         if not channel:
             channel = interaction.channel
-        
+
         await channel.edit(slowmode_delay=seconds)
-        await interaction.response.send_message(i18n.t("moderation.slowmode_set", channel=channel.mention, t=seconds, locale=locale), ephemeral=True)
+        await interaction.response.send_message(
+            i18n.t(
+                "moderation.slowmode_set",
+                channel=channel.mention,
+                t=seconds,
+                locale=locale,
+            ),
+            ephemeral=True,
+        )
