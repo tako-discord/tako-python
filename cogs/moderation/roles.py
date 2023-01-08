@@ -111,10 +111,10 @@ class Roles(commands.Cog):
                 else:
                     counter =+ 1
                     await user.add_roles(role, reason=f"Role added by {interaction.user}, reason: {reason}")
-            if len(blocked) > 10:
+            if len(blocked) > 5:
                 lblocked = len(blocked)
                 del blocked[10:len(blocked)]
-            if len(failed) > 10:
+            if len(failed) > 5:
                 lfailed = len(failed)
                 del failed[10:len(failed)]
             await interaction.reply(f"__You tried to add the role {role.name} to {len(all_members)} Members.__\n {counter} Succesful\n {lblocked} Blocked (above you): {', '.join(blocked),', ...'}\n {lfailed} Failed (above the bot): {', '.join(failed),', ...'}")
