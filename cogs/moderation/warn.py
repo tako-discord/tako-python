@@ -1,11 +1,11 @@
-'''
+"""
 Commands:
 - /warn
 - /delwarn
 - /warnings
 ...
 
-'''
+"""
 
 import i18n
 import discord
@@ -22,14 +22,20 @@ class Roles(commands.Cog):
     @app_commands.checks.bot_has_permissions(manage_members=True)
     @app_commands.describe(member="The member to warn")
     @app_commands.describe(msg="Your warning")
-    async def warn(self, interaction: discord.Interaction, member: discord.Member = None, msg = None):
+    async def warn(
+        self, interaction: discord.Interaction, member: discord.Member = None, msg=None
+    ):
         language = get_language(self.bot, interaction.guild.id)
 
         if member is None:
-            interaction.reply(i18n.t("moderation.roles_provide_member", locale=language))
+            interaction.reply(
+                i18n.t("moderation.roles_provide_member", locale=language)
+            )
             return
         if msg is None:
-            interaction.reply(i18n.t("moderation.roles_provide_reason", locale=language))
+            interaction.reply(
+                i18n.t("moderation.roles_provide_reason", locale=language)
+            )
             return
 
         await member.send(f"You recieved a warning in {interaction.guild} for: {msg}")
@@ -41,14 +47,18 @@ class Roles(commands.Cog):
     @app_commands.checks.bot_has_permissions(manage_members=True)
     @app_commands.describe(member="The member")
     @app_commands.describe(id="Your warning id to remove")
-    async def delwarn(self, interaction: discord.Interaction, member: discord.Member = None, id = None):
+    async def delwarn(
+        self, interaction: discord.Interaction, member: discord.Member = None, id=None
+    ):
         language = get_language(self.bot, interaction.guild.id)
 
         if id is None:
             interaction.reply("Please provide an id.")
             return
         if member is None:
-            interaction.reply(i18n.t("moderation.roles_provide_member", locale=language))
+            interaction.reply(
+                i18n.t("moderation.roles_provide_member", locale=language)
+            )
             return
         # get warning (id) info & remove warning (id) from db
 
@@ -59,14 +69,15 @@ class Roles(commands.Cog):
     @app_commands.checks.bot_has_permissions(manage_members=True)
     @app_commands.describe(member="The member to warn")
     @app_commands.describe(msg="Your warning")
-    async def warnings(self, interaction: discord.Interaction, member: discord.Member = None):
+    async def warnings(
+        self, interaction: discord.Interaction, member: discord.Member = None
+    ):
         language = get_language(self.bot, interaction.guild.id)
         if member is None:
-            interaction.reply(i18n.t("moderation.roles_provide_member", locale=language))
+            interaction.reply(
+                i18n.t("moderation.roles_provide_member", locale=language)
+            )
             return
         # get warnings from user
 
         await interaction.reply(f"Warnings: {warnings}")
-        
-        
-        
