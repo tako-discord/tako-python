@@ -5,7 +5,7 @@ hr:
   crossposting_not_news: "%{channel} nije novinski kanal!"
   crossposting_activated: "✅ Auto-crossposting za %{channel} sada je aktiviran"
   crossposting_deactivated: "❌ Auto-crossposting za %{channel} sada je deaktiviran"
-  invalid_role: "The bot or you does not have the permission to assign at least one role you selected."
+  invalid_role: "Vi ili bot nemate dopuštenje da bi ste dodjelili barem jednu ulogu koju ste odabrali."
   autojoinroles_title: "Automatske uloge za %{guild}"
   autojoinroles_desc: "Ovo je popis uloga koje će se automatski dodavati novim članovima"
   autojoinroles_users: "👤 Korisničke uloge"
