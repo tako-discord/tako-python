@@ -180,7 +180,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
         )
         webhook_id = None
         for webhook in await message.channel.webhooks():
-            if webhook.name == "AutoTranslate":
+            if webhook.name == "AutoTranslate" and webhook.user.id is self.bot.user.id:
                 webhook_id = webhook.id
         if not webhook_id:
             webhook = await message.channel.create_webhook(name="AutoTranslate")
