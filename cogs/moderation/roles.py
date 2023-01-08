@@ -80,14 +80,45 @@ class Roles(commands.Cog):
             interaction.reply(i18n.t("moderation.roles_provide_reason", locale=language))
             return
         
+        
+        interaction_top = interaction.user.top_role
+        role_list = interaction.guild.roles
+        if roleList[role] > roleList[interaction_top]:
+            pass
+        else:
+            await interaction.reply(f"You can't add this role to the members!")
+            return
+        
+        
         all_members = interaction.guild.members(limit=None)
         counter = 0
+        blocked = [] # above the user
+        failed = [] # above the bot
+        '''
+        NEUES VON OPTION 1 AUF ALLES ÜBERTRAGEN!!!
+        '''
         if option == 1:
             # @everyone
             for user in all_members:
-                counter =+ 1
-                await user.add_roles(role, reason=f"Role added by {interaction.user}, reason: {reason}")
-            await interaction.reply(f"{role.name} has been given to {counter} Members.")
+                user_top = user.top_role
+                bot_top = interaction.bot.top_role # not correct, change it!
+                interaction_top = interaction.user.top_role
+                role_list = interaction.guild.roles
+                if roleList[user_top] > roleList[bot_top]:
+                    failed.append(str(user.name))
+                elif roleList[user_top] > roleList[interaction_top]:
+                    blocked.append(str(user.name))
+                else:
+                    counter =+ 1
+                    await user.add_roles(role, reason=f"Role added by {interaction.user}, reason: {reason}")
+            if len(blocked) > 10:
+                lblocked = len(blocked)
+                del blocked[10:len(blocked)]
+            if len(failed) > 10:
+                lfailed = len(failed)
+                del failed[10:len(failed)]
+            await interaction.reply(f"__You tried to add the role {role.name} to {len(all_members)} Members.__\n {counter} Succesful\n {lblocked} Blocked (above you): {', '.join(blocked),', ...'}\n {lfailed} Failed (above the bot): {', '.join(failed),', ...'}")
+
         elif option == 2:
             # @humans
             for user in all_members:
@@ -95,6 +126,7 @@ class Roles(commands.Cog):
                     counter =+ 1
                     await user.add_roles(role, reason=f"Role added by {interaction.user}, reason: {reason}")
             await interaction.reply(f"{role.name} has been given to {counter} Humans.")      
+
         elif option == 3:
             # @bots
             for user in all_members:
