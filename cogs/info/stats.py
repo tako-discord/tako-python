@@ -43,12 +43,12 @@ class Stats(commands.Cog):
         system = [
             f"**🖥️ Platform**: {operating_systems[sys.platform]}",
             f"**🕐 Uptime**: {str(datetime.timedelta(seconds=time.time() - psutil.boot_time())).split('.')[0]}",
-            f"**⚡ CPU**:",
+            "**⚡ CPU**:",
             f"\u3000*Model*: {cpu_info['brand_raw']}",
             f"\u3000*Cores*: {cpu_info['count']}",
             f"\u3000*Speed*: {cpu_info['hz_advertised_friendly'][0]} GHz",
             f"\u3000*Usage*: {psutil.cpu_percent()}%",
-            f"**🗄️ Memory**:",
+            "**🗄️ Memory**:",
             f"\u3000*Total*: {format_bytes(psutil.virtual_memory().total)}",
             f"\u3000*Available*: {format_bytes(psutil.virtual_memory().available)}",
         ]

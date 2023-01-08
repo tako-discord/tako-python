@@ -238,7 +238,7 @@ class Tag(commands.GroupCog, group_name="tag"):
             tag,
             interaction.guild.id,
         )
-        if tag == None:
+        if tag is None:
             return await interaction.response.send_message(
                 "This tag does not exist!", ephemeral=True
             )
@@ -260,7 +260,7 @@ class Tag(commands.GroupCog, group_name="tag"):
             )
         except:
             pass
-        if data == None:
+        if data is None:
             return await interaction.response.send_message(
                 "This tag does not exist!", ephemeral=True
             )
