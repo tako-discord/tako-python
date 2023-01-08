@@ -1,4 +1,4 @@
-zh-CN:
+zh-TW:
   language_success: "My language is now set to `%{language}`."
   selfrole_created: "Successfully created your role selection menu!"
   selfroles_updated: "Successfully updated your roles!"
