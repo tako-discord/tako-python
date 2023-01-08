@@ -39,12 +39,14 @@ class Roles(commands.Cog):
         member_top = member.top_role
         interaction_top = interaction.user.top_role
         role_list = interaction.guild.roles
-        bot_top = interaction.bot.top_role # not correct, change it!
-        '''
+        bot_top = interaction.bot.top_role  # not correct, change it!
+        """
         new
-        '''
+        """
         if roleList[member_top] > roleList[bot_top]:
-            await interaction.reply(f"I have no perms to manage the roles of that user.")
+            await interaction.reply(
+                f"I have no perms to manage the roles of that user."
+            )
         if roleList[role] > roleList[bot_top]:
             await interaction.reply(f"I have no perms to manage the role {role.name}.")
         if roleList[member_top] > roleList[interaction_top]:
