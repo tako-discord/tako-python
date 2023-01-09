@@ -6,6 +6,8 @@
 
 A Discord bot done right. No bullshit like pay- or votewalls.
 
+We are currently experiencing issues with some people. Until this ks resolved we do not allow any forks or selfhosted instances of the bot after the 8th kf January 2023.
+
 This is the rewrite for Kayano (now Tako). Before the rewrite it was written in JavaScript/Node.js with the Discord.js Library. But now it's written in Python with the discord.py Library. We have made some very great improvements and we hope you'll like it.
 
 > **Warning** |
