@@ -4,6 +4,6 @@ ja:
   donator_title: "寄付者"
   donator_desc: "寄付したユーザー [Tako's コレクティブを開く](https://opencollective.com/tako) バッジがもらえる"
   translator_title: "翻訳"
-  translator_desc: "Translators of the bot via [Tako's Crowdin](https://translate.tako-bot.com)."
+  translator_desc: "人工知能の翻訳者による[Tako's Crowdin](https://translate.tako-bot.com)からボットの翻訳者。"
   core_developer_title: "コアワーカー"
   core_developer_desc: "Core developers of Tako. They are the ones who work very hard to make Tako better."
