@@ -6,6 +6,7 @@ import random
 import logging
 import discord
 import aiohttp
+import asyncpg
 import bot_secrets
 import persistent_views
 from datetime import datetime
@@ -51,6 +52,13 @@ class TakoBot(commands.Bot):
         print(ascii_art)
         print(trimmer)
         self.initialized = False
+        self.db_pool: asyncpg.Pool = await asyncpg.create_pool(
+            database=bot_secrets.DB_NAME,
+            host=bot_secrets.DB_HOST,
+            port=bot_secrets.DB_PORT if hasattr(bot_secrets, "DB_PORT") else 5432, # type: ignore
+            user=bot_secrets.DB_USER,
+            password=bot_secrets.DB_PASSWORD,
+        )
         logger = logging.getLogger("startup")
         logger.setLevel(logging.INFO)
         handler = logging.StreamHandler()
