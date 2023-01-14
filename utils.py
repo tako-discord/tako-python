@@ -258,7 +258,7 @@ def error_embed(
     bot,
     title: str,
     description: str,
-    guild_id: int,
+    guild_id: int = None,
     footer: str = None,
     style: str = "error",
 ):
@@ -271,24 +271,27 @@ def error_embed(
         The title of the embed.
     description: :class:`str`
         The description of the embed.
+    guild_id: :class:`int` = None
+        The id of the guild where the language is getting fetched from.
     footer: :class:`str` = "An error occured"
         The footer of the embed. (Mostly just the translation of "An error occured")
     style: :class:`str` = "error"
         The style of the embed. (Either 'error' or 'warning')
     """
+    locale = get_language(bot, guild_id) if guild_id else "en"
     match style:
         case "error":
             file = discord.File("assets/icons/alert.png", filename="thumbnail.png")
             if not footer:
                 footer = (
-                    i18n.t("errors.error_occured", locale=get_language(bot, guild_id))
+                    i18n.t("errors.error_occured", locale=locale)
                     if not footer
                     else footer
                 )
         case _:
             file = discord.File("assets/icons/warning.png", filename="thumbnail.png")
             footer = (
-                i18n.t("errors.warning_occured", locale=get_language(bot, guild_id))
+                i18n.t("errors.warning_occured", locale=locale)
                 if not footer
                 else footer
             )

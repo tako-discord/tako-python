@@ -74,7 +74,7 @@ class CommandErrorHandler(commands.Cog):
                         bot,
                         i18n.t("errors.no_pm_title", locale=language),
                         i18n.t("errors.no_pm", perms=fmt, locale=language),
-                        interaction.guild.id,
+                        "en",
                     )
                     return await interaction.response.send_message(
                         embed=embed, file=file, ephemeral=True
