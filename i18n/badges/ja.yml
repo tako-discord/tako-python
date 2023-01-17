@@ -1,0 +1,9 @@
+ja:
+  alpha_tester_title: "アルファテスター"
+  alpha_tester_desc: "クローズド アルファ プログラムでボットをテストしたユーザー"
+  donator_title: "寄付者"
+  donator_desc: "寄付したユーザー [Tako's コレクティブを開く](https://opencollective.com/tako) バッジがもらえる"
+  translator_title: "翻訳"
+  translator_desc: "人工知能の翻訳者による[Tako's Crowdin](https://translate.tako-bot.com)からボットの翻訳者。"
+  core_developer_title: "コアワーカー"
+  core_developer_desc: "Core developers of Tako. They are the ones who work very hard to make Tako better."

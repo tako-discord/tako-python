@@ -1,4 +1,4 @@
-pl:
+ja:
   malicious_link: "%{user} tried to send a malicious link. I deleted the link!"
   ban_game_log: "Banned for playing %{game}."
   ban_game_dm: "You have been banned from *%{guild}* because you played %{game}."

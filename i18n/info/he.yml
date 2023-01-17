@@ -34,7 +34,7 @@ he:
   discord_certified_moderator: "מנחה מוסמך של דיסקורד"
   bot_http_interactions: "וובהוק"
   spammer: "ספאמר"
-  active_developer: "Active Developer"
+  active_developer: "מפתח פעיל"
   #Badges
   badge_not_found: "תג לא נמצא 😢"
   users_with_badge: "משתמשים עם תג (%{amount})"
