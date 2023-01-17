@@ -23,12 +23,12 @@ class Roles(commands.GroupCog, name="role"):
         member: discord.Member = None,
         reason: str = None,
     ):
-        language = get_language(self.self.bot, interaction.guild.id)
+        #language = get_language(self.bot, interaction.guild.id)
 
         if not member:
             member = interaction.user
 
-        if role >= interaction.user.role:
+        if role >= interaction.user.roles:
             return await interaction.reply(
                 f"{role.name} is either above you or me in the Role list."
             )
@@ -109,6 +109,7 @@ class Roles(commands.GroupCog, name="role"):
         counter = 0
         blocked = []  # above the user
         failed = []  # above the bot
+
         # TODO: Add failed and blocked to 2nd and 3rd option
         if option == 1:
             # @everyone
@@ -157,20 +158,20 @@ class Roles(commands.GroupCog, name="role"):
                         role,
                         reason=f"Role added by {interaction.user}, reason: {reason}",
                     )
-            return await interaction.reply(f"{role.name} has been given to {counter} self.bots.")
+            return await interaction.reply(f"{role.name} has been given to {counter} Bots.")
 
     @app_commands.command(description="Removes a role from every member")
     @app_commands.checks.has_permissions(manage_roles=True)
     @app_commands.checks.bot_has_permissions(manage_roles=True)
     @app_commands.describe(role="The role to remove from everyone.")
     @app_commands.describe(reason="Why are you removing the role?")
-    @app_commands.describe(option="[1] Everyone  [2] Only Humans  [3] Only self.bots")
+    @app_commands.describe(option="[1] Everyone  [2] Only Humans  [3] Only Bots")
     async def remove_all(
         self,
         interaction: discord.Interaction,
         role: discord.Role,
         reason: str = None,
-        option=1,
+        option: int = 1,
     ):
         language = get_language(self.self.bot, interaction.guild.id)
         if role is None:
