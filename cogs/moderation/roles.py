@@ -23,7 +23,7 @@ class Roles(commands.GroupCog, name="role"):
         member: discord.Member = None,
         reason: str = None,
     ):
-        #language = get_language(self.bot, interaction.guild.id)
+        # language = get_language(self.bot, interaction.guild.id)
 
         if not member:
             member = interaction.user
@@ -35,9 +35,7 @@ class Roles(commands.GroupCog, name="role"):
         await member.add_roles(
             role, reason=f"Role added by {interaction.user}, reason: {reason}"
         )
-        await interaction.reply(
-            f"{member.name} has been given the role {role.name}."
-        )
+        await interaction.reply(f"{member.name} has been given the role {role.name}.")
 
     @app_commands.command(description="Removes a role from the provided member.")
     @app_commands.checks.has_permissions(manage_roles=True)
@@ -64,9 +62,7 @@ class Roles(commands.GroupCog, name="role"):
         await member.remove_roles(
             role, reason=f"Role added by {interaction.user}, reason: {reason}"
         )
-        await interaction.reply(
-            f"{member.name} has been given the role {role.name}."
-        )
+        await interaction.reply(f"{member.name} has been given the role {role.name}.")
 
     @app_commands.command(description="Adds a role to every member")
     @app_commands.checks.has_permissions(manage_roles=True)
@@ -78,7 +74,7 @@ class Roles(commands.GroupCog, name="role"):
         option=[
             app_commands.Choice(name="Everyone", value=1),
             app_commands.Choice(name="Only Humans", value=2),
-            app_commands.Choice(name="Only self.bots", value=3)
+            app_commands.Choice(name="Only self.bots", value=3),
         ]
     )
     async def add_all(
@@ -115,7 +111,7 @@ class Roles(commands.GroupCog, name="role"):
             # @everyone
             for user in all_members:
                 user_top = user.top_role
-                self.bot_top = interaction.self.bot.top_role 
+                self.bot_top = interaction.self.bot.top_role
                 interaction_top = interaction.user.top_role
                 role_list = interaction.guild.roles
                 if user.role >= self.bot.role:
@@ -147,7 +143,9 @@ class Roles(commands.GroupCog, name="role"):
                         role,
                         reason=f"Role added by {interaction.user}, reason: {reason}",
                     )
-            return await interaction.reply(f"{role.name} has been given to {counter} Humans.")
+            return await interaction.reply(
+                f"{role.name} has been given to {counter} Humans."
+            )
 
         if option == 3:
             # @self.bots
@@ -158,7 +156,9 @@ class Roles(commands.GroupCog, name="role"):
                         role,
                         reason=f"Role added by {interaction.user}, reason: {reason}",
                     )
-            return await interaction.reply(f"{role.name} has been given to {counter} Bots.")
+            return await interaction.reply(
+                f"{role.name} has been given to {counter} Bots."
+            )
 
     @app_commands.command(description="Removes a role from every member")
     @app_commands.checks.has_permissions(manage_roles=True)

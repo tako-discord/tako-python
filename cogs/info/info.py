@@ -60,6 +60,7 @@ def handle_roles(roles: List[discord.Role]):
         final_roles_list.append(role.mention + ", ")
     return "".join(final_roles_list)
 
+
 # ankucken
 def handle_badge_users(bot: TakoBot, users: List[int]):
     final_users_list = []

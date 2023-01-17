@@ -19,12 +19,15 @@ class WarnSystem(commands.Cog):
         self.bot = bot
 
     @app_commands.command(description="Sends a warning to the provided member.")
-    #@app_commands.checks.has_permissions(manage_members=True)
-    #@app_commands.checks.bot_has_permissions(manage_members=True)
+    # @app_commands.checks.has_permissions(manage_members=True)
+    # @app_commands.checks.bot_has_permissions(manage_members=True)
     @app_commands.describe(member="The member to warn")
     @app_commands.describe(msg="Your warning")
     async def warn(
-        self, interaction: discord.Interaction, member: discord.Member = None, msg: str = None
+        self,
+        interaction: discord.Interaction,
+        member: discord.Member = None,
+        msg: str = None,
     ):
         language = get_language(self.bot, interaction.guild.id)
 
@@ -44,12 +47,15 @@ class WarnSystem(commands.Cog):
         # store in db with (id)
 
     @app_commands.command(description="Removes a warning from the provided member.")
-    #@app_commands.checks.has_permissions(manage_members=True)
-    #@app_commands.checks.bot_has_permissions(manage_members=True)
+    # @app_commands.checks.has_permissions(manage_members=True)
+    # @app_commands.checks.bot_has_permissions(manage_members=True)
     @app_commands.describe(member="The member")
     @app_commands.describe(id="Your warning id to remove")
     async def delwarn(
-        self, interaction: discord.Interaction, member: discord.Member = None, id: int = None
+        self,
+        interaction: discord.Interaction,
+        member: discord.Member = None,
+        id: int = None,
     ):
         language = get_language(self.bot, interaction.guild.id)
 
@@ -66,8 +72,8 @@ class WarnSystem(commands.Cog):
         await interaction.reply(f"Warning '{id.text}' successfully deleted.")
 
     @app_commands.command(description="Lists all warnings")
-    #@app_commands.checks.has_permissions(manage_members=True)
-    #@app_commands.checks.bot_has_permissions(manage_members=True)
+    # @app_commands.checks.has_permissions(manage_members=True)
+    # @app_commands.checks.bot_has_permissions(manage_members=True)
     @app_commands.describe(member="The member to warn")
     @app_commands.describe(msg="Your warning")
     async def warnings(
