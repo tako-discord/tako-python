@@ -32,6 +32,7 @@ async def main():
     intents.reactions = True
 
     bot: TakoBot = TakoBot(command_prefix="tk!", intents=intents)
+    '''
     bot.db_pool: asyncpg.Pool = await asyncpg.create_pool(
         database=bot_secrets.DB_NAME,
         host=bot_secrets.DB_HOST,
@@ -39,7 +40,7 @@ async def main():
         user=bot_secrets.DB_USER,
         password=bot_secrets.DB_PASSWORD,
     )
-
+    '''
     await bot.start(bot_secrets.TOKEN)
 
 

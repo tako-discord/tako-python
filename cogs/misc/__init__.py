@@ -28,4 +28,4 @@ async def setup(bot):
     await bot.add_cog(Translate(bot))
     await bot.add_cog(Affirmations(bot))
     await bot.add_cog(ReactionTranslate(bot))
-    await bot.add_cog(AutoTranslate(bot))
+    #await bot.add_cog(AutoTranslate(bot))

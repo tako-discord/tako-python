@@ -1,19 +1,24 @@
 import discord
 from discord.ext import commands
+'''
 from .affirmation_buttons import AffirmationButtons
 from .meme_buttons import MemeButtons
 from .self_menu import SelfMenu
 from .poll_buttons import PollButtons
+'''
 
 
 async def setup(bot: commands.Bot):
+    '''
     bot.add_view(AffirmationButtons())
     bot.add_view(MemeButtons(bot))
+    '''
     bot.loop.create_task(selfrole_setup(bot))
     bot.loop.create_task(poll_setup(bot))
 
 
 async def selfrole_setup(bot):
+    '''
     await bot.wait_until_ready()
     selfrole_menus = await bot.db_pool.fetch("SELECT * FROM selfroles")
     for item in selfrole_menus:
@@ -27,10 +32,12 @@ async def selfrole_setup(bot):
         )
         view.add_item(menu)
         bot.add_view(view)
+    '''
 
 
 async def poll_setup(bot):
     await bot.wait_until_ready()
+    '''
     polls = await bot.db_pool.fetch("SELECT * FROM polls;")
     for poll in polls:
         view = PollButtons(
@@ -40,3 +47,4 @@ async def poll_setup(bot):
             bot,
         )
         bot.add_view(view)
+    '''

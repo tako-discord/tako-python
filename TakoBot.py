@@ -63,9 +63,11 @@ class TakoBot(commands.Bot):
 
         logger.info("\033[94mLoading cogs\033[0m", extra={"status": f"🔄"})
         categories = 0
+        
         for category in os.listdir("cogs"):
             categories += 1
             await self.load_extension(f"cogs.{category}")
+        
         logger.info(
             f"\033[92mLoaded {len(self.cogs)} cogs from {categories} categories\033[0m",
             extra={"status": "\033[1F\033[2K✅"},
@@ -99,7 +101,7 @@ class TakoBot(commands.Bot):
             "\033[92mAdded persistent views\033[0m", extra={"status": "\033[1F\033[2K✅"}
         )
         self.presence_update.start()
-        self.badges_update.start()
+        # self.badges_update.start()
         self.update_version.start()
         logger.info("\033[94mLogging in...\033[0m", extra={"status": f"{trimmer}\n🔄"})
 
@@ -168,7 +170,7 @@ class TakoBot(commands.Bot):
     @presence_update.before_loop
     async def before_presence_update(self):
         await self.wait_until_ready()
-
+    '''
     @tasks.loop(hours=1)
     async def badges_update(self):
         for guild in self.guilds:
@@ -207,7 +209,8 @@ class TakoBot(commands.Bot):
                         users,
                     )
                     continue
-
+    
     @badges_update.before_loop
     async def before_badges_update(self):
         await self.wait_until_ready()
+    '''

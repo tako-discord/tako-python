@@ -1,8 +1,9 @@
+
 import io
 import os
 import i18n
 import discord
-from ftlangdetect import detect
+#from ftlangdetect import detect
 from discord import app_commands
 from discord.ext import commands
 from discord.app_commands import Choice
@@ -12,7 +13,7 @@ from utils import get_language, translate, error_embed
 class AutoTranslate(commands.GroupCog, name="auto_translate"):
     def __init__(self, bot):
         self.bot = bot
-
+    '''
     @app_commands.command(description="Disable or enable auto translate")
     @app_commands.describe(value="Whether to enable or disable auto translate")
     @app_commands.checks.has_permissions(manage_guild=True)
@@ -290,3 +291,4 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                             )
             except discord.Forbidden:
                 return
+    '''
