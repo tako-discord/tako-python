@@ -1,6 +1,6 @@
 hr:
   no_announcements: "Trenutno nema najava!"
-  no_more_announcements: "There are no more announcements to show!"
+  no_more_announcements: "Nema više obavijesti za prikaz!"
   title: "Informacije o %{name}"
   infos_about: "Ovdje su neke informacije o %{name}"
   general: "**Općenito**"
@@ -34,7 +34,7 @@ hr:
   discord_certified_moderator: "Moderator s Discordovim odobrenjem"
   bot_http_interactions: "Webhook"
   spammer: "Spamer"
-  active_developer: "Active Developer"
+  active_developer: "Aktivni developer"
   #Badges
   badge_not_found: "Značka nije pronađena 😢"
   users_with_badge: "Korisnici sa značkom (%{amount})"

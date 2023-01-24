@@ -15,3 +15,4 @@ he:
   unlocked_title: "🔓 נפתח *%{channel}*!"
   unlocked_desc: "כל הרשאויות דומות אחד לאחד כמו שהיה לפני שהצ'אט ננעל."
   unlocked_footer: "הצ'אט הותאם עם הקטגוריה שהיה לפני שננעל, ועכשיו מסוכרן עם ה*current*."
+  slowmode_set: "מגדיר מצב איטי ב %{channel} ל **%{t} שניות**."
