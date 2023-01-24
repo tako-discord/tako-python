@@ -1,3 +1,4 @@
+import i18n
 import emoji
 import discord
 from TakoBot import TakoBot
@@ -15,7 +16,11 @@ class AutoReact(commands.GroupCog, group_name="auto_react"):
     def __init__(self, bot: TakoBot):
         self.bot = bot
 
-    @app_commands.command()
+    @app_commands.command(description="Add an emoji that will be automatically added to every new message in the channel")
+    @app_commands.describe(
+        emoji="The emoji to add. Can be a custom emoji or a unicode emoji.",
+        channel="The channel to add the emoji to. If not specified, the current channel will be used.",
+    )
     @app_commands.checks.has_permissions(manage_channels=True)
     @app_commands.checks.bot_has_permissions(add_reactions=True)
     async def add(self, interaction: discord.Interaction, emoji: app_commands.Transform[discord.Emoji | str, EmojiTransformer], channel: discord.TextChannel = None):  # type: ignore
@@ -41,10 +46,14 @@ class AutoReact(commands.GroupCog, group_name="auto_react"):
             data,
         )
         return await interaction.response.send_message(
-            f"Added {emoji} to {channel.mention}", ephemeral=True
+            i18n.t("misc.auto_react_added", emoji=emoji, channel=channel.mention), ephemeral=True
         )
 
-    @app_commands.command()
+    @app_commands.command(description="Remove an emoji that will be automatically added to every new message in the channel")
+    @app_commands.describe(
+        emoji="The emoji to remove. Can be a custom emoji or a unicode emoji.",
+        channel="The channel to remove the emoji from. If not specified, the current channel will be used.",
+    )
     @app_commands.checks.has_permissions(manage_channels=True)
     @app_commands.checks.bot_has_permissions(add_reactions=True)
     async def remove(self, interaction: discord.Interaction, emoji: app_commands.Transform[discord.Emoji | str, EmojiTransformer], channel: discord.TextChannel = None):  # type: ignore
@@ -70,7 +79,7 @@ class AutoReact(commands.GroupCog, group_name="auto_react"):
             data,
         )
         return await interaction.response.send_message(
-            f"Removed {emoji} from {channel.mention}", ephemeral=True
+            i18n.t("misc.auto_react_removed", emoji=emoji, channel=channel.mention), ephemeral=True
         )
 
     @remove.autocomplete("emoji")
@@ -87,6 +96,26 @@ class AutoReact(commands.GroupCog, group_name="auto_react"):
             for emoji in emojis  # type: ignore
             if current.lower() in emoji
         ]
+
+    @app_commands.command(description="List all emojis that will be automatically added to every new message in the channel")
+    @app_commands.describe(
+        channel="The channel to list the emojis from. If not specified, the current channel will be used.",
+    )
+    async def list(self, interaction: discord.Interaction, channel: discord.TextChannel = None):  # type: ignore
+        if not channel:
+            channel = interaction.channel # type: ignore
+        
+        data = await self.bot.db_pool.fetchval(
+            "SELECT auto_react FROM channels WHERE channel_id = $1", channel.id
+        )
+        if not data:
+            return await interaction.response.send_message(
+                i18n.t("misc.auto_react_empty", channel=channel.mention), ephemeral=True
+            )
+        return await interaction.response.send_message(
+            i18n.t("misc.auto_react_list", emojis=", ".join(data), channel=channel.mention), ephemeral=True # type: ignore
+        )
+
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
