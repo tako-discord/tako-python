@@ -1,16 +1,18 @@
 git+https://github.com/tako-discord/python-i18n.git
 git+https://github.com/tako-discord/fasttext-langdetect
 pick
+emoji
 black
 psutil
 pillow
 pyyaml
 millify
 asyncpg
+craiyon.py
+pre-commit
 py-cpuinfo
 tmdbsimple
 discord-rpc
 python-youtube
 discord.py>=2.1.0
 tomli >= 2.0.1 ; python_version < "3.11"
-pre-commit
