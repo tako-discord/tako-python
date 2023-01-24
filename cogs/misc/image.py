@@ -1,14 +1,10 @@
 import i18n
-import base64
 import config
 import discord
-from io import BytesIO
 from random import randint
-from craiyon import Craiyon
 from discord import app_commands
 from discord.ext import commands
 from discord.app_commands import Choice
-from craiyon.templates import GeneratedImages
 from utils import get_color, get_language, thumbnail
 
 
@@ -57,7 +53,7 @@ class ImageGen(commands.GroupCog, group_name="image"):
         thumb = await thumbnail(interaction.guild_id, "flag", self.bot)
         thumb = discord.File(thumb, "thumbnail.png")
         embed = discord.Embed(
-            color=await get_color(self.bot, interaction.guild.id), # type: ignore
+            color=await get_color(self.bot, interaction.guild.id),  # type: ignore
             title="LGBTQ+ Avatar",
             description=i18n.t("misc.lgbtq_tip", locale=language)
             + f"\n\n{i18n.t('misc.no_gif_support', locale=language)}"
@@ -70,10 +66,13 @@ class ImageGen(commands.GroupCog, group_name="image"):
         )
         return await interaction.response.send_message(embed=embed, file=thumb)
 
-
     @app_commands.command(description="Put jail bars over an avatar (Black & White)")
     @app_commands.describe(user="The avatar to use (Default: Your Avatar)")
-    async def jail(self, interaction: discord.Interaction, user: discord.User | discord.Member | None = None):
+    async def jail(
+        self,
+        interaction: discord.Interaction,
+        user: discord.User | discord.Member | None = None,
+    ):
         if user is None:
             user = interaction.user
 
@@ -89,7 +88,7 @@ class ImageGen(commands.GroupCog, group_name="image"):
         if rand == 1:
             new_rand = 5
         embed = discord.Embed(
-            color=await get_color(self.bot, interaction.guild_id), # type: ignore
+            color=await get_color(self.bot, interaction.guild_id),  # type: ignore
             title=f"{str(user)} is now in jail!",
             description=i18n.t(
                 f"misc.jail_desc_{new_rand}",
@@ -109,7 +108,7 @@ class ImageGen(commands.GroupCog, group_name="image"):
     # async def craiyon(self, interaction: discord.Interaction, prompt: str):
     #     embed1 = discord.Embed(title="Generating...", description="This might take up to 2 minutes", color=await get_color(self.bot, interaction.guild_id)) # type: ignore
     #     await interaction.response.send_message(embed=embed1)
-        
+
     #     generator = Craiyon()
     #     result = await generator.async_generate(prompt)
     #     if not result:
@@ -121,5 +120,5 @@ class ImageGen(commands.GroupCog, group_name="image"):
     #         files.append(discord.File(image))
     #     embed3 = discord.Embed(title="Generated Image", description=prompt, color=await get_color(self.bot, interaction.guild_id)) # type: ignore
     #     await interaction.response.edit_message(embed=embed3, attachments=files)
-    # 
+    #
     #

@@ -97,9 +97,9 @@ async def thumbnail(id: int | None, icon_name: str, bot):
         The name of the icon used for the thumbnail. Needs to be in the assets directory and have a `name.png` and `name_dark.png` variant.
     """
     color = await get_color(bot, id, False) if id else config.DEFAULT_COLOR_STR
-    img = Image.new("RGB", (512, 512), color=color.replace("0x", "#")) # type: ignore
+    img = Image.new("RGB", (512, 512), color=color.replace("0x", "#"))  # type: ignore
     icon = Image.open(
-        f"assets/icons/{icon_name}{'' if color_check(color.replace('0x', '#')) or icon_name is 'reddit' else '_dark'}.png" # type: ignore
+        f"assets/icons/{icon_name}{'' if color_check(color.replace('0x', '#')) or icon_name is 'reddit' else '_dark'}.png"  # type: ignore
     )
     img.paste(icon, (56, 56), mask=icon)
     img.save(f"assets/thumbnails/{icon_name}_{id}.png")
@@ -238,7 +238,7 @@ async def balance_embed(
 
     embed = discord.Embed(
         title=i18n.t("economy.balance", locale=get_language(bot, guild_id)),
-        color=await get_color(bot, guild_id), # type: ignore
+        color=await get_color(bot, guild_id),  # type: ignore
     )
     embed.add_field(
         name=i18n.t("economy.wallet", locale=get_language(bot, guild_id)),
@@ -382,7 +382,7 @@ async def new_meme(guild_id: int, user_id: int, bot, db_pool: asyncpg.Pool):
             embed = discord.Embed(
                 title=f"{data['title']}",
                 description=data["postLink"],
-                color=await get_color(bot, guild_id), # type: ignore
+                color=await get_color(bot, guild_id),  # type: ignore
             )
             embed.set_author(
                 name=data["author"],
@@ -512,7 +512,7 @@ async def poll_embed(
     total_votes = len(votes)
     embed = discord.Embed(
         title=f"**{question}**",
-        color=await get_color(bot, guild_id), # type: ignore
+        color=await get_color(bot, guild_id),  # type: ignore
     )
     embed.set_footer(text=uuid)
 
@@ -521,7 +521,7 @@ async def poll_embed(
         count[f"{answer}"] = 0
 
     for user in votes:
-        value = votes[user] # type: ignore
+        value = votes[user]  # type: ignore
         count[value] += 1
 
     percentages = {}
