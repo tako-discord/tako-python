@@ -1,3 +1,17 @@
+## 1.6.0 (2023-01-24)
+
+### Feat
+
+- add auto_react
+
+### Fix
+
+- **i18n**: new crowdin updates
+- **utils**: make guild id in error_embed optional
+- fix exit code in workflow
+- **config**: fix ruff linter
+- **autotranslate**: fix no webhook token error
+
 ## 1.5.0 (2023-01-07)
 
 ### Feat
