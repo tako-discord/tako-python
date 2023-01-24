@@ -8,6 +8,7 @@ pillow
 pyyaml
 millify
 asyncpg
+craiyon.py
 pre-commit
 py-cpuinfo
 tmdbsimple
