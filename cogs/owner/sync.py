@@ -1,11 +1,15 @@
 import i18n
 import discord
 import bot_secrets
+from TakoBot import TakoBot
 from discord.ext import commands
 from utils import error_embed, get_language
 
 
 class Sync(commands.Cog):
+    def __init__(self, bot: TakoBot):
+        self.bot = bot
+
     @commands.hybrid_command(description="Sync all slash commands")
     @commands.is_owner()
     async def sync(self, ctx):
@@ -25,6 +29,7 @@ class Sync(commands.Cog):
         if isinstance(error, commands.NotOwner):
             language = get_language(self.bot, ctx.guild.id if ctx.guild else None)
             embed, file = error_embed(
+                self.bot,
                 i18n.t("errors.not_owner_title", locale=language),
                 i18n.t("errors.not_owner", locale=language),
                 footer=i18n.t("errors.error_occured", locale=language),

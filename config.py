@@ -7,11 +7,14 @@ ANTI_PHISHING_LIST = [
 DEFAULT_COLOR = 0x4ADE80
 DELETE_THUMBNAILS = True
 DEFAULT_COLOR_STR = "0x4ADE80"
+# * Roles for badges and checks (Use None to remove)
+MAIN_GUILD = 952558753859919922
 DONATOR_ROLE = 969286409200468028
 TRANSLATOR_ROLE = 980904580286140426
-CURRENCY = " <:TK:1025679113777848320>"
 ALPHA_TESTER_ROLE = 969306314981376071
 DEV_ROLE = 969285824107642990
+SURVEY_ROLES = [1026487071625457754, 1062067399395913808]
+CURRENCY = " <:TK:1025679113777848320>"
 SIMPLY_TRANSLATE = "https://simplytranslate.org"  # no / at the end is important
 SIMPLY_TRANSLATE_FALLBACK = (
     "https://translate.slipfox.xyz"  # no / at the end is important
@@ -19,7 +22,7 @@ SIMPLY_TRANSLATE_FALLBACK = (
 IMGEN = "https://imgen.tako-bot.com"  # no / at the end is important
 REPO = "tako-discord/tako"
 RAW_GH = "https://raw.githubusercontent.com/"
-# Regex used for valid sources on the emoji command (`^https?:\/example[].]org\/` recommended, seperate with `|`)
+# Regex used for valid sources on the emoji command ("^https?:\/example[].]org\/"" recommended, seperate with "|")
 # ! If removed people can enter every url even non-image ones (viruses etc.).
 ALLOWED_SOURCES = "^https?:\/\/cdn3[.]emoji[.]gg\/|^https:\/\/cdn[.]discordapp[.]com\/|^https?:\/\/i[.]imgur[.]com\/|^https?:\/\/raw[.]githubusercontent[.]com\/"
 # * Social Media
