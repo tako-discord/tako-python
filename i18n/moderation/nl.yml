@@ -15,3 +15,4 @@ nl:
   unlocked_title: "🔓 Unlocked *%{channel}*!"
   unlocked_desc: "All permissions are now like they were before the channel was locked."
   unlocked_footer: "The channel was synced with its category before it was locked, and thus is now in sync with the *current* one."
+  slowmode_set: "Set the slowmode of %{channel} to **%{t} seconds**."

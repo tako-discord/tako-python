@@ -70,7 +70,7 @@ async def main():
             INSERT INTO badges  (name, emoji) VALUES ('donator', '💖') ON CONFLICT DO NOTHING;
             INSERT INTO badges  (name, emoji) VALUES ('translator', '🌐') ON CONFLICT DO NOTHING;
             INSERT INTO badges  (name, emoji) VALUES ('core_developer', '💻') ON CONFLICT DO NOTHING;
-            CREATE TABLE IF NOT EXISTS channels (channel_id BIGINT PRIMARY KEY, crosspost BOOLEAN NOT NULL DEFAULT FALSE, synced BOOLEAN, locked BOOLEAN);
+            CREATE TABLE IF NOT EXISTS channels (channel_id BIGINT PRIMARY KEY, crosspost BOOLEAN NOT NULL DEFAULT FALSE, synced BOOLEAN, locked BOOLEAN, auto_react TEXT ARRAY);
             CREATE TABLE IF NOT EXISTS permissions (channel_id BIGINT, target_id BIGINT, allow INT, deny INT, type TEXT, UNIQUE (channel_id, target_id));
             CREATE TABLE IF NOT EXISTS guilds (guild_id BIGINT PRIMARY KEY, banned_games TEXT ARRAY, join_roles_user BIGINT ARRAY, join_roles_bot BIGINT ARRAY, language TEXT, reaction_translate BOOLEAN, auto_translate BOOLEAN DEFAULT FALSE, color TEXT, auto_translate_confidence INTEGER DEFAULT 50, auto_translate_reply_style TEXT DEFAULT 'min_webhook', auto_translate_delete_original BOOLEAN DEFAULT TRUE);
             CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
