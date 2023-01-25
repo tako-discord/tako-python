@@ -59,7 +59,7 @@ class Give(commands.Cog):
                 )
 
         embed = discord.Embed(
-            description=f"", color=await get_color(self.bot, interaction.guild.id)
+            description="", color=await get_color(self.bot, interaction.guild.id)
         )
         if not is_owner:
             embed.add_field(

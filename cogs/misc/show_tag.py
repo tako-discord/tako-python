@@ -19,7 +19,7 @@ class ShowTag(commands.Cog):
             tag,
             interaction.guild.id,
         )
-        if tag == None:
+        if tag is None:
             return await interaction.response.send_message(
                 "This tag does not exist!", ephemeral=True
             )

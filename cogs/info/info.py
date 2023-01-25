@@ -88,7 +88,7 @@ class InfoGroup(commands.GroupCog, group_name="info"):
         interaction: discord.Interaction,
         user: discord.User | discord.Member = None,
     ):
-        if user == None:
+        if user is None:
             user = interaction.user
         language = get_language(self.bot, interaction.guild.id)
         user_flags = user.public_flags.all()

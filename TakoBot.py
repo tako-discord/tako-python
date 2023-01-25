@@ -6,6 +6,7 @@ import random
 import logging
 import discord
 import aiohttp
+import asyncpg
 import bot_secrets
 import persistent_views
 from datetime import datetime
@@ -51,6 +52,13 @@ class TakoBot(commands.Bot):
         print(ascii_art)
         print(trimmer)
         self.initialized = False
+        self.db_pool: asyncpg.Pool = await asyncpg.create_pool(
+            database=bot_secrets.DB_NAME,
+            host=bot_secrets.DB_HOST,
+            port=bot_secrets.DB_PORT if hasattr(bot_secrets, "DB_PORT") else 5432,  # type: ignore
+            user=bot_secrets.DB_USER,
+            password=bot_secrets.DB_PASSWORD,
+        )
         logger = logging.getLogger("startup")
         logger.setLevel(logging.INFO)
         handler = logging.StreamHandler()
@@ -61,7 +69,7 @@ class TakoBot(commands.Bot):
         handler.setFormatter(formatter)
         logger.addHandler(handler)
 
-        logger.info("\033[94mLoading cogs\033[0m", extra={"status": f"🔄"})
+        logger.info("\033[94mLoading cogs\033[0m", extra={"status": "🔄"})
         categories = 0
         for category in os.listdir("cogs"):
             categories += 1
@@ -70,30 +78,28 @@ class TakoBot(commands.Bot):
             f"\033[92mLoaded {len(self.cogs)} cogs from {categories} categories\033[0m",
             extra={"status": "\033[1F\033[2K✅"},
         )
-        logger.info("\033[94mLoading i18n\033[0m", extra={"status": f"🔄"})
+        logger.info("\033[94mLoading i18n\033[0m", extra={"status": "🔄"})
         i18n.set("filename_format", "{locale}.{format}")
         i18n.set("fallback", "en")
-        i18n.load_path.append(f"i18n")
+        i18n.load_path.append("i18n")
         locales = []
         for locale in os.listdir("i18n/misc"):
             locales.append(locale.split(".")[0])
-        logger.info(f"\033[92mLoaded i18n\033[0m", extra={"status": "\033[1F\033[2K✅"})
+        logger.info("\033[92mLoaded i18n\033[0m", extra={"status": "\033[1F\033[2K✅"})
         logger.info(
             f"\033[92mAvailable locales ({len(locales)}): {', '.join(locales)}\033[0m",
             extra={"status": "✅"},
         )
-        logger.info(
-            "\033[94mUpdating suspicious domains\033[0m", extra={"status": f"🔄"}
-        )
+        logger.info("\033[94mUpdating suspicious domains\033[0m", extra={"status": "🔄"})
         self.update_phishing_list.start()
         logger.info(
-            f"\033[92mUpdated suspicious domains\033[0m",
+            "\033[92mUpdated suspicious domains\033[0m",
             extra={"status": "\033[1F\033[2K✅"},
         )
         if hasattr(bot_secrets, "UPTIME_KUMA"):
             self.uptime_kuma.start()
         self.postgre_guilds = await self.db_pool.fetch("SELECT * FROM guilds")
-        logger.info("\033[94mAdding persistent views\033[0m", extra={"status": f"🔄"})
+        logger.info("\033[94mAdding persistent views\033[0m", extra={"status": "🔄"})
         await persistent_views.setup(self)
         logger.info(
             "\033[92mAdded persistent views\033[0m", extra={"status": "\033[1F\033[2K✅"}

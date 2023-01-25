@@ -44,7 +44,7 @@ def format_bytes(size: int):
     return str(round(size)) + power_labels[n]
 
 
-async def get_color(bot, guild_id: int, integer: bool = True):
+async def get_color(bot, guild_id: int, integer: bool = True) -> int | str:
     """:class:`str` or :class:`int`: Returns the set color of a guild (Default: config.DEFAULT_COLOR)
 
     Parameters
@@ -87,7 +87,7 @@ def color_check(color: str):
     return value
 
 
-async def thumbnail(id: int, icon_name: str, bot):
+async def thumbnail(id: int | None, icon_name: str, bot):
     """:class:`str`: Creates a thumbnail and returns the filepath of the image.
     Parameters
     -----------
@@ -96,10 +96,10 @@ async def thumbnail(id: int, icon_name: str, bot):
     icon_name: :class:`str`
         The name of the icon used for the thumbnail. Needs to be in the assets directory and have a `name.png` and `name_dark.png` variant.
     """
-    color = await get_color(bot, id, False)
-    img = Image.new("RGB", (512, 512), color=color.replace("0x", "#"))
+    color = await get_color(bot, id, False) if id else config.DEFAULT_COLOR_STR
+    img = Image.new("RGB", (512, 512), color=color.replace("0x", "#"))  # type: ignore
     icon = Image.open(
-        f"assets/icons/{icon_name}{'' if color_check(color.replace('0x', '#')) or icon_name is 'reddit' else '_dark'}.png"
+        f"assets/icons/{icon_name}{'' if color_check(color.replace('0x', '#')) or icon_name is 'reddit' else '_dark'}.png"  # type: ignore
     )
     img.paste(icon, (56, 56), mask=icon)
     img.save(f"assets/thumbnails/{icon_name}_{id}.png")
@@ -238,7 +238,7 @@ async def balance_embed(
 
     embed = discord.Embed(
         title=i18n.t("economy.balance", locale=get_language(bot, guild_id)),
-        color=await get_color(bot, guild_id),
+        color=await get_color(bot, guild_id),  # type: ignore
     )
     embed.add_field(
         name=i18n.t("economy.wallet", locale=get_language(bot, guild_id)),
@@ -258,8 +258,8 @@ def error_embed(
     bot,
     title: str,
     description: str,
-    guild_id: int,
-    footer: str = None,
+    guild_id: int | None = None,
+    footer: str | None = None,
     style: str = "error",
 ):
     """tuple[:class:`discord.Embed`, :class:`discord.File`]: Returns an error embed and a file for it's Thumbnail.
@@ -271,24 +271,27 @@ def error_embed(
         The title of the embed.
     description: :class:`str`
         The description of the embed.
+    guild_id: :class:`int` = None
+        The id of the guild where the language is getting fetched from.
     footer: :class:`str` = "An error occured"
         The footer of the embed. (Mostly just the translation of "An error occured")
     style: :class:`str` = "error"
         The style of the embed. (Either 'error' or 'warning')
     """
+    locale = get_language(bot, guild_id) if guild_id else "en"
     match style:
         case "error":
             file = discord.File("assets/icons/alert.png", filename="thumbnail.png")
             if not footer:
                 footer = (
-                    i18n.t("errors.error_occured", locale=get_language(bot, guild_id))
+                    i18n.t("errors.error_occured", locale=locale)
                     if not footer
                     else footer
                 )
         case _:
             file = discord.File("assets/icons/warning.png", filename="thumbnail.png")
             footer = (
-                i18n.t("errors.warning_occured", locale=get_language(bot, guild_id))
+                i18n.t("errors.warning_occured", locale=locale)
                 if not footer
                 else footer
             )
@@ -312,6 +315,18 @@ async def get_latest_version():
             return data["tool"]["commitizen"]["version"]
 
 
+async def translate_logic(
+    session: aiohttp.ClientSession, text: str, target: str, source: str, url: str
+):
+    async with session.get(url) as r:
+        data = await r.text()
+        try:
+            data = json.loads(data)
+        except json.JSONDecodeError:
+            return json.JSONDecodeError
+        return data["translated-text"]
+
+
 async def translate(text: str, target: str, source: str = "auto"):
     """Translates a given string to a specified language.
 
@@ -324,11 +339,22 @@ async def translate(text: str, target: str, source: str = "auto"):
     source: :class:`str` (Default: "auto")
         The language to translate from."""
     async with aiohttp.ClientSession() as session:
-        async with session.get(
-            f"{config.SIMPLY_TRANSLATE}/api/translate/?engine=google&text={quote(text)}&from={source}&to={target}"
-        ) as r:
-            data = await r.json(content_type="application/json")
-            return data["translated-text"]
+        data = await translate_logic(
+            session,
+            text,
+            target,
+            source,
+            f"{config.SIMPLY_TRANSLATE}/api/translate/?engine=google&text={quote(text)}&from={source}&to={target}",
+        )
+        if data is json.JSONDecodeError:
+            data = await translate_logic(
+                session,
+                text,
+                target,
+                source,
+                f"{config.SIMPLY_TRANSLATE_FALLBACK}/api/translate/?engine=google&text={quote(text)}&from={source}&to={target}",
+            )
+        return data if data is not json.JSONDecodeError else text
 
 
 async def new_meme(guild_id: int, user_id: int, bot, db_pool: asyncpg.Pool):
@@ -356,7 +382,7 @@ async def new_meme(guild_id: int, user_id: int, bot, db_pool: asyncpg.Pool):
             embed = discord.Embed(
                 title=f"{data['title']}",
                 description=data["postLink"],
-                color=await get_color(bot, guild_id),
+                color=await get_color(bot, guild_id),  # type: ignore
             )
             embed.set_author(
                 name=data["author"],
@@ -425,6 +451,44 @@ def owner_only():
     return app_commands.check(check)
 
 
+async def is_survey_manager_func(bot, user: discord.User | discord.Member):
+    """
+    Checks if the given user is the owner of the bot.
+
+    Parameters
+    -----------
+    bot: :class:`TakoBot`
+        The bot instance.
+    user: :class:`discord.User` | :class:`discord.Member`
+        The user to check.
+    """
+    if not hasattr(config, "SURVEY_ROLES") or not hasattr(config, "MAIN_GUILD"):
+        return False
+    survey_roles = config.SURVEY_ROLES
+    guild: discord.Guild = bot.get_guild(config.MAIN_GUILD)
+    member = guild.get_member(user.id)
+    if not member:
+        return False
+    for role_id in survey_roles:
+        role = guild.get_role(role_id)
+        if not role:
+            continue
+        if role in member.roles:
+            return True
+    return False
+
+
+def is_survey_manager():
+    """
+    :class:`app_commands.check()` that checks if the user is allowed to manage surveys (config.SURVEY_ROLES).
+    """
+
+    async def check(interaction: discord.Interaction):
+        return await is_survey_manager_func(interaction.client, interaction.user)
+
+    return app_commands.check(check)
+
+
 async def poll_embed(
     question: str, asnwers: list, votes: str, bot, guild_id: int, uuid: UUID
 ):
@@ -448,7 +512,7 @@ async def poll_embed(
     total_votes = len(votes)
     embed = discord.Embed(
         title=f"**{question}**",
-        color=await get_color(bot, guild_id),
+        color=await get_color(bot, guild_id),  # type: ignore
     )
     embed.set_footer(text=uuid)
 
@@ -457,7 +521,7 @@ async def poll_embed(
         count[f"{answer}"] = 0
 
     for user in votes:
-        value = votes[user]
+        value = votes[user]  # type: ignore
         count[value] += 1
 
     percentages = {}

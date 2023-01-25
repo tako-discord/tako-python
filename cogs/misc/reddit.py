@@ -16,7 +16,7 @@ class Reddit(commands.Cog):
     )
     async def meme(self, interaction: discord.Interaction):
         async with aiohttp.ClientSession() as session:
-            async with session.get("https://meme-api.herokuapp.com/gimme/") as r:
+            async with session.get("https://meme-api.herokuapp.com/gimme/"):
                 embed, file = await new_meme(
                     interaction.guild.id,
                     interaction.user.id,
