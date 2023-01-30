@@ -36,7 +36,7 @@ class TakoBot(commands.Bot):
         if self.initialized:
             return
         print(
-            f"\033[1F\033[2K🔓 \033[90m|\033[0m \033[93mLogged in as {self.user.name} (ID: {self.user.id})\033[0m" # type: ignore
+            f"\033[1F\033[2K🔓 \033[90m|\033[0m \033[93mLogged in as {self.user.name} (ID: {self.user.id})\033[0m"  # type: ignore
         )
         print(trimmer)
         print(
@@ -46,7 +46,8 @@ class TakoBot(commands.Bot):
         print("\033[90m>\033[0m Everything will be logged to discord.log")
         print("\033[90m>\033[0m Press CTRL+C to exit")
         print(trimmer)
-        self.initialized = True # type: ignore
+        self.initialized = True  # type: ignore
+
     async def setup_hook(self):
         print(ascii_art)
         print(trimmer)
@@ -97,7 +98,7 @@ class TakoBot(commands.Bot):
         )
         if hasattr(bot_secrets, "UPTIME_KUMA"):
             self.uptime_kuma.start()
-        self.postgre_guilds = await self.db_pool.fetch("SELECT * FROM guilds") # type: ignore
+        self.postgre_guilds = await self.db_pool.fetch("SELECT * FROM guilds")  # type: ignore
         logger.info("\033[94mAdding persistent views\033[0m", extra={"status": "🔄"})
         await persistent_views.setup(self)
         logger.info(
@@ -111,7 +112,7 @@ class TakoBot(commands.Bot):
     @tasks.loop(seconds=55)
     async def uptime_kuma(self):
         async with aiohttp.ClientSession() as cs:
-            await cs.get(bot_secrets.UPTIME_KUMA + str(round(self.latency * 1000))) # type: ignore
+            await cs.get(bot_secrets.UPTIME_KUMA + str(round(self.latency * 1000)))  # type: ignore
             return
 
     @uptime_kuma.before_loop

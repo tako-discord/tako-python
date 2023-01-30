@@ -315,9 +315,7 @@ async def get_latest_version():
             return data["tool"]["commitizen"]["version"]
 
 
-async def translate_logic(
-    session: aiohttp.ClientSession, url: str
-):
+async def translate_logic(session: aiohttp.ClientSession, url: str):
     async with session.get(url) as r:
         data = await r.text()
         try:

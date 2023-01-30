@@ -180,26 +180,32 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
             style="warning",
         )
         webhook_id = None
-        if message.channel.type == discord.ChannelType.public_thread or message.channel.type == discord.ChannelType.private_thread:
-            for webhook in await message.channel.parent.webhooks(): # type: ignore
-                if webhook.name == f"AutoTranslate ({self.bot.user.id})": # type: ignore
+        if (
+            message.channel.type == discord.ChannelType.public_thread
+            or message.channel.type == discord.ChannelType.private_thread
+        ):
+            for webhook in await message.channel.parent.webhooks():  # type: ignore
+                if webhook.name == f"AutoTranslate ({self.bot.user.id})":  # type: ignore
                     webhook_id = webhook.id
         else:
-            for webhook in await message.channel.webhooks(): # type: ignore
-                if webhook.name == f"AutoTranslate ({self.bot.user.id})": # type: ignore
+            for webhook in await message.channel.webhooks():  # type: ignore
+                if webhook.name == f"AutoTranslate ({self.bot.user.id})":  # type: ignore
                     webhook_id = webhook.id
         if not webhook_id:
-            if message.channel.type == discord.ChannelType.public_thread or message.channel.type == discord.ChannelType.private_thread:
-                webhook = await message.channel.parent.create_webhook(name=f"AutoTranslate ({self.bot.user.id})") # type: ignore
+            if (
+                message.channel.type == discord.ChannelType.public_thread
+                or message.channel.type == discord.ChannelType.private_thread
+            ):
+                webhook = await message.channel.parent.create_webhook(name=f"AutoTranslate ({self.bot.user.id})")  # type: ignore
             else:
-                webhook = await message.channel.create_webhook(name=f"AutoTranslate ({self.bot.user.id})") # type: ignore
+                webhook = await message.channel.create_webhook(name=f"AutoTranslate ({self.bot.user.id})")  # type: ignore
         else:
             webhook = await self.bot.fetch_webhook(webhook_id)
         if data["lang"] != guild_language:
             translation = await translate(message.content, guild_language)
             if not translation:
                 return
-            if translation.lower() == message.content.lower(): # type: ignore
+            if translation.lower() == message.content.lower():  # type: ignore
                 return
             try:
                 match reply_style:
@@ -207,11 +213,13 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                         await webhook.send(
                             username=f"{message.author.display_name} ({data['lang']} ➜ {guild_language})",
                             avatar_url=message.author.display_avatar.url,
-                            files=attachments, # type: ignore
+                            files=attachments,  # type: ignore
                             embed=discord.Embed(
                                 description=translation,
                                 color=0x2F3136,
-                            ).set_footer(text=f"Confidence: {round(data['score'])}%"), # type: ignore
+                            ).set_footer(
+                                text=f"Confidence: {round(data['score'])}%"
+                            ),  # type: ignore
                         )
                         if delete_original or delete_original is None:
                             await message.delete()
@@ -238,8 +246,8 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                         await webhook.send(
                             username=f"{message.author.display_name} ({data['lang']} ➜ {guild_language})",
                             avatar_url=message.author.display_avatar.url,
-                            files=attachments, # type: ignore
-                            content=await translate(message.content, guild_language), # type: ignore
+                            files=attachments,  # type: ignore
+                            content=await translate(message.content, guild_language),  # type: ignore
                         )
                         if delete_original:
                             await message.delete()
@@ -267,9 +275,9 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                             await message.channel.send(
                                 f"{message.author.mention}:\n> "
                                 + (translation).replace("\n", "\n> ")
-                                + f"\n\n` {data['lang']} ➜ {guild_language} | {round(data['score'])} `", # type: ignore
+                                + f"\n\n` {data['lang']} ➜ {guild_language} | {round(data['score'])} `",  # type: ignore
                                 allowed_mentions=discord.AllowedMentions.none(),
-                                files=attachments, # type: ignore
+                                files=attachments,  # type: ignore
                             )
                             if attachment_removed:
                                 await message.channel.send(
@@ -287,8 +295,8 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                             return
                         await message.reply(
                             "> "
-                            + (translation).replace("\n", "\n> ") # type: ignore
-                            + f"\n\n` {data['lang']} ➜ {guild_language} | {round(data['score'])} `", # type: ignore
+                            + (translation).replace("\n", "\n> ")  # type: ignore
+                            + f"\n\n` {data['lang']} ➜ {guild_language} | {round(data['score'])} `",  # type: ignore
                             allowed_mentions=discord.AllowedMentions.none(),
                             mention_author=False,
                             files=attachments,
