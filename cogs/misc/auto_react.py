@@ -1,9 +1,10 @@
-import i18n
-import emoji
 import discord
-from TakoBot import TakoBot
+import emoji
 from discord import app_commands
 from discord.ext import commands
+
+import i18n
+from TakoBot import TakoBot
 
 
 class EmojiTransformer(app_commands.Transformer):
@@ -38,6 +39,10 @@ class AutoReact(commands.GroupCog, group_name="auto_react"):
         )
         if not data:
             data = []
+        if len(data) >= 20:
+            return await interaction.response.send_message(
+                i18n.t("misc.auto_react_max", channel=channel.mention), ephemeral=True
+            )
         if str(emoji) not in data:
             data.append(str(emoji))
         await self.bot.db_pool.execute(
