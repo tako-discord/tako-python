@@ -1,3 +1,17 @@
+## 1.7.0 (2023-01-30)
+
+### Feat
+
+- **auto_react**: add maximum emojis to add (due to Discord Limitation)
+
+### Fix
+
+- **meme**: use new api url
+
+### Perf
+
+- **utils**: improve translation function
+
 ## 1.6.0 (2023-01-24)
 
 ### Feat
