@@ -26,7 +26,7 @@ blue = "\033[94m"
 yellow = "\033[93m"
 trimmer = f"{gray}----------{reset}"
 
-tako_ascii_art = """
+tako_ascii_art = f"""
 {yellow}
 $$$$$$$$\        $$\                 
 \__$$  __|       $$ |                
@@ -70,7 +70,7 @@ class TakoBot(commands.Bot):
         logger.setLevel(logging.INFO)
         handler = logging.StreamHandler()
         formatter = logging.Formatter(
-            f"{status} {gray}|{reset} {message}",
+            "{status} \033[90m|\033[0m {message}",
             style="{",
         )
         handler.setFormatter(formatter)
