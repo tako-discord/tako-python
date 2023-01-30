@@ -316,7 +316,7 @@ async def get_latest_version():
 
 
 async def translate_logic(
-    session: aiohttp.ClientSession, text: str, target: str, source: str, url: str
+    session: aiohttp.ClientSession, url: str
 ):
     async with session.get(url) as r:
         data = await r.text()
@@ -341,17 +341,11 @@ async def translate(text: str, target: str, source: str = "auto"):
     async with aiohttp.ClientSession() as session:
         data = await translate_logic(
             session,
-            text,
-            target,
-            source,
             f"{config.SIMPLY_TRANSLATE}/api/translate/?engine=google&text={quote(text)}&from={source}&to={target}",
         )
         if data is json.JSONDecodeError:
             data = await translate_logic(
                 session,
-                text,
-                target,
-                source,
                 f"{config.SIMPLY_TRANSLATE_FALLBACK}/api/translate/?engine=google&text={quote(text)}&from={source}&to={target}",
             )
         return data if data is not json.JSONDecodeError else text
