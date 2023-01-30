@@ -39,3 +39,4 @@ de:
   auto_react_removed: "%{emoji} wird nicht mehr zu jeder Nachricht in %{channel} hinzugefügt"
   auto_react_empty: "Es sind keine Emojis gesetzt, die zu jeder Nachricht in %{channel} hinzugefügt werden sollen"
   auto_react_list: "Die folgenden Emojis werden zu jeder neuen Nachricht in %{channel} hinzugefügt:\n%{emojis}"
+  auto_react_max: "You can only set up to 20 emojis to be automatically added to every message in %{channel} due to a Discord limitation :c\nSorry bud!"
