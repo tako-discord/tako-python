@@ -366,7 +366,7 @@ async def new_meme(guild_id: int, user_id: int, bot, db_pool: asyncpg.Pool):
     --------
     tuple[:class:`discord.Embed`, :class:`discord.File`]"""
     async with aiohttp.ClientSession() as session:
-        async with session.get("https://meme-api.herokuapp.com/gimme/") as r:
+        async with session.get("https://meme-api.com/gimme") as r:
             thumbnail_path = await thumbnail(guild_id, "reddit", bot)
             file = discord.File(thumbnail_path, filename="thumbnail.png")
 
