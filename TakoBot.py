@@ -17,39 +17,43 @@ try:
 except ModuleNotFoundError:
     import tomli as tomllib
 
-trimmer = "\033[90m----------\033[0m"
-start_time = datetime.now()
-ascii_art = """
-\033[93m$$$$$$$$\        $$\                 
+start_time = datetime.now()    
+    
+reset = "\033[0m"
+gray = "\033[90m"
+green = "\033[92m"
+blue = "\033[94m"
+yellow = "\033[93m"
+trimmer = f"{gray}----------{reset}"
+
+tako_ascii_art = """
+{yellow}
+$$$$$$$$\        $$\                 
 \__$$  __|       $$ |                
    $$ | $$$$$$\  $$ |  $$\  $$$$$$\  
    $$ | \____$$\ $$ | $$  |$$  __$$\ 
    $$ | $$$$$$$ |$$$$$$  / $$ /  $$ |
    $$ |$$  __$$ |$$  _$$<  $$ |  $$ |
    $$ |\$$$$$$$ |$$ | \$$\ \$$$$$$  |
-   \__| \_______|\__|  \__| \______/\033[0m
+   \__| \_______|\__|  \__| \______/
+{reset}
 """
-
 
 class TakoBot(commands.Bot):
     async def on_ready(self):
         if self.initialized:
             return
-        print(
-            f"\033[1F\033[2K🔓 \033[90m|\033[0m \033[93mLogged in as {self.user.name} (ID: {self.user.id})\033[0m"  # type: ignore
-        )
+        print(f"\033[1F\033[2K🔓 {gray}|{reset} {yellow}Logged in as {self.user.name} (ID: {self.user.id}){reset}")  # type: ignore
         print(trimmer)
-        print(
-            f"\033[90m>\033[0m Startup took {round((datetime.now() - start_time).total_seconds(), 2)}s"
-        )
-        print("\033[90m>\033[0m Now running and listening to commands")
-        print("\033[90m>\033[0m Everything will be logged to discord.log")
-        print("\033[90m>\033[0m Press CTRL+C to exit")
+        print(f"{gray}>{reset} Startup took {round((datetime.now() - start_time).total_seconds(), 2)}s")
+        print(f"{gray}>{reset} Now running and listening to commands")
+        print(f"{gray}>{reset} Everything will be logged to discord.log")
+        print(f"{gray}>{reset} Press CTRL+C to exit")
         print(trimmer)
         self.initialized = True  # type: ignore
 
     async def setup_hook(self):
-        print(ascii_art)
+        print(tako_ascii_art)
         print(trimmer)
         self.initialized = False
         self.db_pool: asyncpg.Pool = await asyncpg.create_pool(
@@ -63,51 +67,51 @@ class TakoBot(commands.Bot):
         logger.setLevel(logging.INFO)
         handler = logging.StreamHandler()
         formatter = logging.Formatter(
-            "{status} \033[90m|\033[0m {message}",
+            f"{status} {gray}|{reset} {message}",
             style="{",
         )
         handler.setFormatter(formatter)
         logger.addHandler(handler)
 
-        logger.info("\033[94mLoading cogs\033[0m", extra={"status": "🔄"})
+        logger.info(f"{blue}Loading cogs{reset}", extra={"status": "🔄"})
         categories = 0
         for category in os.listdir("cogs"):
             categories += 1
             await self.load_extension(f"cogs.{category}")
         logger.info(
-            f"\033[92mLoaded {len(self.cogs)} cogs from {categories} categories\033[0m",
+            f"\{green}Loaded {len(self.cogs)} cogs from {categories} categories{reset}",
             extra={"status": "\033[1F\033[2K✅"},
         )
-        logger.info("\033[94mLoading i18n\033[0m", extra={"status": "🔄"})
+        logger.info(f"{blue}Loading i18n{reset}", extra={"status": "🔄"})
         i18n.set("filename_format", "{locale}.{format}")
         i18n.set("fallback", "en")
         i18n.load_path.append("i18n")
         locales = []
         for locale in os.listdir("i18n/misc"):
             locales.append(locale.split(".")[0])
-        logger.info("\033[92mLoaded i18n\033[0m", extra={"status": "\033[1F\033[2K✅"})
+        logger.info(f"{green}Loaded i18n{reset}", extra={"status": "\033[1F\033[2K✅"})
         logger.info(
-            f"\033[92mAvailable locales ({len(locales)}): {', '.join(locales)}\033[0m",
+            f"{green}Available locales ({len(locales)}): {', '.join(locales)}{reset}",
             extra={"status": "✅"},
         )
-        logger.info("\033[94mUpdating suspicious domains\033[0m", extra={"status": "🔄"})
+        logger.info(f"{blue}Updating suspicious domains{reset}", extra={"status": "🔄"})
         self.update_phishing_list.start()
         logger.info(
-            "\033[92mUpdated suspicious domains\033[0m",
+            f"{green}Updated suspicious domains{reset}",
             extra={"status": "\033[1F\033[2K✅"},
         )
         if hasattr(bot_secrets, "UPTIME_KUMA"):
             self.uptime_kuma.start()
         self.postgre_guilds = await self.db_pool.fetch("SELECT * FROM guilds")  # type: ignore
-        logger.info("\033[94mAdding persistent views\033[0m", extra={"status": "🔄"})
+        logger.info(f"{blue}Adding persistent views{reset}", extra={"status": "🔄"})
         await persistent_views.setup(self)
         logger.info(
-            "\033[92mAdded persistent views\033[0m", extra={"status": "\033[1F\033[2K✅"}
+            f"{green}Added persistent views{reset}", extra={"status": "\033[1F\033[2K✅"}
         )
         self.presence_update.start()
         self.badges_update.start()
         self.update_version.start()
-        logger.info("\033[94mLogging in...\033[0m", extra={"status": f"{trimmer}\n🔄"})
+        logger.info(f"{blue}Logging in...{reset}", extra={"status": f"{trimmer}\n🔄"})
 
     @tasks.loop(seconds=55)
     async def uptime_kuma(self):
