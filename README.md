@@ -79,7 +79,7 @@ Please note that instead of `python` your command may be `python3` or similar.
 
 ...the core team
 - 👑 [*@Pukimaa*](https://github.com/Pukimaa) - Creator & Developer
-- 💻 [*@boloped*](https://github.com/boloped) - Developer
+- 💻 *???* - Developer
 
 ...all the testers
 - [*@vaporvee*](https://github.com/vaporvee)
