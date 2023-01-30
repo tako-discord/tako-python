@@ -17,8 +17,8 @@ try:
 except ModuleNotFoundError:
     import tomli as tomllib
 
-start_time = datetime.now()    
-    
+start_time = datetime.now()
+
 reset = "\033[0m"
 gray = "\033[90m"
 green = "\033[92m"
@@ -39,13 +39,16 @@ $$$$$$$$\        $$\
 {reset}
 """
 
+
 class TakoBot(commands.Bot):
     async def on_ready(self):
         if self.initialized:
             return
         print(f"\033[1F\033[2K🔓 {gray}|{reset} {yellow}Logged in as {self.user.name} (ID: {self.user.id}){reset}")  # type: ignore
         print(trimmer)
-        print(f"{gray}>{reset} Startup took {round((datetime.now() - start_time).total_seconds(), 2)}s")
+        print(
+            f"{gray}>{reset} Startup took {round((datetime.now() - start_time).total_seconds(), 2)}s"
+        )
         print(f"{gray}>{reset} Now running and listening to commands")
         print(f"{gray}>{reset} Everything will be logged to discord.log")
         print(f"{gray}>{reset} Press CTRL+C to exit")
