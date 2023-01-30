@@ -82,7 +82,7 @@ class TakoBot(commands.Bot):
             categories += 1
             await self.load_extension(f"cogs.{category}")
         logger.info(
-            f"\{green}Loaded {len(self.cogs)} cogs from {categories} categories{reset}",
+            f"{green}Loaded {len(self.cogs)} cogs from {categories} categories{reset}",
             extra={"status": "\033[1F\033[2K✅"},
         )
         logger.info(f"{blue}Loading i18n{reset}", extra={"status": "🔄"})
