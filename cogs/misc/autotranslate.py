@@ -229,7 +229,6 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                                     message.author.mention,
                                     embed=too_large_embed,
                                     file=too_large_file,
-                                    thread=message.channel if isinstance(message.channel, discord.Thread) else discord.utils.MISSING,  # type: ignore
                                     allowed_mentions=discord.AllowedMentions(
                                         everyone=False,
                                         users=[message.author],
@@ -259,7 +258,6 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                                     message.author.mention,
                                     embed=too_large_embed,
                                     file=too_large_file,
-                                    thread=message.channel if isinstance(message.channel, discord.Thread) else discord.utils.MISSING,  # type: ignore
                                     allowed_mentions=discord.AllowedMentions(
                                         everyone=False,
                                         users=[message.author],
@@ -282,14 +280,12 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                                 + f"\n\n` {data['lang']} ➜ {guild_language} | {round(data['score'])} `",  # type: ignore
                                 allowed_mentions=discord.AllowedMentions.none(),
                                 files=attachments,  # type: ignore
-                                thread=message.channel if isinstance(message.channel, discord.Thread) else discord.utils.MISSING,  # type: ignore
                             )
                             if attachment_removed:
                                 await message.channel.send(
                                     message.author.mention,
                                     embed=too_large_embed,
                                     file=too_large_file,
-                                    thread=message.channel if isinstance(message.channel, discord.Thread) else discord.utils.MISSING,  # type: ignore
                                     allowed_mentions=discord.AllowedMentions(
                                         everyone=False,
                                         users=[message.author],
