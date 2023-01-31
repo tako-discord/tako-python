@@ -35,6 +35,8 @@ he:
   auto_translate_delete_original: "מחיקת ההודעה המקורית מוגדרת כעת ל-%{value}"
   topic_title: "הנה הנושא שלך:"
   topic_footer: "נושא הת.ז: %{id}"
+  topic_invalid_title: "We couldn't find a Topic with the ID of `%{id}`"
+  topic_invalid: "We searched far and wide. Unfortunately, no topics were found.\nThat's why we picked a random topic for you. We hope you like it."
   auto_react_added: "%{emoji} will now be added to every message in %{channel}"
   auto_react_removed: "%{emoji} will no longer be added to every message in %{channel}"
   auto_react_empty: "No emojis are set to be added to every message in %{channel}"
