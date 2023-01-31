@@ -1,3 +1,15 @@
+## 1.7.1 (2023-01-31)
+
+### Fix
+
+- **auto_translate**: fix translation not being send inside thread if the original message was inside a thread
+- **i18n**: updated German (#17)
+
+### Refactor
+
+- **topic**: update topics, add warning if invalid topic id
+- **ban_game**: remove `ban_game` command
+
 ## 1.7.0 (2023-01-30)
 
 ### Feat
