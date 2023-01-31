@@ -219,7 +219,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                                 description=translation,
                                 color=0x2F3136,
                             ).set_footer(
-                                text=f"Confidence: {round(data['score'])}%" # type: ignore
+                                text=f"Confidence: {round(data['score'])}%"  # type: ignore
                             ),  # type: ignore
                         )
                         if delete_original or delete_original is None:
@@ -283,7 +283,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                                 allowed_mentions=discord.AllowedMentions.none(),
                                 files=attachments,  # type: ignore
                                 thread=message.channel if isinstance(message.channel, discord.Thread) else discord.utils.MISSING,  # type: ignore
-                    )
+                            )
                             if attachment_removed:
                                 await message.channel.send(
                                     message.author.mention,
