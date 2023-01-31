@@ -65,5 +65,5 @@ class Crosspost(commands.Cog):
             if crosspost:
                 try:
                     return await message.publish()
-                except discord.HTTPException as e:
+                except discord.HTTPException:
                     return

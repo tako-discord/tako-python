@@ -22,7 +22,7 @@ class Revive(commands.Cog):
     ):
         locale = get_language(self.bot, interaction.guild_id)
         original_id = id
-        id = randint(0, len(questions)) if id == None else id
+        id = randint(0, len(questions)) if id is None else id
         index = id - 1
         embeds = []
         files = []
@@ -35,12 +35,12 @@ class Revive(commands.Cog):
 
         embed = discord.Embed(
             title=i18n.t("misc.topic_title", locale=locale),
-            description= await translate(questions[index], locale, "en"),
-            color=await get_color(self.bot, interaction.guild_id), # type: ignore
+            description=await translate(questions[index], locale, "en"),
+            color=await get_color(self.bot, interaction.guild_id),  # type: ignore
         )
         embed.set_footer(text=i18n.t("misc.topic_footer", locale=locale, id=id))
         embeds.append(embed)
-        
+
         if not valid_topic:
             embed2, file = error_embed(
                 self.bot,
