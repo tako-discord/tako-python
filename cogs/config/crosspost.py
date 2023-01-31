@@ -1,12 +1,14 @@
-import i18n
 import discord
-from utils import get_language
 from discord import app_commands
 from discord.ext import commands
 
+import i18n
+from TakoBot import TakoBot
+from utils import get_language
+
 
 class Crosspost(commands.Cog):
-    def __init__(self, bot: commands.Bot) -> None:
+    def __init__(self, bot: TakoBot) -> None:
         self.bot = bot
 
     @app_commands.command(
@@ -64,6 +66,4 @@ class Crosspost(commands.Cog):
                 try:
                     return await message.publish()
                 except discord.HTTPException as e:
-                    if e.code == 40033:
-                        return
-                    return print(e)
+                    return

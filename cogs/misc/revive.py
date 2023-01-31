@@ -4,7 +4,7 @@ from random import randint
 from .topics import questions
 from discord import app_commands
 from discord.ext import commands
-from utils import get_language, translate, get_color
+from utils import get_language, translate, get_color, error_embed
 
 
 class Revive(commands.Cog):
@@ -18,20 +18,38 @@ class Revive(commands.Cog):
     async def topic(
         self,
         interaction: discord.Interaction,
-        id: app_commands.Range[
-            int, 1, 144  # <-- Change the 2 to the amount of topics you have.
-        ]
-        | None = None,
+        id: int | None = None,
     ):
-        locale = get_language(self.bot, interaction.guild.id)
-        id = randint(0, len(questions)) if not id else id
+        locale = get_language(self.bot, interaction.guild_id)
+        original_id = id
+        id = randint(0, len(questions)) if id == None else id
         index = id - 1
+        embeds = []
+        files = []
+        valid_topic = True
+
+        if id > len(questions) or id <= 0:
+            id = randint(0, len(questions))
+            index = id - 1
+            valid_topic = False
 
         embed = discord.Embed(
             title=i18n.t("misc.topic_title", locale=locale),
-            description=await translate(questions[index], locale, "en"),
-            color=await get_color(self.bot, interaction.guild.id),
+            description= await translate(questions[index], locale, "en"),
+            color=await get_color(self.bot, interaction.guild_id), # type: ignore
         )
         embed.set_footer(text=i18n.t("misc.topic_footer", locale=locale, id=id))
+        embeds.append(embed)
+        
+        if not valid_topic:
+            embed2, file = error_embed(
+                self.bot,
+                i18n.t("misc.topic_invalid_title", locale=locale, id=original_id),
+                i18n.t("misc.topic_invalid", locale=locale),
+                interaction.guild_id,
+                style="warning",
+            )
+            embeds = [embed2, embed]
+            files.append(file)
 
-        await interaction.response.send_message(embed=embed)
+        await interaction.response.send_message(embeds=embeds, files=files)
