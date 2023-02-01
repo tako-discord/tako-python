@@ -53,6 +53,9 @@ class TakoBot(commands.Bot):
         print(f"{gray}>{reset} Everything will be logged to discord.log")
         print(f"{gray}>{reset} Press CTRL+C to exit")
         print(trimmer)
+        self.postgre_guilds = await self.db_pool.fetch("SELECT * FROM guilds")  # type: ignore
+        self.update_phishing_list.start()
+        self.update_version.start()
         self.initialized = True  # type: ignore
 
     async def setup_hook(self):
@@ -97,15 +100,8 @@ class TakoBot(commands.Bot):
             f"{green}Available locales ({len(locales)}): {', '.join(locales)}{reset}",
             extra={"status": "✅"},
         )
-        logger.info(f"{blue}Updating suspicious domains{reset}", extra={"status": "🔄"})
-        self.update_phishing_list.start()
-        logger.info(
-            f"{green}Updated suspicious domains{reset}",
-            extra={"status": "\033[1F\033[2K✅"},
-        )
         if hasattr(bot_secrets, "UPTIME_KUMA"):
             self.uptime_kuma.start()
-        self.postgre_guilds = await self.db_pool.fetch("SELECT * FROM guilds")  # type: ignore
         logger.info(f"{blue}Adding persistent views{reset}", extra={"status": "🔄"})
         await persistent_views.setup(self)
         logger.info(
@@ -113,7 +109,6 @@ class TakoBot(commands.Bot):
         )
         self.presence_update.start()
         self.badges_update.start()
-        self.update_version.start()
         logger.info(f"{blue}Logging in...{reset}", extra={"status": f"{trimmer}\n🔄"})
 
     @tasks.loop(seconds=55)
@@ -145,7 +140,6 @@ class TakoBot(commands.Bot):
     @tasks.loop(seconds=7.5)
     async def presence_update(self):
         presences = [
-            {"name": "with the new rewrite", "type": discord.ActivityType.playing},
             {
                 "name": f"over {len(self.guilds)} server{'s' if len(self.guilds) > 1 else ''}",
                 "type": discord.ActivityType.watching,
@@ -155,7 +149,7 @@ class TakoBot(commands.Bot):
                 "type": discord.ActivityType.listening,
             },
             {
-                "name": f"{len(self.tree.get_commands())} {'commands' if len(self.tree.get_commands()) > 1 else 'command'}",
+                "name": f"{len(self.tree.get_commands())} commands{'s' if len(self.tree.get_commands()) > 1 else ''}",
                 "type": discord.ActivityType.listening,
             },
             {
@@ -184,42 +178,47 @@ class TakoBot(commands.Bot):
 
     @tasks.loop(hours=1)
     async def badges_update(self):
-        for guild in self.guilds:
-            for role in guild.roles:
-                if role.id == config.DONATOR_ROLE:
-                    users = []
-                    for member in role.members:
-                        users.append(member.id)
-                    await self.db_pool.execute(
-                        "UPDATE badges SET users = $1 WHERE name = 'donator';", users
-                    )
-                    continue
-                if role.id == config.TRANSLATOR_ROLE:
-                    users = []
-                    for member in role.members:
-                        users.append(member.id)
-                    await self.db_pool.execute(
-                        "UPDATE badges SET users = $1 WHERE name = 'translator';", users
-                    )
-                    continue
-                if role.id == config.ALPHA_TESTER_ROLE:
-                    users = []
-                    for member in role.members:
-                        users.append(member.id)
-                    await self.db_pool.execute(
-                        "UPDATE badges SET users = $1 WHERE name = 'alpha_tester';",
-                        users,
-                    )
-                    continue
-                if role.id == config.DEV_ROLE:
-                    users = []
-                    for member in role.members:
-                        users.append(member.id)
-                    await self.db_pool.execute(
-                        "UPDATE badges SET users = $1 WHERE name = 'core_developer';",
-                        users,
-                    )
-                    continue
+        try:
+            guild = await self.fetch_guild(config.MAIN_GUILD)
+        except:
+            return
+        if not isinstance(guild, discord.Guild):
+            return
+        for role in guild.roles:
+            if role.id == config.DONATOR_ROLE:
+                users = []
+                for member in role.members:
+                    users.append(member.id)
+                await self.db_pool.execute(
+                    "UPDATE badges SET users = $1 WHERE name = 'donator';", users
+                )
+                continue
+            if role.id == config.TRANSLATOR_ROLE:
+                users = []
+                for member in role.members:
+                    users.append(member.id)
+                await self.db_pool.execute(
+                    "UPDATE badges SET users = $1 WHERE name = 'translator';", users
+                )
+                continue
+            if role.id == config.ALPHA_TESTER_ROLE:
+                users = []
+                for member in role.members:
+                    users.append(member.id)
+                await self.db_pool.execute(
+                    "UPDATE badges SET users = $1 WHERE name = 'alpha_tester';",
+                    users,
+                )
+                continue
+            if role.id == config.DEV_ROLE:
+                users = []
+                for member in role.members:
+                    users.append(member.id)
+                await self.db_pool.execute(
+                    "UPDATE badges SET users = $1 WHERE name = 'core_developer';",
+                    users,
+                )
+                continue
 
     @badges_update.before_loop
     async def before_badges_update(self):
