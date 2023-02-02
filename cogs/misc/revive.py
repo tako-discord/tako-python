@@ -1,5 +1,6 @@
 import i18n
 import discord
+from asyncio import sleep
 from random import randint
 from .topics import questions
 from discord import app_commands
@@ -21,7 +22,6 @@ class Revive(commands.Cog):
         id: int | None = None,
     ):
         locale = get_language(self.bot, interaction.guild_id)
-        original_id = id
         id = randint(0, len(questions)) if id is None else id
         index = id - 1
         embeds = []
@@ -44,8 +44,8 @@ class Revive(commands.Cog):
         if not valid_topic:
             embed2, file = error_embed(
                 self.bot,
-                i18n.t("misc.topic_invalid_title", locale=locale, id=original_id),
-                i18n.t("misc.topic_invalid", locale=locale),
+                i18n.t("misc.topic_invalid_title", locale=locale),
+                i18n.t("misc.topic_invalid", amount=len(questions), locale=locale),
                 interaction.guild_id,
                 style="warning",
             )
@@ -53,3 +53,5 @@ class Revive(commands.Cog):
             files.append(file)
 
         await interaction.response.send_message(embeds=embeds, files=files)
+        await sleep(5)
+        await interaction.edit_original_response(embed=embed, attachments=[])
