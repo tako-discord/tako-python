@@ -15,8 +15,10 @@ async def autojoin_logic(
         or role.is_bot_managed()
         or role.managed
         or not role.is_assignable()
-        or role >= interaction.user.top_role # type: ignore
-        and interaction.guild.owner_id != interaction.user.id if interaction.guild else True
+        or role >= interaction.user.top_role  # type: ignore
+        and interaction.guild.owner_id != interaction.user.id
+        if interaction.guild
+        else True
     ):
         return await interaction.response.send_message(
             i18n.t("config.invalid_role", locale=language), ephemeral=True
@@ -134,7 +136,7 @@ class Autojoin(commands.GroupCog, group_name="autojoinroles"):
                 locale=language,
             ),
             description=i18n.t("config.autojoinroles_desc", locale=language),
-            color=await get_color(self.bot, interaction.guild.id), # type: ignore
+            color=await get_color(self.bot, interaction.guild.id),  # type: ignore
         )
         embed.set_thumbnail(url="attachment://thumbnail.png")
         if not data:
@@ -162,7 +164,7 @@ class Autojoin(commands.GroupCog, group_name="autojoinroles"):
                     inline=False,
                 )
         await interaction.followup.send(embed=embed, file=file)
-        delete_thumbnail(interaction.guild_id, "role") # type: ignore
+        delete_thumbnail(interaction.guild_id, "role")  # type: ignore
 
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member):
