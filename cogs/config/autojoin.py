@@ -9,31 +9,32 @@ from utils import get_color, get_language, thumbnail, delete_thumbnail
 async def autojoin_logic(
     bot: TakoBot, interaction: discord.Interaction, role: discord.Role, column: str
 ):
-    language = get_language(bot, interaction.guild.id)
+    language = get_language(bot, interaction.guild_id)
     if (
         role.is_default()
         or role.is_bot_managed()
         or role.managed
         or not role.is_assignable()
-        or role >= interaction.user.top_role
+        or role >= interaction.user.top_role # type: ignore
+        and interaction.guild.owner_id != interaction.user.id if interaction.guild else True
     ):
         return await interaction.response.send_message(
             i18n.t("config.invalid_role", locale=language), ephemeral=True
         )
     data = await bot.db_pool.fetchrow(
-        "SELECT * FROM guilds WHERE guild_id = $1", interaction.guild.id
+        "SELECT * FROM guilds WHERE guild_id = $1", interaction.guild_id
     )
     if not data:
         if column == "join_roles_user":
             await bot.db_pool.execute(
                 "INSERT INTO guilds (guild_id, join_roles_user) VALUES ($1, $2)",
-                interaction.guild.id,
+                interaction.guild_id,
                 [role.id],
             )
         else:
             await bot.db_pool.execute(
                 "INSERT INTO guilds (guild_id, join_roles_bot) VALUES ($1, $2)",
-                interaction.guild.id,
+                interaction.guild_id,
                 [role.id],
             )
         return await interaction.response.send_message(
@@ -49,13 +50,13 @@ async def autojoin_logic(
             await bot.db_pool.execute(
                 "UPDATE guilds SET join_roles_user = $1 WHERE guild_id = $2",
                 array,
-                interaction.guild.id,
+                interaction.guild_id,
             )
         else:
             await bot.db_pool.execute(
                 "UPDATE guilds SET join_roles_bot = $1 WHERE guild_id = $2",
                 array,
-                interaction.guild.id,
+                interaction.guild_id,
             )
         return await interaction.response.send_message(
             i18n.t("config.autojoinroles_added", role=role.name, locale=language),
@@ -66,13 +67,13 @@ async def autojoin_logic(
         await bot.db_pool.execute(
             "UPDATE guilds SET join_roles_user = $1 WHERE guild_id = $2",
             array,
-            interaction.guild.id,
+            interaction.guild_id,
         )
     else:
         await bot.db_pool.execute(
             "UPDATE guilds SET join_roles_bot = $1 WHERE guild_id = $2",
             array,
-            interaction.guild.id,
+            interaction.guild_id,
         )
         return await interaction.response.send_message(
             i18n.t("config.autojoinroles_removed", role=role.name, locale=language),
@@ -108,6 +109,7 @@ class Autojoin(commands.GroupCog, group_name="autojoinroles"):
     )
     @app_commands.checks.has_permissions(manage_roles=True)
     @app_commands.checks.bot_has_permissions(manage_roles=True)
+    @app_commands.guild_only()
     @app_commands.describe(
         role="The role that should be toggled in the autojoinrole list"
     )
@@ -121,7 +123,7 @@ class Autojoin(commands.GroupCog, group_name="autojoinroles"):
         await interaction.response.defer()
         language = get_language(self.bot, interaction.guild.id)
         data = await self.bot.db_pool.fetchrow(
-            "SELECT * FROM guilds WHERE guild_id = $1", interaction.guild.id
+            "SELECT * FROM guilds WHERE guild_id = $1", interaction.guild_id
         )
         thumbnail_path = await thumbnail(interaction.guild.id, "role", self.bot)
         file = discord.File(thumbnail_path, filename="thumbnail.png")
@@ -132,7 +134,7 @@ class Autojoin(commands.GroupCog, group_name="autojoinroles"):
                 locale=language,
             ),
             description=i18n.t("config.autojoinroles_desc", locale=language),
-            color=await get_color(self.bot, interaction.guild.id),
+            color=await get_color(self.bot, interaction.guild.id), # type: ignore
         )
         embed.set_thumbnail(url="attachment://thumbnail.png")
         if not data:
@@ -160,7 +162,7 @@ class Autojoin(commands.GroupCog, group_name="autojoinroles"):
                     inline=False,
                 )
         await interaction.followup.send(embed=embed, file=file)
-        delete_thumbnail(interaction.guild.id, "role")
+        delete_thumbnail(interaction.guild_id, "role") # type: ignore
 
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member):
