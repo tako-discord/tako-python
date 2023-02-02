@@ -56,6 +56,7 @@ class TakoBot(commands.Bot):
         self.postgre_guilds = await self.db_pool.fetch("SELECT * FROM guilds")  # type: ignore
         self.update_phishing_list.start()
         self.update_version.start()
+        self.presence_update.start()
         self.initialized = True  # type: ignore
 
     async def setup_hook(self):
@@ -107,7 +108,6 @@ class TakoBot(commands.Bot):
         logger.info(
             f"{green}Added persistent views{reset}", extra={"status": "\033[1F\033[2K✅"}
         )
-        self.presence_update.start()
         self.badges_update.start()
         logger.info(f"{blue}Logging in...{reset}", extra={"status": f"{trimmer}\n🔄"})
 
