@@ -1,3 +1,18 @@
+## 1.7.2 (2023-02-02)
+
+### Fix
+
+- **autojoinroles**: fix permission check when owner
+- **auto_translate**: hotfix default style not working
+
+### Refactor
+
+- **topic**: better warning if index out of range
+
+### Perf
+
+- improve startup time
+
 ## 1.7.1 (2023-01-31)
 
 ### Fix
