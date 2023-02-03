@@ -482,9 +482,7 @@ def is_survey_manager():
     return app_commands.check(check)
 
 
-async def poll_embed(
-    question: str, asnwers: list, votes: str, bot, guild_id: int
-):
+async def poll_embed(question: str, asnwers: list, votes: str, bot, guild_id: int):
     """Returns a poll embed.
 
     Parameters
