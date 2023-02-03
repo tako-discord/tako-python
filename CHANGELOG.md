@@ -1,3 +1,16 @@
+## 1.8.0 (2023-02-03)
+
+### Feat
+
+- **polls**: add ability to stop polls
+- **languages**: add Japanese (3%) and Tagalog (5%)
+- **uwu**: add uwuify command
+
+### Fix
+
+- **uwuify**: defer response
+- hotfix presence update
+
 ## 1.7.2 (2023-02-02)
 
 ### Fix
