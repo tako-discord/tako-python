@@ -20,6 +20,7 @@ class UwU(commands.Cog):
         action_chance: app_commands.Range[float, 0, 1] = 0,
         exclamation_chance: app_commands.Range[float, 0, 1] = 0.5,
     ):
+        await interaction.response.defer()
         if interaction.guild_id:
             locale = get_language(self.bot, interaction.guild_id)
             translated = await translate(message, locale)
@@ -33,4 +34,4 @@ class UwU(commands.Cog):
             exclamation_chance=exclamation_chance,
         )
         text = uwu.uwuify(message)
-        await interaction.response.send_message(text)
+        await interaction.edit_original_response(content=text)
