@@ -5,6 +5,7 @@ from discord import app_commands
 from discord.ext import commands
 from utils import get_language, translate
 
+
 class UwU(commands.Cog):
     def __init__(self, bot: TakoBot):
         self.bot = bot
@@ -24,6 +25,12 @@ class UwU(commands.Cog):
             translated = await translate(message, locale)
             if isinstance(translated, str):
                 message = translated
-        uwu = uwuipy(round(interaction.created_at.timestamp()), stutter_chance=stutter_chance, face_chance=face_chance, action_chance=action_chance, exclamation_chance=exclamation_chance)
+        uwu = uwuipy(
+            round(interaction.created_at.timestamp()),
+            stutter_chance=stutter_chance,
+            face_chance=face_chance,
+            action_chance=action_chance,
+            exclamation_chance=exclamation_chance,
+        )
         text = uwu.uwuify(message)
         await interaction.response.send_message(text)
