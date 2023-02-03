@@ -42,3 +42,4 @@ de:
   auto_react_empty: "Es sind keine Emojis gesetzt, die zu jeder Nachricht in %{channel} hinzugefügt werden sollen"
   auto_react_list: "Die folgenden Emojis werden zu jeder neuen Nachricht in %{channel} hinzugefügt:\n%{emojis}"
   auto_react_max: "Du kannst nur bis zu 20 Emojis einrichten, die automatisch zu jeder Nachricht in %{channel} hinzugefügt zu werden, aufgrund einer Discord-Einschränkung :c\nTut mir leid!"
+  poll_owner: "You are not the owner of this poll!"
