@@ -115,3 +115,4 @@ class PollButtons(discord.ui.View):
                 ),
                 view=view,
             )
+            await self.bot.db_pool.execute("DELETE FROM polls WHERE id = $1", self.uuid)
