@@ -78,7 +78,7 @@ async def main():
             CREATE TABLE IF NOT EXISTS users (user_id BIGINT PRIMARY KEY, wallet BIGINT DEFAULT 1000, bank BIGINT DEFAULT 0, last_meme TEXT, last_reaction_translation TIMESTAMP);
             CREATE TABLE IF NOT EXISTS announcements (id uuid DEFAULT uuid_generate_v4() PRIMARY KEY, title TEXT, description TEXT, type TEXT, timestamp TIMESTAMP DEFAULT NOW());
             CREATE TABLE IF NOT EXISTS selfroles (id uuid DEFAULT uuid_generate_v4() PRIMARY KEY, guild_id BIGINT, select_array BIGINT ARRAY, min_values INT, max_values INT);
-            CREATE TABLE IF NOT EXISTS polls (id uuid DEFAULT uuid_generate_v4() PRIMARY KEY, question TEXT, answers TEXT ARRAY, votes TEXT);
+            CREATE TABLE IF NOT EXISTS polls (id uuid DEFAULT uuid_generate_v4() PRIMARY KEY, question TEXT, answers TEXT ARRAY, votes TEXT, owner BIGINT);
             CREATE TABLE IF NOT EXISTS welcome (guild_id BIGINT PRIMARY KEY, channel_id BIGINT, title TEXT, description TEXT, style TEXT DEFAULT 'embed', mention BOOL DEFAULT FALSE, state BOOLEAN);
             """
         )

@@ -38,5 +38,6 @@ async def poll_setup(bot):
             poll["question"],
             poll["answers"],
             bot,
+            poll["owner"] if poll["owner"] else None,
         )
         bot.add_view(view)

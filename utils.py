@@ -483,7 +483,7 @@ def is_survey_manager():
 
 
 async def poll_embed(
-    question: str, asnwers: list, votes: str, bot, guild_id: int, uuid: UUID
+    question: str, asnwers: list, votes: str, bot, guild_id: int
 ):
     """Returns a poll embed.
 
@@ -507,7 +507,6 @@ async def poll_embed(
         title=f"**{question}**",
         color=await get_color(bot, guild_id),  # type: ignore
     )
-    embed.set_footer(text=uuid)
 
     count = {}
     for answer in asnwers:

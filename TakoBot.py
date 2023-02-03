@@ -57,6 +57,7 @@ class TakoBot(commands.Bot):
         self.update_phishing_list.start()
         self.update_version.start()
         self.presence_update.start()
+        await persistent_views.setup(self)
         self.initialized = True  # type: ignore
 
     async def setup_hook(self):
@@ -103,11 +104,6 @@ class TakoBot(commands.Bot):
         )
         if hasattr(bot_secrets, "UPTIME_KUMA"):
             self.uptime_kuma.start()
-        logger.info(f"{blue}Adding persistent views{reset}", extra={"status": "🔄"})
-        await persistent_views.setup(self)
-        logger.info(
-            f"{green}Added persistent views{reset}", extra={"status": "\033[1F\033[2K✅"}
-        )
         self.badges_update.start()
         logger.info(f"{blue}Logging in...{reset}", extra={"status": f"{trimmer}\n🔄"})
 
