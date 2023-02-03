@@ -1,4 +1,5 @@
 from .tag import Tag
+from .uwu import UwU
 from .polls import Poll
 from .embed import Embed
 from .emoji import Emoji
@@ -17,6 +18,7 @@ from .reaction_translate import ReactionTranslate
 
 async def setup(bot):
     await bot.add_cog(Tag(bot))
+    await bot.add_cog(UwU(bot))
     await bot.add_cog(Poll(bot))
     await bot.add_cog(Embed(bot))
     await bot.add_cog(Emoji(bot))
@@ -29,5 +31,5 @@ async def setup(bot):
     await bot.add_cog(Translate(bot))
     await bot.add_cog(AutoReact(bot))
     await bot.add_cog(Affirmations(bot))
-    await bot.add_cog(ReactionTranslate(bot))
     await bot.add_cog(AutoTranslate(bot))
+    await bot.add_cog(ReactionTranslate(bot))
