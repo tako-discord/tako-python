@@ -232,7 +232,8 @@ async def balance_embed(
     guild_id: :class:`int`
         The id of the guild where the language and color is getting fetched from.
     cash: :class:`list[:class:`int`]`
-        The amount of money the user has in it's wallet and bank. (Use the fetch_cash() function to get this)"""
+        The amount of money the user has in it's wallet and bank. (Use the fetch_cash() function to get this)
+    """
     thumbnail_path = await thumbnail(guild_id, "money", bot)
     file = discord.File(thumbnail_path, filename="thumbnail.png")
 

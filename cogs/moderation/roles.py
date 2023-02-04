@@ -35,7 +35,9 @@ class Roles(commands.GroupCog, name="role"):
         await member.add_roles(
             role, reason=f"Role added by {interaction.user}, reason: {reason}"
         )
-        await interaction.response.send_message(f"{member.name} has been given the role {role.name}.")
+        await interaction.response.send_message(
+            f"{member.name} has been given the role {role.name}."
+        )
 
     @app_commands.command(description="Removes a role from the provided member.")
     @app_commands.checks.has_permissions(manage_roles=True)
@@ -62,7 +64,9 @@ class Roles(commands.GroupCog, name="role"):
         await member.remove_roles(
             role, reason=f"Role added by {interaction.user}, reason: {reason}"
         )
-        await interaction.response.send_message(f"{member.name} has been given the role {role.name}.")
+        await interaction.response.send_message(
+            f"{member.name} has been given the role {role.name}."
+        )
 
     @app_commands.command(description="Adds a role to every member")
     @app_commands.checks.has_permissions(manage_roles=True)
@@ -84,21 +88,21 @@ class Roles(commands.GroupCog, name="role"):
         option: int = 1,
         reason: str = None,
     ):
-        #language = get_language(self.bot, interaction.guild.id)
+        # language = get_language(self.bot, interaction.guild.id)
         if role is None:
             return await interaction.response.send_message(
                 "Provide the role"
-                #i18n.t("moderation.roles_provide_role", locale=language)
+                # i18n.t("moderation.roles_provide_role", locale=language)
             )
 
         interaction_top = interaction.user.top_role
         role_list = interaction.guild.roles
-        #if not role.position > interaction_top.position:
-            #return await interaction.response.send_message(f"You can't add this role to the members!")
+        # if not role.position > interaction_top.position:
+        # return await interaction.response.send_message(f"You can't add this role to the members!")
 
         all_members = interaction.guild.members
         counter = 0
-        have = 0 # ppl that arl have the role assigned
+        have = 0  # ppl that arl have the role assigned
         blocked = []  # above the user
         failed = []  # above the bot
 
@@ -108,10 +112,10 @@ class Roles(commands.GroupCog, name="role"):
             for user in all_members:
                 if not role in user.roles:
                     user_top = user.top_role
-                    
+
                     member = interaction.guild.get_member(1061216305040064532)
                     self.bot_top = member.top_role
-                    
+
                     interaction_top = interaction.user.top_role
                     role_list = interaction.guild.roles
                     if user.top_role >= self.bot_top:
@@ -120,8 +124,11 @@ class Roles(commands.GroupCog, name="role"):
                     if user.top_role >= interaction.user.top_role:
                         blocked.append(user.name)
                         continue
-                    
-                    await user.add_roles(role, reason=f"Role added by {interaction.user}, reason: {reason}",)
+
+                    await user.add_roles(
+                        role,
+                        reason=f"Role added by {interaction.user}, reason: {reason}",
+                    )
                     counter += 1
                 else:
                     have += 1
@@ -174,11 +181,11 @@ class Roles(commands.GroupCog, name="role"):
         reason: str = None,
         option: int = 1,
     ):
-        #language = get_language(self.bot, interaction.guild.id)
+        # language = get_language(self.bot, interaction.guild.id)
         if role is None:
             return interaction.response.send_message(
                 "Provide the role"
-                #i18n.t("moderation.roles_provide_role", locale=language)
+                # i18n.t("moderation.roles_provide_role", locale=language)
             )
 
         all_members = interaction.guild.members
@@ -188,7 +195,10 @@ class Roles(commands.GroupCog, name="role"):
             for user in all_members:
                 if role in user.roles:
                     counter += 1
-                    await user.remove_roles(role, reason=f"Role removed by {interaction.user}, reason: {reason}")
+                    await user.remove_roles(
+                        role,
+                        reason=f"Role removed by {interaction.user}, reason: {reason}",
+                    )
             await interaction.response.send_message(
                 f"{role.name} has been removed from {counter} Members."
             )
