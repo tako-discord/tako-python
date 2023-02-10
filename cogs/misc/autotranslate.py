@@ -14,7 +14,6 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
     def __init__(self, bot):
         self.bot = bot
 
-    
     @app_commands.command(description="Disable or enable auto translate")
     @app_commands.describe(value="Whether to enable or disable auto translate")
     @app_commands.checks.has_permissions(manage_guild=True)
@@ -292,4 +291,3 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                             )
             except discord.Forbidden:
                 return
-    
