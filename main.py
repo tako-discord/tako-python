@@ -1,8 +1,6 @@
-import json
 import discord
 import asyncio
 import logging
-import asyncpg
 import pyyoutube
 import bot_secrets
 import tmdbsimple as tmdb
@@ -32,14 +30,6 @@ async def main():
     intents.reactions = True
 
     bot: TakoBot = TakoBot(command_prefix="tk!", intents=intents)
-
-    bot.db_pool: asyncpg.Pool = await asyncpg.create_pool(
-        database=bot_secrets.DB_NAME,
-        host=bot_secrets.DB_HOST,
-        port=bot_secrets.DB_PORT if hasattr(bot_secrets, "DB_PORT") else 5432,
-        user=bot_secrets.DB_USER,
-        password=bot_secrets.DB_PASSWORD,
-    )
 
     await bot.start(bot_secrets.TOKEN)
 
