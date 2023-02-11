@@ -9,7 +9,7 @@ A Discord bot done right. No bullshit like pay- or votewalls.
 This is the rewrite for Kayano (now Tako). Before the rewrite it was written in JavaScript/Node.js with the Discord.js Library. But now it's written in Python with the discord.py Library. We have made some very great improvements and we hope you'll like it.
 
 > **Warning** |
-> This project is still in *beta* and might be unstable and buggy
+> This project is still in it's early days and might have a few bugs. We are trying hard to eliminate those as soon as possible.
 
 ## 🏃‍♂️ Get Started
 > Do you need help or found a bug?
@@ -79,7 +79,7 @@ Please note that instead of `python` your command may be `python3` or similar.
 
 ...the core team
 - 👑 [*@Pukimaa*](https://github.com/Pukimaa) - Creator & Developer
-- 💻 [*@boloped*](https://github.com/boloped) - Developer
+- 💻 *???* - Developer
 
 ...all the testers
 - [*@vaporvee*](https://github.com/vaporvee)
