@@ -54,11 +54,11 @@ class TakoBot(commands.AutoShardedBot):
         print(f"{gray}>{reset} Press CTRL+C to exit")
         print(trimmer)
         self.postgre_guilds = await self.db_pool.fetch("SELECT * FROM guilds")  # type: ignore
-        self.initialized = True  # type: ignore
-        self.presence_update.start()
         self.update_phishing_list.start()
         self.update_version.start()
+        self.presence_update.start()
         await persistent_views.setup(self)
+        self.initialized = True  # type: ignore
 
     async def setup_hook(self):
         print(tako_ascii_art)
