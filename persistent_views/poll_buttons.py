@@ -26,7 +26,7 @@ class PollButtons(discord.ui.View):
             self, uuid: UUID, question: str, answer: str, answers: list[str], bot
         ):
             super().__init__(
-                label=answer, custom_id=str(bot.user.id) + "_poll_" + answer
+                label=answer, custom_id=str(bot.user.id) + answer + str(uuid)
             )
             self.uuid = uuid
             self.question = question
