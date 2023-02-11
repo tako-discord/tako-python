@@ -1,3 +1,19 @@
+## 1.9.0 (2023-02-11)
+
+### Feat
+
+- **TakoBot**: use sharded bot
+
+### Fix
+
+- better sharding
+- **polls**: fix polls changing the question answer
+- change language associated with belgium flag (#20)
+
+### Perf
+
+- **polls**: delete poll from db when stopped
+
 ## 1.8.0 (2023-02-03)
 
 ### Feat
