@@ -42,10 +42,12 @@ class Stats(commands.Cog):
         if latest_version > self.bot.version:
             general.insert(
                 6,
-                f"**<:new_left:1032293616175038536><:new_right:1032293617936633967> Latest version**: {latest_version}"
+                f"**<:new_left:1032293616175038536><:new_right:1032293617936633967> Latest version**: {latest_version}",
             )
         if shard:
-            general.append(f"**🏓 Current Shard Ping**: {round(shard.latency * 1000)} ms.")
+            general.append(
+                f"**🏓 Current Shard Ping**: {round(shard.latency * 1000)} ms."
+            )
         cpu_info = get_cpu_info()
         system = [
             f"**🖥️ Platform**: {operating_systems[sys.platform]}",

@@ -40,5 +40,5 @@ class Ping(commands.Cog):
 
         thumbnail = discord.File(
             f"assets/ping/ping_{get_ping_color_name(average_ping)}.png", "thumbnail.png"
-        )        
+        )
         await interaction.response.send_message(embed=embed, file=thumbnail)
