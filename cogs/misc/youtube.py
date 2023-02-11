@@ -7,7 +7,7 @@ from utils import get_color
 
 
 class Youtube(commands.GroupCog, group_name="youtube"):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: commands.AutoShardedBot):
         self.bot = bot
 
     @app_commands.command(description="Search a video on YouTube")

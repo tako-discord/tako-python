@@ -6,7 +6,7 @@ from .self_menu import SelfMenu
 from .poll_buttons import PollButtons
 
 
-async def setup(bot: commands.Bot):
+async def setup(bot: commands.AutoShardedBot):
     bot.add_view(AffirmationButtons())
     bot.add_view(MemeButtons(bot))
     bot.loop.create_task(selfrole_setup(bot))

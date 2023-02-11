@@ -11,7 +11,7 @@ from utils import format_bytes, get_color, get_latest_version
 
 
 class Stats(commands.Cog):
-    def __init__(self, bot: commands.Bot) -> None:
+    def __init__(self, bot: commands.AutoShardedBot) -> None:
         self.bot = bot
 
     @app_commands.command(description="Get some stats about me")

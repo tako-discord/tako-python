@@ -6,7 +6,7 @@ from utils import add_extension, error_embed, get_language
 
 
 class Extension(commands.Cog):
-    def __init__(self, bot: commands.Bot) -> None:
+    def __init__(self, bot: commands.AutoShardedBot) -> None:
         self.bot = bot
 
     @commands.is_owner()

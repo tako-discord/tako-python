@@ -20,7 +20,7 @@ def get_ping_color_name(ping: int):
 
 
 class Ping(commands.Cog):
-    def __init__(self, bot: commands.Bot) -> None:
+    def __init__(self, bot: commands.AutoShardedBot) -> None:
         self.bot = bot
 
     @app_commands.command(description="Get my latency")

@@ -1,11 +1,12 @@
 import i18n
 import discord
+from TakoBot import TakoBot
 from discord.ext import commands
 from utils import get_language
 
 
 class AntiPhishing(commands.Cog):
-    def __init__(self, bot: commands.Bot) -> None:
+    def __init__(self, bot: TakoBot) -> None:
         self.bot = bot
 
     @commands.Cog.listener()

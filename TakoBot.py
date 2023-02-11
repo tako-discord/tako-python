@@ -40,7 +40,7 @@ $$$$$$$$\        $$\
 """
 
 
-class TakoBot(commands.Bot):
+class TakoBot(commands.AutoShardedBot):
     async def on_ready(self):
         if self.initialized:
             return
@@ -54,11 +54,11 @@ class TakoBot(commands.Bot):
         print(f"{gray}>{reset} Press CTRL+C to exit")
         print(trimmer)
         self.postgre_guilds = await self.db_pool.fetch("SELECT * FROM guilds")  # type: ignore
+        self.initialized = True  # type: ignore
+        self.presence_update.start()
         self.update_phishing_list.start()
         self.update_version.start()
-        self.presence_update.start()
         await persistent_views.setup(self)
-        self.initialized = True  # type: ignore
 
     async def setup_hook(self):
         print(tako_ascii_art)
@@ -145,7 +145,7 @@ class TakoBot(commands.Bot):
                 "type": discord.ActivityType.listening,
             },
             {
-                "name": f"{len(self.tree.get_commands())} commands{'s' if len(self.tree.get_commands()) > 1 else ''}",
+                "name": f"{len(self.tree.get_commands())} command{'s' if len(self.tree.get_commands()) > 1 else ''}",
                 "type": discord.ActivityType.listening,
             },
             {

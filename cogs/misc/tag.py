@@ -220,7 +220,7 @@ class PaginatorButtons(discord.ui.View):
 
 
 class Tag(commands.GroupCog, group_name="tag"):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: commands.AutoShardedBot):
         self.bot = bot
 
     @app_commands.command(description="Create a tag")
