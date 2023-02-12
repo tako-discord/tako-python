@@ -50,7 +50,7 @@ class ReactionTranslate(commands.Cog):
                     else None
                 )
         try:
-            if not state or not language_dict[payload.emoji.name] or payload.member.bot: # type: ignore
+            if not state or not language_dict[payload.emoji.name] or payload.member.bot:  # type: ignore
                 return
         except KeyError:
             return
@@ -70,17 +70,19 @@ class ReactionTranslate(commands.Cog):
                 payload.guild_id,
             )
             try:
-                await payload.member.send(embed=embed, file=file) # type: ignore
+                await payload.member.send(embed=embed, file=file)  # type: ignore
             except discord.Forbidden:
                 pass
             return
         channel = await self.bot.fetch_channel(payload.channel_id)
-        if not channel.permissions_for(payload.member).send_messages: # type: ignore
+        if not channel.permissions_for(payload.member).send_messages:  # type: ignore
             return
 
         message: discord.Message = await self.bot.get_channel(
             payload.channel_id
-        ).fetch_message(payload.message_id) # type: ignore
+        ).fetch_message(
+            payload.message_id
+        )  # type: ignore
         try:
             language = language_dict[payload.emoji.name]
         except KeyError:
@@ -91,7 +93,7 @@ class ReactionTranslate(commands.Cog):
             return
 
         embed = discord.Embed(
-            description=translation, color=await get_color(self.bot, payload.guild_id) # type: ignore
+            description=translation, color=await get_color(self.bot, payload.guild_id)  # type: ignore
         )
         embed.set_author(
             name=message.author.display_name, icon_url=message.author.display_avatar.url
