@@ -44,7 +44,7 @@ def format_bytes(size: int):
     return str(round(size)) + power_labels[n]
 
 
-async def get_color(bot, guild_id: int, integer: bool = True) -> int | str:
+async def get_color(bot, guild_id: int | None = None, integer: bool = True) -> int | str:
     """:class:`str` or :class:`int`: Returns the set color of a guild (Default: config.DEFAULT_COLOR)
 
     Parameters
@@ -55,6 +55,8 @@ async def get_color(bot, guild_id: int, integer: bool = True) -> int | str:
         Whetever you want to get the color as an integer or as a string
     """
     color = None
+    if not guild_id:
+        return config.DEFAULT_COLOR if integer else config.DEFAULT_COLOR_STR
     try:
         color = await bot.db_pool.fetchval(
             "SELECT color FROM guilds WHERE guild_id = $1", guild_id
