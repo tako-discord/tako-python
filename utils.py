@@ -44,7 +44,9 @@ def format_bytes(size: int):
     return str(round(size)) + power_labels[n]
 
 
-async def get_color(bot, guild_id: int | None = None, integer: bool = True) -> int | str:
+async def get_color(
+    bot, guild_id: int | None = None, integer: bool = True
+) -> int | str:
     """:class:`str` or :class:`int`: Returns the set color of a guild (Default: config.DEFAULT_COLOR)
 
     Parameters
