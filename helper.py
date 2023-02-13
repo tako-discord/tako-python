@@ -37,7 +37,7 @@ async def main():
         )
         rpc = DiscordRPC.RPC.Set_ID(app_id="878366398269771847")
         rpc.set_activity(
-            details="A bot done right",
+            details="Everything you need",
             large_image="tako",
             buttons=buttons,
         )
