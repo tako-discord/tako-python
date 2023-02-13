@@ -40,7 +40,7 @@ $$$$$$$$\        $$\
 """
 
 
-class TakoBot(commands.Bot):
+class TakoBot(commands.AutoShardedBot):
     async def on_ready(self):
         if self.initialized:
             return
@@ -145,7 +145,7 @@ class TakoBot(commands.Bot):
                 "type": discord.ActivityType.listening,
             },
             {
-                "name": f"{len(self.tree.get_commands())} commands{'s' if len(self.tree.get_commands()) > 1 else ''}",
+                "name": f"{len(self.tree.get_commands())} command{'s' if len(self.tree.get_commands()) > 1 else ''}",
                 "type": discord.ActivityType.listening,
             },
             {
