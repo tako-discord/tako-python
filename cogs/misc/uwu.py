@@ -35,10 +35,10 @@ class UwU(commands.Cog):
                 message = translated
         uwu = uwuipy(
             round(interaction.created_at.timestamp()),
-            stutter_chance=stutter_chance/100,
-            face_chance=face_chance/100,
-            action_chance=action_chance/100,
-            exclamation_chance=exclamation_chance/100,
+            stutter_chance=stutter_chance / 100,
+            face_chance=face_chance / 100,
+            action_chance=action_chance / 100,
+            exclamation_chance=exclamation_chance / 100,
         )
         text = uwu.uwuify(message).replace("-", "~")
         await interaction.edit_original_response(content=text)
