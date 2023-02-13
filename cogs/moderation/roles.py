@@ -41,6 +41,7 @@ class Roles(commands.GroupCog, name="role"):
     @app_commands.describe(member="The member to remove the role from.")
     @app_commands.describe(role="The role to remove from the member.")
     @app_commands.describe(reason="Why are you removing the role?")
+    @app_commands.guild_only()
     async def remove(self, interaction: discord.Interaction, role: discord.Role, member: discord.Member = None, reason: str = None):
         if not member: member = interaction.user
         if role.position >= interaction.user.top_role.position:
@@ -63,6 +64,7 @@ class Roles(commands.GroupCog, name="role"):
     @app_commands.describe(reason="Why are you adding the role")
     @app_commands.describe(option="Select to who the role should be added")
     @app_commands.choices(option=[app_commands.Choice(name="Everyone", value=1), app_commands.Choice(name="Only Humans", value=2), app_commands.Choice(name="Only bots", value=3),])
+    @app_commands.guild_only()
     async def add_all(self, interaction: discord.Interaction, role: discord.Role, option: int = 1, reason: str = None):
         if role.position > interaction.user.top_role.position: return await interaction.response.send_message(f"You can't add this role to the members!")   
 
@@ -126,6 +128,7 @@ class Roles(commands.GroupCog, name="role"):
     @app_commands.describe(role="The role to remove from everyone.")
     @app_commands.describe(reason="Why are you removing the role?")
     @app_commands.describe(option="[1] Everyone  [2] Only Humans  [3] Only Bots")
+    @app_commands.guild_only()
     async def remove_all(self, interaction: discord.Interaction, role: discord.Role, reason: str = None, option: int = 1):
         member_list = interaction.guild.members
         counter = 0
