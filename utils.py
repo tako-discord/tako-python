@@ -5,7 +5,6 @@ import config
 import discord
 import asyncpg
 import aiohttp
-from uuid import UUID
 from datetime import datetime
 from urllib.parse import quote
 from config import REPO, RAW_GH
@@ -99,7 +98,7 @@ async def thumbnail(id: int | None, icon_name: str, bot):
     color = await get_color(bot, id, False) if id else config.DEFAULT_COLOR_STR
     img = Image.new("RGB", (512, 512), color=color.replace("0x", "#"))  # type: ignore
     icon = Image.open(
-        f"assets/icons/{icon_name}{'' if color_check(color.replace('0x', '#')) or icon_name is 'reddit' else '_dark'}.png"  # type: ignore
+        f"assets/icons/{icon_name}{'' if color_check(color.replace('0x', '#')) or icon_name == 'reddit' else '_dark'}.png"  # type: ignore
     )
     img.paste(icon, (56, 56), mask=icon)
     img.save(f"assets/thumbnails/{icon_name}_{id}.png")
@@ -116,7 +115,7 @@ def delete_thumbnail(id: int, icon: str):
     icon: :class:`str`
         The name of the icon that was used for the thumbnail creation. Needs to be in the assets directory and have a `name.png` and `name_dark.png` variant.
     """
-    if config.DELETE_THUMBNAILS == False:
+    if config.DELETE_THUMBNAILS is False:
         return
     if os.path.exists(f"assets/thumbnails/{icon}_{id}.png"):
         os.remove(f"assets/thumbnails/{icon}_{id}.png")
