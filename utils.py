@@ -312,7 +312,9 @@ def error_embed(
 async def get_latest_version():
     """Returns the latest version of the bot."""
     async with aiohttp.ClientSession() as session:
-        async with session.get(config.RAW_GH + config.REPO + "/master/pyproject.toml") as r:
+        async with session.get(
+            config.RAW_GH + config.REPO + "/master/pyproject.toml"
+        ) as r:
             data = await r.text()
             data = tomllib.loads(data)
             return data["tool"]["commitizen"]["version"]
