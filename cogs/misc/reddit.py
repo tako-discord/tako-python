@@ -41,9 +41,7 @@ class Reddit(commands.Cog):
         if subreddit.startswith("r/"):
             subreddit = subreddit[2:]
         async with aiohttp.ClientSession() as session:
-            async with session.get(
-                f"https://meme-api.com/gimme/{subreddit}/"
-            ) as r:
+            async with session.get(f"https://meme-api.com/gimme/{subreddit}/") as r:
                 data = await r.json()
                 try:
                     if data["code"] == 404:
