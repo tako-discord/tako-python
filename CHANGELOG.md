@@ -1,3 +1,21 @@
+## 1.10.0 (2023-02-25)
+
+### Feat
+
+- add `/reddit` command
+- **ip**: add `/ip` command
+
+### Fix
+
+- **config**: forgot to save __init__.py that removes the import :skull:
+- **TakoBot**: fix presence not updating
+
+### Refactor
+
+- **rpc**: better rpc
+- **uwuify**: add descriptions for fields and use percentage from 0-100 instead of 0-1
+- move language related features into seperate folder
+
 ## 1.9.0 (2023-02-11)
 
 ### Feat
