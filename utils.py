@@ -7,7 +7,6 @@ import asyncpg
 import aiohttp
 from datetime import datetime
 from urllib.parse import quote
-from config import REPO, RAW_GH
 from discord import app_commands
 from PIL import Image, ImageColor
 
@@ -102,7 +101,7 @@ async def thumbnail(id: int | None, icon_name: str, bot):
     color = await get_color(bot, id, False) if id else config.DEFAULT_COLOR_STR
     img = Image.new("RGB", (512, 512), color=color.replace("0x", "#"))  # type: ignore
     icon = Image.open(
-        f"assets/icons/{icon_name}{'' if color_check(color.replace('0x', '#')) or icon_name == 'reddit' else '_dark'}.png"  # type: ignore
+        f"assets/icons/{icon_name}{'' if color_check(color.replace('0x', '#')) else '_dark'}.png"  # type: ignore
     )
     img.paste(icon, (56, 56), mask=icon)
     img.save(f"assets/thumbnails/{icon_name}_{id}.png")
@@ -313,7 +312,7 @@ def error_embed(
 async def get_latest_version():
     """Returns the latest version of the bot."""
     async with aiohttp.ClientSession() as session:
-        async with session.get(RAW_GH + REPO + "/master/pyproject.toml") as r:
+        async with session.get(config.RAW_GH + config.REPO + "/master/pyproject.toml") as r:
             data = await r.text()
             data = tomllib.loads(data)
             return data["tool"]["commitizen"]["version"]
@@ -353,7 +352,7 @@ async def translate(text: str, target: str, source: str = "auto"):
         return data if data is not json.JSONDecodeError else text
 
 
-async def new_meme(guild_id: int, user_id: int, bot, db_pool: asyncpg.Pool):
+async def new_meme(guild_id: int | None, user_id: int, bot, db_pool: asyncpg.Pool):
     """Returns a new meme embed and it's file from reddit.
 
     Parameters
