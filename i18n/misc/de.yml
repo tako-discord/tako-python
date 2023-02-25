@@ -43,3 +43,6 @@ de:
   auto_react_list: "Die folgenden Emojis werden zu jeder neuen Nachricht in %{channel} hinzugefügt:\n%{emojis}"
   auto_react_max: "Du kannst nur bis zu 20 Emojis einrichten, die automatisch zu jeder Nachricht in %{channel} hinzugefügt zu werden, aufgrund einer Discord-Einschränkung :c\nTut mir leid!"
   poll_owner: "Du bist nicht der Ersteller dieser Umfrage!"
+  reddit_nsfw: "The random post is NSFW and this channel does not allow NSFW Content. Please try again."
+  reddit_not_found: "The subreddit was not found."
+  reddit_no_images: "The subreddit doesn't have any images at the moment."
