@@ -40,10 +40,9 @@ class Reddit(commands.Cog):
         language = get_language(self.bot, interaction.guild_id)
         if subreddit.startswith("r/"):
             subreddit = subreddit[2:]
-        session_timeout = aiohttp.ClientTimeout(total=None, sock_connect=1, sock_read=1)
-        async with aiohttp.ClientSession(timeout=session_timeout) as session:
+        async with aiohttp.ClientSession() as session:
             async with session.get(
-                f"https://meme-api.com/gimme/{subreddit}/", timeout=1
+                f"https://meme-api.com/gimme/{subreddit}/"
             ) as r:
                 data = await r.json()
                 try:
