@@ -26,7 +26,6 @@ async def main():
     intents.message_content = True
     intents.guilds = True
     intents.members = True
-    intents.presences = True
     intents.reactions = True
 
     bot: TakoBot = TakoBot(command_prefix="tk!", intents=intents)
