@@ -4,10 +4,11 @@ from utils import get_language
 from discord.ext import commands
 from discord import app_commands
 
-
-error_color = discord.Color(0xd0021b)
+error_color = discord.Color(0xD0021B)
 success_color = discord.Color.green()
-loading_color = discord.Color(0xf5a623)
+loading_color = discord.Color(0xF5A623)
+checkmark = "<:checkmark:1075122802669125663>"
+cross = "<:cross:1075122805038919760>"
 
 class Roles(commands.GroupCog, name="role"):
     def __init__(self, bot: commands.bot):
@@ -23,15 +24,15 @@ class Roles(commands.GroupCog, name="role"):
     async def add(self, interaction: discord.Interaction, role: discord.Role, member: discord.Member = None, reason: str = None):
         if not member: member = interaction.user       
         if role.position >= interaction.user.top_role.position:
-            embed = discord.Embed(colour=error_color, description=f"{role.mention} is either above you or me in the Role list.") # roles_above
+            embed = discord.Embed(colour=error_color, description=f"{cross} {role.mention} is either above you or me in the Role list.") # roles_above
             return await interaction.response.send_message(embed=embed)
         if role in member.roles:
-            embed = discord.Embed(colour=error_color, description=f"The user already has the role {role.mention}!") # roles_user_has_role
+            embed = discord.Embed(colour=error_color, description=f"{cross} The user already has the role {role.mention}!") # roles_user_has_role
             return await interaction.response.send_message(embed=embed)
         
         await member.add_roles(role, reason=f"Role added by {interaction.user}, reason: {reason}")
         
-        embed = discord.Embed(colour=success_color, description=f"The role {role.mention} was successfully **given** to {member.mention}!") # roles_single_add_success
+        embed = discord.Embed(colour=success_color, description=f"{checkmark} The role {role.mention} was successfully **given** to {member.mention}!") # roles_single_add_success
         await interaction.response.send_message(embed=embed)
 
 
@@ -45,15 +46,15 @@ class Roles(commands.GroupCog, name="role"):
     async def remove(self, interaction: discord.Interaction, role: discord.Role, member: discord.Member = None, reason: str = None):
         if not member: member = interaction.user
         if role.position >= interaction.user.top_role.position:
-            embed = discord.Embed(colour=error_color, description=f"{role.mention} is either above you or me in the Role list.") # roles_above
+            embed = discord.Embed(colour=error_color, description=f"{cross} {role.mention} is either above you or me in the Role list.") # roles_above
             return await interaction.response.send_message(embed=embed)
         if not role in member.roles:
-            embed = discord.Embed(colour=error_color, description=f"The user does not have the role {role.mention}!") # roles_user_has_not_role
+            embed = discord.Embed(colour=error_color, description=f"{cross} The user does not have the role {role.mention}!") # roles_user_has_not_role
             return await interaction.response.send_message(embed=embed)
         
         await member.remove_roles(role, reason=f"Role added by {interaction.user}, reason: {reason}")
         
-        embed = discord.Embed(colour=success_color, description=f"The role {role.mention} was successfully **removed** from {member.mention}!") # roles_single_remove_success
+        embed = discord.Embed(colour=success_color, description=f"{checkmark} The role {role.mention} was successfully **removed** from {member.mention}!") # roles_single_remove_success
         await interaction.response.send_message(embed=embed)
 
 
@@ -87,8 +88,8 @@ class Roles(commands.GroupCog, name="role"):
                     counter += 1
                     await user.add_roles(role, reason=f"Role added by {interaction.user}, reason: {reason}")
             
-            if counter == 0: embed = discord.Embed(colour=error_color, description=f"All members are already having the role {role.mention}.")
-            else: embed = discord.Embed(colour=success_color, description=f"The role {role.mention} was successfully **given** to {counter} members!")
+            if counter == 0: embed = discord.Embed(colour=error_color, description=f"{cross} All members are already having the role {role.mention}.")
+            else: embed = discord.Embed(colour=success_color, description=f"{checkmark} The role {role.mention} was successfully **given** to {counter} members!")
             return await interaction.edit_original_response(embed=embed)
 
         if option == 2: # humans
@@ -102,8 +103,8 @@ class Roles(commands.GroupCog, name="role"):
                         if user_top > interaction_top: continue
                         counter += 1
                         await user.add_roles(role, reason=f"Role added by {interaction.user}, reason: {reason}")
-            if counter == 0: embed = discord.Embed(colour=error_color, description=f"All humans are already having the role {role.mention}.")
-            else: embed = discord.Embed(colour=success_color, description=f"The role {role.mention} was successfully **given** to {counter} humans!")
+            if counter == 0: embed = discord.Embed(colour=error_color, description=f"{cross} All humans are already having the role {role.mention}.")
+            else: embed = discord.Embed(colour=success_color, description=f"{checkmark} The role {role.mention} was successfully **given** to {counter} humans!")
             return await interaction.edit_original_response(embed=embed)
 
         if option == 3: # bots
@@ -117,8 +118,8 @@ class Roles(commands.GroupCog, name="role"):
                         if user_top > interaction_top: continue   
                         counter += 1
                         await user.add_roles(role, reason=f"Role added by {interaction.user}, reason: {reason}")
-            if counter == 0: embed = discord.Embed(colour=error_color, description=f"All bots are already having the role {role.mention}.")
-            else: embed = discord.Embed(colour=success_color, description=f"The role {role.mention} was successfully **given** to {counter} bots!")
+            if counter == 0: embed = discord.Embed(colour=error_color, description=f"{cross} All bots are already having the role {role.mention}.")
+            else: embed = discord.Embed(colour=success_color, description=f"{checkmark} The role {role.mention} was successfully **given** to {counter} bots!")
             return await interaction.edit_original_response(embed=embed)
 
 
@@ -128,6 +129,7 @@ class Roles(commands.GroupCog, name="role"):
     @app_commands.describe(role="The role to remove from everyone.")
     @app_commands.describe(reason="Why are you removing the role?")
     @app_commands.describe(option="[1] Everyone  [2] Only Humans  [3] Only Bots")
+    @app_commands.choices(option=[app_commands.Choice(name="Everyone", value=1), app_commands.Choice(name="Only Humans", value=2), app_commands.Choice(name="Only bots", value=3),])
     @app_commands.guild_only()
     async def remove_all(self, interaction: discord.Interaction, role: discord.Role, reason: str = None, option: int = 1):
         member_list = interaction.guild.members
@@ -141,8 +143,8 @@ class Roles(commands.GroupCog, name="role"):
                     counter += 1
                     await user.remove_roles(role, reason=f"Role removed by {interaction.user}, reason: {reason}")
             
-            if counter == 0: embed = discord.Embed(colour=error_color, description=f"No one has the role {role.mention}.")
-            else: embed = discord.Embed(colour=success_color, description=f"The role {role.mention} was successfully **removed** from {counter} members!")
+            if counter == 0: embed = discord.Embed(colour=error_color, description=f"{cross} No one has the role {role.mention}.")
+            else: embed = discord.Embed(colour=success_color, description=f"{checkmark} The role {role.mention} was successfully **removed** from {counter} members!")
             return await interaction.edit_original_response(embed=embed)
         
         elif option == 2: # humans
@@ -153,8 +155,8 @@ class Roles(commands.GroupCog, name="role"):
                     counter += 1
                     await user.remove_roles(role, reason=f"Role removed by {interaction.user}, reason: {reason}")
             
-            if counter == 0: embed = discord.Embed(colour=error_color, description=f"No one has the role {role.mention}.")        
-            else: embed = discord.Embed(colour=success_color, description=f"The role {role.mention} was successfully **removed** from {counter} humans!")
+            if counter == 0: embed = discord.Embed(colour=error_color, description=f"{cross} No one has the role {role.mention}.")        
+            else: embed = discord.Embed(colour=success_color, description=f"{checkmark} The role {role.mention} was successfully **removed** from {counter} humans!")
             return await interaction.edit_original_response(embed=embed)   
              
         elif option == 3: #bots
@@ -165,8 +167,8 @@ class Roles(commands.GroupCog, name="role"):
                     counter += 1
                     await user.remove_roles(role, reason=f"Role removed by {interaction.user}, reason: {reason}")
             
-            if counter == 0: embed = discord.Embed(colour=error_color, description=f"No one has the role {role.mention}.")        
-            else: embed = discord.Embed(colour=success_color, description=f"The role {role.mention} was successfully **removed** from {counter} bots!")
+            if counter == 0: embed = discord.Embed(colour=error_color, description=f"{cross} No one has the role {role.mention}.")        
+            else: embed = discord.Embed(colour=success_color, description=f"{checkmark} The role {role.mention} was successfully **removed** from {counter} bots!")
             return await interaction.edit_original_response(embed=embed)
         
         
