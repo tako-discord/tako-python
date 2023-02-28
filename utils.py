@@ -38,7 +38,7 @@ def format_bytes(size: int):
     n = 0
     power_labels = ["Bytes", "KB", "MB", "GB", "TB"]
     while size > power and n != 4:
-        size /= power
+        size /= power # type: ignore
         n += 1
     return str(round(size)) + power_labels[n]
 
@@ -86,7 +86,7 @@ def color_check(color: str):
     """
     value = True
     rgb = ImageColor.getcolor(color, "RGB")
-    value = True if (rgb[0] * 0.299 + rgb[1] * 0.587 + rgb[2] * 0.114) < 143 else False
+    value = True if (rgb[0] * 0.299 + rgb[1] * 0.587 + rgb[2] * 0.114) < 143 else False # type: ignore
     return value
 
 
