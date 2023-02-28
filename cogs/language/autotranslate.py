@@ -17,16 +17,17 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
     @app_commands.command(description="Disable or enable auto translate")
     @app_commands.describe(value="Whether to enable or disable auto translate")
     @app_commands.checks.has_permissions(manage_guild=True)
+    @app_commands.guild_only()
     async def toggle(self, interaction: discord.Interaction, value: bool):
         await self.bot.db_pool.execute(
             "INSERT INTO guilds (guild_id, auto_translate) VALUES ($1, $2) ON CONFLICT(guild_id) DO UPDATE SET auto_translate = $2",
-            interaction.guild.id,
+            interaction.guild_id,
             value,
         )
         return await interaction.response.send_message(
             i18n.t(
                 f"misc.auto_translate_{'activated' if value else 'deactivated'}",
-                locale=get_language(self.bot, interaction.guild.id),
+                locale=get_language(self.bot, interaction.guild_id),
             ),
             ephemeral=True,
         )
@@ -41,17 +42,18 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
             Choice(name="Minimal Webhook", value="min_webhook"),
         ]
     )
+    @app_commands.guild_only()
     async def style(self, interaction: discord.Interaction, style: str):
         await self.bot.db_pool.execute(
             "INSERT INTO guilds (guild_id, auto_translate_reply_style) VALUES ($1, $2) ON CONFLICT(guild_id) DO UPDATE SET auto_translate_reply_style = $2",
-            interaction.guild.id,
+            interaction.guild_id,
             style,
         )
         return await interaction.response.send_message(
             i18n.t(
                 "misc.auto_translate_reply_style_set",
                 style=style,
-                locale=get_language(self.bot, interaction.guild.id),
+                locale=get_language(self.bot, interaction.guild_id),
             ),
             ephemeral=True,
         )
@@ -61,19 +63,20 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
     )
     @app_commands.describe(value="The confidence threshold for auto translate.")
     @app_commands.checks.has_permissions(manage_guild=True)
+    @app_commands.guild_only()
     async def sensitivity(
         self, interaction: discord.Interaction, value: app_commands.Range[int, 0, 100]
     ):
         await self.bot.db_pool.execute(
             "INSERT INTO guilds (guild_id, auto_translate_confidence) VALUES ($1, $2) ON CONFLICT(guild_id) DO UPDATE SET auto_translate_confidence = $2;",
-            interaction.guild.id,
+            interaction.guild_id,
             value,
         )
         return await interaction.response.send_message(
             i18n.t(
                 "misc.auto_translate_confidence_set",
                 value=value,
-                locale=get_language(self.bot, interaction.guild.id),
+                locale=get_language(self.bot, interaction.guild_id),
             ),
             ephemeral=True,
         )
@@ -85,20 +88,22 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
     async def delete_original(self, interaction: discord.Interaction, value: bool):
         await self.bot.db_pool.execute(
             "INSERT INTO guilds (guild_id, auto_translate_delete_original) VALUES ($1, $2) ON CONFLICT(guild_id) DO UPDATE SET auto_translate_delete_original = $2;",
-            interaction.guild.id,
+            interaction.guild_id,
             value,
         )
         return await interaction.response.send_message(
             i18n.t(
                 "misc.auto_translate_delete_original",
                 value=value,
-                locale=get_language(self.bot, interaction.guild.id),
+                locale=get_language(self.bot, interaction.guild_id),
             ),
             ephemeral=True,
         )
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
+        if not message.guild:
+            return
         try:
             state = await self.bot.db_pool.fetchval(
                 "SELECT auto_translate FROM guilds WHERE guild_id = $1",
@@ -109,7 +114,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
         if (
             not message.content
             or not state
-            or message.author.id == self.bot.user.id
+            or message.author.id == self.bot.user.id # type: ignore
             or message.webhook_id
         ):
             return
@@ -154,7 +159,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
         attachments = new_attachments
 
         data = await detect(
-            message.content, path=os.path.join(os.getcwd(), "assets/lid.176.bin")
+            message.content.replace("\n", " "), path=os.path.join(os.getcwd(), "assets/lid.176.bin")
         )
         data["score"] = data["score"] * 100
         confidence = await self.bot.db_pool.fetchval(
@@ -205,22 +210,22 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
             translation = await translate(message.content, guild_language)
             if not translation:
                 return
-            if translation.lower() == message.content.lower():  # type: ignore
+            if translation[0].lower() == message.content.lower():
                 return
             try:
                 match reply_style:
                     case "webhook":
                         await webhook.send(
-                            username=f"{message.author.display_name} ({data['lang']} ➜ {guild_language})",
+                            username=f"{message.author.display_name} ({translation[1]} ➜ {guild_language})",
                             avatar_url=message.author.display_avatar.url,
                             files=attachments,  # type: ignore
                             thread=message.channel if isinstance(message.channel, discord.Thread) else discord.utils.MISSING,  # type: ignore
                             embed=discord.Embed(
-                                description=translation,
+                                description=translation[0],
                                 color=0x2F3136,
                             ).set_footer(
                                 text=f"Confidence: {round(data['score'])}%"  # type: ignore
-                            ),  # type: ignore
+                            ),
                         )
                         if delete_original or delete_original is None:
                             await message.delete()
@@ -245,11 +250,12 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                             )
                     case "min_webhook":
                         await webhook.send(
-                            username=f"{message.author.display_name} ({data['lang']} ➜ {guild_language})",
+                            username=f"{message.author.display_name} ({translation[1]} ➜ {guild_language})",
                             avatar_url=message.author.display_avatar.url,
                             files=attachments,  # type: ignore
                             thread=message.channel if isinstance(message.channel, discord.Thread) else discord.utils.MISSING,  # type: ignore
-                            content=await translate(message.content, guild_language),  # type: ignore
+                            content=translation[0],
+                            allowed_mentions=discord.AllowedMentions.none()
                         )
                         if delete_original:
                             await message.delete()
@@ -276,8 +282,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                         if delete_original:
                             await message.channel.send(
                                 f"{message.author.mention}:\n> "
-                                + (translation).replace("\n", "\n> ")
-                                + f"\n\n` {data['lang']} ➜ {guild_language} | {round(data['score'])} `",  # type: ignore
+                                + (translation[0]).replace("\n", "\n> "),
                                 allowed_mentions=discord.AllowedMentions.none(),
                                 files=attachments,  # type: ignore
                             )
@@ -297,8 +302,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                             return
                         await message.reply(
                             "> "
-                            + (translation).replace("\n", "\n> ")  # type: ignore
-                            + f"\n\n` {data['lang']} ➜ {guild_language} | {round(data['score'])} `",  # type: ignore
+                            + (translation[0]).replace("\n", "\n> "),
                             allowed_mentions=discord.AllowedMentions.none(),
                             mention_author=False,
                             files=attachments,

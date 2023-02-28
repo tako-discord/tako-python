@@ -30,7 +30,7 @@ class UwU(commands.Cog):
         await interaction.response.defer()
         if interaction.guild_id:
             locale = get_language(self.bot, interaction.guild_id)
-            translated = await translate(message, locale)
+            translated = (await translate(message, locale))[0]
             if isinstance(translated, str):
                 message = translated
         uwu = uwuipy(

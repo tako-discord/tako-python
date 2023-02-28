@@ -25,7 +25,7 @@ class ReactionTranslate(commands.Cog):
         return await interaction.response.send_message(
             i18n.t(
                 f"misc.reaction_translate_{'activated' if value else 'deactivated'}",
-                locale=get_language(self.bot, interaction.guild.id),
+                locale=get_language(self.bot, interaction.guild_id),
             )
         )
 
@@ -54,7 +54,7 @@ class ReactionTranslate(commands.Cog):
                 return
         except KeyError:
             return
-        cooldown = 1
+        cooldown = 10
         if (
             last_reaction_translation
             and last_reaction_translation.total_seconds() < cooldown
@@ -80,14 +80,15 @@ class ReactionTranslate(commands.Cog):
 
         message: discord.Message = await self.bot.get_channel(
             payload.channel_id
-        ).fetch_message(
+        ).fetch_message( # type: ignore
+
             payload.message_id
-        )  # type: ignore
+        )
         try:
             language = language_dict[payload.emoji.name]
         except KeyError:
             return
-        translation = await translate(message.content, language)
+        translation = (await translate(message.content, language))[0]
 
         if not message.content:
             return

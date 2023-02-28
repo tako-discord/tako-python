@@ -15,9 +15,9 @@ ALPHA_TESTER_ROLE = 969306314981376071
 DEV_ROLE = 969285824107642990
 SURVEY_ROLES = [1026487071625457754, 1062067399395913808]
 CURRENCY = " <:TK:1025679113777848320>"
-SIMPLY_TRANSLATE = "https://simplytranslate.org"  # no / at the end is important
-SIMPLY_TRANSLATE_FALLBACK = (
-    "https://translate.slipfox.xyz"  # no / at the end is important
+TRANSLATE_API = "https://lingva.ml"  # no / at the end is important
+TRANSLATE_API_FALLBACK = (
+    "https://lingva.ml"  # no / at the end is important
 )
 IMGEN = "https://imgen.tako-bot.com"  # no / at the end is important
 REPO = "tako-discord/tako"

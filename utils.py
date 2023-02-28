@@ -5,6 +5,7 @@ import config
 import discord
 import asyncpg
 import aiohttp
+from typing import Type
 from datetime import datetime
 from urllib.parse import quote
 from discord import app_commands
@@ -320,17 +321,20 @@ async def get_latest_version():
             return data["tool"]["commitizen"]["version"]
 
 
-async def translate_logic(session: aiohttp.ClientSession, url: str):
+async def translate_logic(session: aiohttp.ClientSession, url: str, source: str = "auto") -> Type[json.JSONDecodeError] | list[str]:
     async with session.get(url) as r:
         data = await r.text()
         try:
             data = json.loads(data)
         except json.JSONDecodeError:
             return json.JSONDecodeError
-        return data["translated-text"]
+        try:
+            return [data["translation"], data["info"]["detectedSource"]]
+        except KeyError:
+            return [data["translation"], source]
 
 
-async def translate(text: str, target: str, source: str = "auto"):
+async def translate(text: str, target: str, source: str = "auto") -> list[str]:
     """Translates a given string to a specified language.
 
     Parameters
@@ -344,14 +348,16 @@ async def translate(text: str, target: str, source: str = "auto"):
     async with aiohttp.ClientSession() as session:
         data = await translate_logic(
             session,
-            f"{config.SIMPLY_TRANSLATE}/api/translate/?engine=google&text={quote(text)}&from={source}&to={target}",
+            f"{config.TRANSLATE_API}/api/v1/{source}/{target}/{quote(text)}",
+            source,
         )
         if data is json.JSONDecodeError:
             data = await translate_logic(
                 session,
-                f"{config.SIMPLY_TRANSLATE_FALLBACK}/api/translate/?engine=google&text={quote(text)}&from={source}&to={target}",
+                f"{config.TRANSLATE_API_FALLBACK}/api/v1/{source}/{target}/{quote(text)}",
+                source,
             )
-        return data if data is not json.JSONDecodeError else text
+        return data if data is not json.JSONDecodeError else [text, source] # type: ignore
 
 
 async def new_meme(guild_id: int | None, user_id: int, bot, db_pool: asyncpg.Pool):
