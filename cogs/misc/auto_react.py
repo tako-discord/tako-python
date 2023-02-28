@@ -1,5 +1,5 @@
 import discord
-import emoji
+import emoji as emoji_module
 from discord import app_commands
 from discord.ext import commands
 
@@ -9,7 +9,7 @@ from TakoBot import TakoBot
 
 class EmojiTransformer(app_commands.Transformer):
     async def transform(self, interaction: discord.Interaction, value: str):
-        is_emoji = emoji.is_emoji(value)
+        is_emoji = emoji_module.is_emoji(value)
         return await commands.PartialEmojiConverter().convert((await commands.Context.from_interaction(interaction)), value) if not is_emoji else value  # type: ignore
 
 
