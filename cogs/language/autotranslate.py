@@ -114,7 +114,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
         if (
             not message.content
             or not state
-            or message.author.id == self.bot.user.id # type: ignore
+            or message.author.id == self.bot.user.id  # type: ignore
             or message.webhook_id
         ):
             return
@@ -159,7 +159,8 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
         attachments = new_attachments
 
         data = await detect(
-            message.content.replace("\n", " "), path=os.path.join(os.getcwd(), "assets/lid.176.bin")
+            message.content.replace("\n", " "),
+            path=os.path.join(os.getcwd(), "assets/lid.176.bin"),
         )
         data["score"] = data["score"] * 100
         confidence = await self.bot.db_pool.fetchval(
@@ -255,7 +256,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                             files=attachments,  # type: ignore
                             thread=message.channel if isinstance(message.channel, discord.Thread) else discord.utils.MISSING,  # type: ignore
                             content=translation[0],
-                            allowed_mentions=discord.AllowedMentions.none()
+                            allowed_mentions=discord.AllowedMentions.none(),
                         )
                         if delete_original:
                             await message.delete()
@@ -301,8 +302,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
                             await message.delete()
                             return
                         await message.reply(
-                            "> "
-                            + (translation[0]).replace("\n", "\n> "),
+                            "> " + (translation[0]).replace("\n", "\n> "),
                             allowed_mentions=discord.AllowedMentions.none(),
                             mention_author=False,
                             files=attachments,

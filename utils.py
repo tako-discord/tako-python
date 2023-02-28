@@ -38,7 +38,7 @@ def format_bytes(size: int):
     n = 0
     power_labels = ["Bytes", "KB", "MB", "GB", "TB"]
     while size > power and n != 4:
-        size /= power # type: ignore
+        size /= power  # type: ignore
         n += 1
     return str(round(size)) + power_labels[n]
 
@@ -86,7 +86,7 @@ def color_check(color: str):
     """
     value = True
     rgb = ImageColor.getcolor(color, "RGB")
-    value = True if (rgb[0] * 0.299 + rgb[1] * 0.587 + rgb[2] * 0.114) < 143 else False # type: ignore
+    value = True if (rgb[0] * 0.299 + rgb[1] * 0.587 + rgb[2] * 0.114) < 143 else False  # type: ignore
     return value
 
 
@@ -321,7 +321,9 @@ async def get_latest_version():
             return data["tool"]["commitizen"]["version"]
 
 
-async def translate_logic(session: aiohttp.ClientSession, url: str, source: str = "auto") -> Type[json.JSONDecodeError] | list[str]:
+async def translate_logic(
+    session: aiohttp.ClientSession, url: str, source: str = "auto"
+) -> Type[json.JSONDecodeError] | list[str]:
     async with session.get(url) as r:
         data = await r.text()
         try:
@@ -357,7 +359,7 @@ async def translate(text: str, target: str, source: str = "auto") -> list[str]:
                 f"{config.TRANSLATE_API_FALLBACK}/api/v1/{source}/{target}/{quote(text)}",
                 source,
             )
-        return data if data is not json.JSONDecodeError else [text, source] # type: ignore
+        return data if data is not json.JSONDecodeError else [text, source]  # type: ignore
 
 
 async def new_meme(guild_id: int | None, user_id: int, bot, db_pool: asyncpg.Pool):

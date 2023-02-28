@@ -80,8 +80,7 @@ class ReactionTranslate(commands.Cog):
 
         message: discord.Message = await self.bot.get_channel(
             payload.channel_id
-        ).fetch_message( # type: ignore
-
+        ).fetch_message(  # type: ignore
             payload.message_id
         )
         try:
