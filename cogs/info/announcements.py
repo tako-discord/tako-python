@@ -51,7 +51,7 @@ class Announcements(commands.Cog):
                 return await interaction.response.send_message(
                     i18n.t(
                         "info.no_more_announcements",
-                        locale=get_language(self.bot, interaction.guild.id),
+                        locale=get_language(self.bot, interaction.guild_id),
                     ),
                     ephemeral=True,
                 )
@@ -60,7 +60,7 @@ class Announcements(commands.Cog):
             announcement = announcements[self.index]
             embed, file = await announcement_embed(
                 self.bot,
-                interaction.guild.id,
+                interaction.guild_id,
                 announcement["title"] + " (Latest)"
                 if self.index == len(announcements) - 1
                 else announcement["title"],
@@ -82,7 +82,7 @@ class Announcements(commands.Cog):
                 return await interaction.response.send_message(
                     i18n.t(
                         "info.no_more_announcements",
-                        locale=get_language(self.bot, interaction.guild.id),
+                        locale=get_language(self.bot, interaction.guild_id),
                     ),
                     ephemeral=True,
                 )
@@ -90,7 +90,7 @@ class Announcements(commands.Cog):
             announcement = announcements[self.index]
             embed, file = await announcement_embed(
                 self.bot,
-                interaction.guild.id,
+                interaction.guild_id,
                 announcement["title"] + " (Latest)"
                 if self.index == len(announcements) - 1
                 else announcement["title"],
@@ -112,7 +112,7 @@ class Announcements(commands.Cog):
             announcement = announcements[self.index]
             embed, file = await announcement_embed(
                 self.bot,
-                interaction.guild.id,
+                interaction.guild_id,
                 announcement["title"] + " (Latest)",
                 announcement["description"],
                 announcement["type"],
@@ -131,7 +131,7 @@ class Announcements(commands.Cog):
             announcement = announcements[self.index]
             embed, file = await announcement_embed(
                 self.bot,
-                interaction.guild.id,
+                interaction.guild_id,
                 announcement["title"],
                 announcement["description"],
                 announcement["type"],
@@ -151,7 +151,7 @@ class Announcements(commands.Cog):
             return await interaction.response.send_message(
                 i18n.t(
                     "info.no_announcements",
-                    locale=get_language(self.bot, interaction.guild.id),
+                    locale=get_language(self.bot, interaction.guild_id),
                 ),
                 ephemeral=True,
             )
@@ -159,7 +159,7 @@ class Announcements(commands.Cog):
         announcement = announcements[index]
         embed, file = await announcement_embed(
             self.bot,
-            interaction.guild.id,
+            interaction.guild_id,
             announcement["title"] + " (Latest)",
             announcement["description"],
             announcement["type"],

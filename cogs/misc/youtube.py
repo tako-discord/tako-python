@@ -17,7 +17,7 @@ class Youtube(commands.GroupCog, group_name="youtube"):
         results = youtube_api.search_by_keywords(q=query, count=3).items
         embed = discord.Embed(
             title="YouTube Search",
-            color=await get_color(self.bot, interaction.guild.id),
+            color=await get_color(self.bot, interaction.guild_id),
             description=f"Top {len(results)} Search results for *{query}*",
         )
 

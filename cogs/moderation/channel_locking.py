@@ -22,7 +22,7 @@ class ChannelLocking(commands.Cog):
         locked = await self.bot.db_pool.fetchval(
             "SELECT locked FROM channels WHERE channel_id = $1", channel.id
         )
-        language = get_language(self.bot, interaction.guild.id)
+        language = get_language(self.bot, interaction.guild_id)
         if locked:
             embed, file = error_embed(
                 self.bot,
@@ -30,7 +30,7 @@ class ChannelLocking(commands.Cog):
                 i18n.t(
                     "errors.already_locked", locale=language, channel=channel.mention
                 ),
-                interaction.guild.id,
+                interaction.guild_id,
             )
             return await interaction.response.send_message(
                 embed=embed, file=file, ephemeral=True
@@ -92,13 +92,13 @@ class ChannelLocking(commands.Cog):
         locked = await self.bot.db_pool.fetchval(
             "SELECT locked FROM channels WHERE channel_id = $1", channel.id
         )
-        language = get_language(self.bot, interaction.guild.id)
+        language = get_language(self.bot, interaction.guild_id)
         if not locked:
             embed, file = error_embed(
                 self.bot,
                 i18n.t("errors.not_locked_title", locale=language),
                 i18n.t("errors.not_locked", locale=language, channel=channel.mention),
-                interaction.guild.id,
+                interaction.guild_id,
             )
             return await interaction.response.send_message(
                 embed=embed, file=file, ephemeral=True
@@ -136,7 +136,7 @@ class ChannelLocking(commands.Cog):
         for permission in permissions:
             allow = discord.Permissions(permission["allow"])
             deny = discord.Permissions(permission["deny"])
-            if permission["target_id"] == interaction.guild.id:
+            if permission["target_id"] == interaction.guild_id:
                 target = interaction.guild.default_role
             else:
                 target = discord.Object(

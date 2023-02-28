@@ -33,7 +33,7 @@ class Emoji(commands.GroupCog, group_name="emoji"):
             return await interaction.response.send_message(
                 i18n.t(
                     "misc.not_emoji",
-                    locale=get_language(self.bot, interaction.guild.id),
+                    locale=get_language(self.bot, interaction.guild_id),
                 ),
                 ephemeral=True,
             )
@@ -53,7 +53,7 @@ class Emoji(commands.GroupCog, group_name="emoji"):
             return await interaction.response.send_message(
                 i18n.t(
                     "misc.not_emoji",
-                    locale=get_language(self.bot, interaction.guild.id),
+                    locale=get_language(self.bot, interaction.guild_id),
                 ),
                 ephemeral=True,
             )
@@ -61,7 +61,7 @@ class Emoji(commands.GroupCog, group_name="emoji"):
             return await interaction.response.send_message(
                 i18n.t(
                     "misc.too_big",
-                    locale=get_language(self.bot, interaction.guild.id),
+                    locale=get_language(self.bot, interaction.guild_id),
                 ),
                 ephemeral=True,
             )
@@ -70,7 +70,7 @@ class Emoji(commands.GroupCog, group_name="emoji"):
             description=i18n.t(
                 "misc.added_emoji",
                 emoji=added_emoji.name,
-                locale=get_language(self.bot, interaction.guild.id),
+                locale=get_language(self.bot, interaction.guild_id),
             ).replace("\n", "\n"),
             color=discord.Color.green(),
         )
@@ -85,7 +85,7 @@ class Emoji(commands.GroupCog, group_name="emoji"):
         except:
             return await interaction.response.send_message(
                 i18n.t(
-                    "misc.not_id", locale=get_language(self.bot, interaction.guild.id)
+                    "misc.not_id", locale=get_language(self.bot, interaction.guild_id)
                 ),
                 ephemeral=True,
             )
@@ -94,7 +94,7 @@ class Emoji(commands.GroupCog, group_name="emoji"):
         except NotFound:
             return await interaction.response.send_message(
                 i18n.t(
-                    "misc.not_id", locale=get_language(self.bot, interaction.guild.id)
+                    "misc.not_id", locale=get_language(self.bot, interaction.guild_id)
                 ),
                 ephemeral=True,
             )
@@ -102,7 +102,7 @@ class Emoji(commands.GroupCog, group_name="emoji"):
             reason=i18n.t(
                 "misc.deleted_emoji_log",
                 user=str(interaction.user),
-                locale=get_language(self.bot, interaction.guild.id),
+                locale=get_language(self.bot, interaction.guild_id),
             )
         )
         embed = discord.Embed(
@@ -110,7 +110,7 @@ class Emoji(commands.GroupCog, group_name="emoji"):
             description=i18n.t(
                 "misc.deleted_emoji",
                 emoji=fetched_emoji.name,
-                locale=get_language(self.bot, interaction.guild.id),
+                locale=get_language(self.bot, interaction.guild_id),
             ),
             color=discord.Color.red(),
         )

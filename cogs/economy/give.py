@@ -20,7 +20,7 @@ class Give(commands.Cog):
         user: discord.User | discord.Member,
         amount: int,
     ):
-        language = get_language(self.bot, interaction.guild.id)
+        language = get_language(self.bot, interaction.guild_id)
         if user.bot:
             return await interaction.response.send_message(
                 i18n.t("economy.not_bot", locale=language), ephemeral=True
@@ -59,7 +59,7 @@ class Give(commands.Cog):
                 )
 
         embed = discord.Embed(
-            description="", color=await get_color(self.bot, interaction.guild.id)
+            description="", color=await get_color(self.bot, interaction.guild_id)
         )
         if not is_owner:
             embed.add_field(

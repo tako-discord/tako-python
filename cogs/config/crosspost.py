@@ -26,7 +26,7 @@ class Crosspost(commands.Cog):
         channel: discord.TextChannel = None,
         state: bool = True,
     ):
-        language = get_language(self.bot, interaction.guild.id)
+        language = get_language(self.bot, interaction.guild_id)
         if not channel:
             channel = interaction.channel
         if channel.type is discord.ChannelType.news:

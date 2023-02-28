@@ -74,7 +74,7 @@ class Stats(commands.Cog):
         embed = discord.Embed(
             title="📊 Stats",
             description="Here are some stats about me",
-            color=await get_color(self.bot, interaction.guild.id),
+            color=await get_color(self.bot, interaction.guild_id),
         )
         embed.set_author(
             name=self.bot.user.name + "#" + self.bot.user.discriminator,

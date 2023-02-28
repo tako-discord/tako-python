@@ -31,5 +31,5 @@ class Balance(commands.Cog):
             )
 
         cash = await fetch_cash(self.bot.db_pool, user)
-        embed, file = await balance_embed(self.bot, user, interaction.guild.id, cash)
+        embed, file = await balance_embed(self.bot, user, interaction.guild_id, cash)
         await interaction.response.send_message(embed=embed, file=file)

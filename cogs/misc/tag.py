@@ -46,7 +46,7 @@ class TagCreation(discord.ui.Modal, title="Create a Tag"):
                 self.children[0].value,
                 self.children[1].value,
                 False,
-                interaction.guild.id,
+                interaction.guild_id,
             )
         else:
             await self.bot.db_pool.execute(
@@ -58,7 +58,7 @@ class TagCreation(discord.ui.Modal, title="Create a Tag"):
                 self.children[3].value,
                 self.children[4].value,
                 True,
-                interaction.guild.id,
+                interaction.guild_id,
             )
         await interaction.response.send_message(
             f"Succesfully created the tag! (ID: *{str(id)}*)", ephemeral=True
@@ -152,7 +152,7 @@ class PaginatorButtons(discord.ui.View):
             description="\n".join(
                 self.array[55 * self.current_page - 55 : 55 * self.current_page]
             ),
-            color=await get_color(self.bot, interaction.guild.id),
+            color=await get_color(self.bot, interaction.guild_id),
             timestamp=datetime.now(),
         )
         embed.set_footer(text=f"Page {self.current_page}/{self.total_pages}")
@@ -172,7 +172,7 @@ class PaginatorButtons(discord.ui.View):
             description="\n".join(
                 self.array[55 * self.current_page - 55 : 55 * self.current_page]
             ),
-            color=await get_color(self.bot, interaction.guild.id),
+            color=await get_color(self.bot, interaction.guild_id),
             timestamp=datetime.now(),
         )
         embed.set_footer(text=f"Page {self.current_page}/{self.total_pages}")
@@ -192,7 +192,7 @@ class PaginatorButtons(discord.ui.View):
             description="\n".join(
                 self.array[55 * self.current_page - 55 : 55 * self.current_page]
             ),
-            color=await get_color(self.bot, interaction.guild.id),
+            color=await get_color(self.bot, interaction.guild_id),
             timestamp=datetime.now(),
         )
         embed.set_footer(text=f"Page {self.current_page}/{self.total_pages}")
@@ -212,7 +212,7 @@ class PaginatorButtons(discord.ui.View):
             description="\n".join(
                 self.array[55 * self.current_page - 55 : 55 * self.current_page]
             ),
-            color=await get_color(self.bot, interaction.guild.id),
+            color=await get_color(self.bot, interaction.guild_id),
             timestamp=datetime.now(),
         )
         embed.set_footer(text=f"Page {self.current_page}/{self.total_pages}")
@@ -236,7 +236,7 @@ class Tag(commands.GroupCog, group_name="tag"):
         tag = await self.bot.db_pool.fetchrow(
             "SELECT * FROM tags WHERE id = $1 AND guild_id = $2;",
             tag,
-            interaction.guild.id,
+            interaction.guild_id,
         )
         if tag is None:
             return await interaction.response.send_message(
@@ -256,7 +256,7 @@ class Tag(commands.GroupCog, group_name="tag"):
             data = await self.bot.db_pool.fetchrow(
                 "SELECT * FROM tags WHERE id = $1 AND guild_id = $2;",
                 tag,
-                interaction.guild.id,
+                interaction.guild_id,
             )
         except:
             pass
@@ -268,7 +268,7 @@ class Tag(commands.GroupCog, group_name="tag"):
             await self.bot.db_pool.execute(
                 "DELETE FROM tags WHERE id = $1 AND guild_id = $2;",
                 tag,
-                interaction.guild.id,
+                interaction.guild_id,
             )
             await interaction.response.send_message(
                 "Succesfully deleted the tag!", ephemeral=True
@@ -277,7 +277,7 @@ class Tag(commands.GroupCog, group_name="tag"):
     @app_commands.command(description="List all tags in the current guild")
     async def list(self, interaction: discord.Interaction):
         tags = await self.bot.db_pool.fetch(
-            "SELECT * FROM tags WHERE guild_id = $1;", interaction.guild.id
+            "SELECT * FROM tags WHERE guild_id = $1;", interaction.guild_id
         )
         tags_array = []
         for tag in tags:
@@ -290,7 +290,7 @@ class Tag(commands.GroupCog, group_name="tag"):
             title="Tags",
             description="\n".join(tags_array[:index]),
             timestamp=datetime.now(),
-            color=await get_color(self.bot, interaction.guild.id),
+            color=await get_color(self.bot, interaction.guild_id),
         )
         embed.set_footer(text=f"Page 1/{total_pages}")
         if total_pages > 1:
@@ -305,7 +305,7 @@ class Tag(commands.GroupCog, group_name="tag"):
         self, interaction: discord.Interaction, current: str
     ):
         tags = await self.bot.db_pool.fetch(
-            "SELECT * FROM tags WHERE guild_id = $1;", interaction.guild.id
+            "SELECT * FROM tags WHERE guild_id = $1;", interaction.guild_id
         )
         return [
             app_commands.Choice(

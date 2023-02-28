@@ -23,7 +23,7 @@ class Slowmode(commands.Cog):
         seconds: app_commands.Range[int, 0, 21600],
         channel: discord.TextChannel | discord.Thread | discord.ForumChannel = None,
     ):
-        locale = get_language(self.bot, interaction.guild.id)
+        locale = get_language(self.bot, interaction.guild_id)
 
         if not channel:
             channel = interaction.channel

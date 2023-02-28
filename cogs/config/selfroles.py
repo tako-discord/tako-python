@@ -87,7 +87,7 @@ class Selfroles(commands.Cog):
             role_array.append(role_20)
 
         select_array = []
-        language = get_language(self.bot, interaction.guild.id)
+        language = get_language(self.bot, interaction.guild_id)
 
         for role in role_array:
             if (
@@ -113,7 +113,7 @@ class Selfroles(commands.Cog):
         await self.bot.db_pool.execute(
             "INSERT INTO selfroles (id, guild_id, select_array, min_values, max_values) VALUES ($1, $2, $3, $4, $5);",
             id,
-            interaction.guild.id,
+            interaction.guild_id,
             select_array,
             min_values,
             max_values,
@@ -123,7 +123,7 @@ class Selfroles(commands.Cog):
         view.add_item(menu)
 
         file = discord.File(
-            await thumbnail(interaction.guild.id, "role", self.bot),
+            await thumbnail(interaction.guild_id, "role", self.bot),
             filename="thumbnail.png",
         )
 
@@ -131,7 +131,7 @@ class Selfroles(commands.Cog):
             embed = discord.Embed(
                 title=title,
                 description=description,
-                color=await get_color(self.bot, interaction.guild.id),
+                color=await get_color(self.bot, interaction.guild_id),
             )
             embed.set_thumbnail(url="attachment://thumbnail.png")
             await interaction.channel.send(embed=embed, view=view, file=file)

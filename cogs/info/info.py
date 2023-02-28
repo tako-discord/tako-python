@@ -90,7 +90,7 @@ class InfoGroup(commands.GroupCog, group_name="info"):
     ):
         if user is None:
             user = interaction.user
-        language = get_language(self.bot, interaction.guild.id)
+        language = get_language(self.bot, interaction.guild_id)
         user_flags = user.public_flags.all()
         general = [
             "",
@@ -185,7 +185,7 @@ class InfoGroup(commands.GroupCog, group_name="info"):
         badge = await self.bot.db_pool.fetchrow(
             "SELECT * FROM badges WHERE name = $1", badge
         )
-        locale = get_language(self.bot, interaction.guild.id)
+        locale = get_language(self.bot, interaction.guild_id)
         if badge is None:
             return await interaction.response.send_message(
                 i18n.t(
@@ -199,14 +199,14 @@ class InfoGroup(commands.GroupCog, group_name="info"):
             + " "
             + i18n.t(f"badges.{badge['name']}_title", locale=locale),
             description=i18n.t(f"badges.{badge['name']}_desc", locale=locale),
-            color=(await get_color(self.bot, interaction.guild.id)),
+            color=(await get_color(self.bot, interaction.guild_id)),
         )
         if badge["users"]:
             embed.add_field(
                 name=i18n.t(
                     "info.users_with_badge",
                     amount=len(badge["users"]),
-                    locale=get_language(self.bot, interaction.guild.id),
+                    locale=get_language(self.bot, interaction.guild_id),
                 ),
                 value=handle_badge_users(self.bot, badge["users"]),
             )
@@ -221,7 +221,7 @@ class InfoGroup(commands.GroupCog, group_name="info"):
 
         current = current.lower()
         badges = await self.bot.db_pool.fetch("SELECT * FROM badges")
-        locale = get_language(self.bot, interaction.guild.id)
+        locale = get_language(self.bot, interaction.guild_id)
         return [
             app_commands.Choice(
                 name=f"{localized_badge_name(badge['name'], locale)} ({badge['emoji']})",

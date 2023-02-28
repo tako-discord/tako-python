@@ -123,11 +123,11 @@ class Autojoin(commands.GroupCog, group_name="autojoinroles"):
     )
     async def list(self, interaction: discord.Interaction):
         await interaction.response.defer()
-        language = get_language(self.bot, interaction.guild.id)
+        language = get_language(self.bot, interaction.guild_id)
         data = await self.bot.db_pool.fetchrow(
             "SELECT * FROM guilds WHERE guild_id = $1", interaction.guild_id
         )
-        thumbnail_path = await thumbnail(interaction.guild.id, "role", self.bot)
+        thumbnail_path = await thumbnail(interaction.guild_id, "role", self.bot)
         file = discord.File(thumbnail_path, filename="thumbnail.png")
         embed = discord.Embed(
             title=i18n.t(
@@ -136,7 +136,7 @@ class Autojoin(commands.GroupCog, group_name="autojoinroles"):
                 locale=language,
             ),
             description=i18n.t("config.autojoinroles_desc", locale=language),
-            color=await get_color(self.bot, interaction.guild.id),  # type: ignore
+            color=await get_color(self.bot, interaction.guild_id),  # type: ignore
         )
         embed.set_thumbnail(url="attachment://thumbnail.png")
         if not data:

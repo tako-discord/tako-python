@@ -16,7 +16,7 @@ class MemeButtons(discord.ui.View):
         self, interaction: discord.Interaction, button: discord.ui.Button
     ):
         embed, file = await new_meme(
-            interaction.guild.id, interaction.user.id, self.bot, self.bot.db_pool
+            interaction.guild_id, interaction.user.id, self.bot, self.bot.db_pool
         )
 
         await interaction.response.edit_message(
@@ -40,13 +40,13 @@ class MemeButtons(discord.ui.View):
             )
 
         data = json.loads(data)
-        thumbnail_path = await thumbnail(interaction.guild.id, "reddit", self)
+        thumbnail_path = await thumbnail(interaction.guild_id, "reddit", self)
         file = discord.File(thumbnail_path, filename="thumbnail.png")
 
         embed = discord.Embed(
             title=f"{data['title']}",
             description=data["postLink"],
-            color=await get_color(self, interaction.guild.id),
+            color=await get_color(self, interaction.guild_id),
         )
         embed.set_author(
             name=data["author"],

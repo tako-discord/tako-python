@@ -17,7 +17,7 @@ class Color(commands.Cog):
         if color.lower() == "none":
             await self.bot.db_pool.execute(
                 "INSERT INTO guilds(guild_id, color) VALUES($1, $2) ON CONFLICT(guild_id) DO UPDATE SET guild_id = $1, color = $2",
-                interaction.guild.id,
+                interaction.guild_id,
                 None,
             )
             return await interaction.response.send_message(
@@ -35,7 +35,7 @@ class Color(commands.Cog):
 
         await self.bot.db_pool.execute(
             "INSERT INTO guilds(guild_id, color) VALUES($1, $2) ON CONFLICT(guild_id) DO UPDATE SET guild_id = $1, color = $2",
-            interaction.guild.id,
+            interaction.guild_id,
             color,
         )
         await interaction.response.send_message(

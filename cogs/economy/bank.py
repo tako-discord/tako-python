@@ -13,7 +13,7 @@ class Bank(commands.GroupCog, group_name="bank"):
     @app_commands.describe(amount="The amount of TK to deposit")
     async def deposit(self, interaction: discord.Interaction, amount: int):
         cash = await fetch_cash(self.bot.db_pool, interaction.user)
-        language = get_language(self.bot, interaction.guild.id)
+        language = get_language(self.bot, interaction.guild_id)
 
         if amount > cash[0]:
             return await interaction.response.send_message(
@@ -30,7 +30,7 @@ class Bank(commands.GroupCog, group_name="bank"):
                 )
                 cash = await fetch_cash(con, interaction.user)
                 embed, file = await balance_embed(
-                    self.bot, interaction.user, interaction.guild.id, cash
+                    self.bot, interaction.user, interaction.guild_id, cash
                 )
                 await interaction.response.send_message(embed=embed, file=file)
 
@@ -38,7 +38,7 @@ class Bank(commands.GroupCog, group_name="bank"):
     @app_commands.describe(amount="The amount of TK to withdraw")
     async def withdraw(self, interaction: discord.Interaction, amount: int):
         cash = await fetch_cash(self.bot.db_pool, interaction.user)
-        language = get_language(self.bot, interaction.guild.id)
+        language = get_language(self.bot, interaction.guild_id)
 
         if amount > cash[1]:
             return await interaction.response.send_message(
@@ -55,6 +55,6 @@ class Bank(commands.GroupCog, group_name="bank"):
                 )
                 cash = await fetch_cash(con, interaction.user)
                 embed, file = await balance_embed(
-                    self.bot, interaction.user, interaction.guild.id, cash
+                    self.bot, interaction.user, interaction.guild_id, cash
                 )
                 await interaction.response.send_message(embed=embed, file=file)
