@@ -1,3 +1,18 @@
+## 1.11.0 (2023-02-28)
+
+### Feat
+
+- switch to new translation api (lingva-translate)
+
+### Fix
+
+- **affirmation**: fix affirmations not responding
+
+### Refactor
+
+- **reddit**: remove request timeout
+- **main**: remove presence intent (not needed)
+
 ## 1.10.0 (2023-02-25)
 
 ### Feat
