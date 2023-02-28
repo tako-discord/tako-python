@@ -13,11 +13,11 @@ class Affirmations(commands.Cog):
     @app_commands.describe(
         ephemeral="Whether the response should be ephemeral (default: false)",
     )
-    async def affirmation(self, interaction: discord.Interaction, ephemeral: bool = False):
+    async def affirmation(
+        self, interaction: discord.Interaction, ephemeral: bool = False
+    ):
         await interaction.response.defer(ephemeral=ephemeral)
         async with aiohttp.ClientSession() as session:
             async with session.get("https://affirmations.dev/") as r:
                 data = await r.json()
-                await interaction.followup.send(
-                    data["affirmation"]
-                )
+                await interaction.followup.send(data["affirmation"])

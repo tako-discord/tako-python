@@ -49,7 +49,7 @@ class Translate(commands.Cog):
         embed = discord.Embed(
             title=i18n.t("misc.translation", locale=language),
             description="\n".join(description),
-            color=await get_color(self.bot, interaction.guild_id), # type: ignore
+            color=await get_color(self.bot, interaction.guild_id),  # type: ignore
         )
         embed.set_thumbnail(url="attachment://thumbnail.png")
         await interaction.followup.send(embed=embed, file=file, ephemeral=ephemeral)
