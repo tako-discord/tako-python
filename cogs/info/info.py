@@ -105,7 +105,7 @@ class InfoGroup(commands.GroupCog, group_name="info"):
                 "info.created_on",
                 locale=language,
                 date=user.created_at.strftime(
-                    i18n.t("info.date_format", locale=language)
+                    i18n.t("general.date_format", locale=language)
                 ),
             ),
             i18n.t(
@@ -120,7 +120,7 @@ class InfoGroup(commands.GroupCog, group_name="info"):
                 i18n.t(
                     "info.joined_on",
                     date=user.joined_at.strftime(
-                        i18n.t("info.date_format", locale=language)
+                        i18n.t("general.date_format", locale=language)
                     ),
                     locale=language,
                 ),
