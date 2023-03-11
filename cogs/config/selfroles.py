@@ -4,7 +4,7 @@ import discord
 from TakoBot import TakoBot
 from discord import app_commands
 from discord.ext import commands
-from persistent_views.self_menu import SelfMenu
+from views.self_menu import SelfMenu
 from utils import get_language, thumbnail, get_color
 
 
@@ -13,7 +13,7 @@ class Selfroles(commands.Cog):
         self.bot = bot
 
     @app_commands.command(description="Create a role selection menu")
-    @app_commands.checks.has_permissions(manage_roles=True)
+    @app_commands.default_permissions(manage_roles=True)
     @app_commands.checks.bot_has_permissions(manage_roles=True)
     @app_commands.guild_only()
     async def selfroles(

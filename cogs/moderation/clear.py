@@ -60,7 +60,7 @@ class Clear(commands.Cog):
         target="The user to delete the messages from",
         channel="The channel to delete the messages from",
     )
-    @app_commands.checks.has_permissions(manage_messages=True)
+    @app_commands.default_permissions(manage_messages=True)
     @app_commands.checks.bot_has_permissions(manage_messages=True)
     async def clear(
         self,

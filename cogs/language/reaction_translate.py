@@ -14,7 +14,7 @@ class ReactionTranslate(commands.Cog):
 
     @app_commands.command(description="Disable or enable reaction translate")
     @app_commands.describe(value="Wheter to enable or disable reaction translate")
-    @app_commands.checks.has_permissions(manage_guild=True)
+    @app_commands.default_permissions(manage_guild=True)
     @app_commands.guild_only()
     async def reaction_translate(self, interaction: discord.Interaction, value: bool):
         await self.bot.db_pool.execute(

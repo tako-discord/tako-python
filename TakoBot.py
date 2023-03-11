@@ -8,7 +8,7 @@ import discord
 import aiohttp
 import asyncpg
 import bot_secrets
-import persistent_views
+import views
 from datetime import datetime
 from discord.ext import commands, tasks
 
@@ -57,7 +57,7 @@ class TakoBot(commands.AutoShardedBot):
         self.update_phishing_list.start()
         self.update_version.start()
         self.presence_update.start()
-        await persistent_views.setup(self)
+        await views.setup(self)
         self.initialized = True  # type: ignore
 
     async def setup_hook(self):

@@ -12,7 +12,7 @@ class Color(commands.Cog):
     @app_commands.describe(
         color="A valid 6 character HEX code. (Example: #FFFFFF, 0xFFFFFF, FFFFFF (White), None (Default))"
     )
-    @app_commands.checks.has_permissions(manage_guild=True)
+    @app_commands.default_permissions(manage_guild=True)
     async def set_color(self, interaction: discord.Interaction, color: str):
         if color.lower() == "none":
             await self.bot.db_pool.execute(

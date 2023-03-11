@@ -14,7 +14,7 @@ class Crosspost(commands.Cog):
     @app_commands.command(
         description="Set a channel where the messages automatically will be published"
     )
-    @app_commands.checks.has_permissions(manage_channels=True)
+    @app_commands.default_permissions(manage_channels=True)
     @app_commands.checks.bot_has_permissions(manage_channels=True)
     @app_commands.describe(
         channel="The news channel auto-crossposting should be enabled in",

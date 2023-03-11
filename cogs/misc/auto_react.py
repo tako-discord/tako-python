@@ -24,7 +24,7 @@ class AutoReact(commands.GroupCog, group_name="auto_react"):
         emoji="The emoji to add. Can be a custom emoji or a unicode emoji.",
         channel="The channel to add the emoji to. If not specified, the current channel will be used.",
     )
-    @app_commands.checks.has_permissions(manage_channels=True)
+    @app_commands.default_permissions(manage_channels=True)
     @app_commands.checks.bot_has_permissions(add_reactions=True)
     async def add(self, interaction: discord.Interaction, emoji: app_commands.Transform[discord.Emoji | str, EmojiTransformer], channel: discord.TextChannel = None):  # type: ignore
         if not channel:
@@ -64,7 +64,7 @@ class AutoReact(commands.GroupCog, group_name="auto_react"):
         emoji="The emoji to remove. Can be a custom emoji or a unicode emoji.",
         channel="The channel to remove the emoji from. If not specified, the current channel will be used.",
     )
-    @app_commands.checks.has_permissions(manage_channels=True)
+    @app_commands.default_permissions(manage_channels=True)
     @app_commands.checks.bot_has_permissions(add_reactions=True)
     async def remove(self, interaction: discord.Interaction, emoji: app_commands.Transform[discord.Emoji | str, EmojiTransformer], channel: discord.TextChannel = None):  # type: ignore
         if not channel:

@@ -11,7 +11,7 @@ class ChannelLocking(commands.Cog):
         self.bot = bot
 
     @app_commands.command(description="Locks a channel by removing every permission")
-    @app_commands.checks.has_permissions(manage_channels=True)
+    @app_commands.default_permissions(manage_channels=True)
     @app_commands.checks.bot_has_permissions(manage_channels=True)
     @app_commands.describe(channel="The channel to lock (Default: current channel)")
     async def lock(
@@ -81,7 +81,7 @@ class ChannelLocking(commands.Cog):
     @app_commands.command(
         description="Unlocks a channel by restoring the permissions before locking"
     )
-    @app_commands.checks.has_permissions(manage_channels=True)
+    @app_commands.default_permissions(manage_channels=True)
     @app_commands.checks.bot_has_permissions(manage_channels=True)
     @app_commands.describe(channel="The channel to unlock (Default: current channel)")
     async def unlock(

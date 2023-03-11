@@ -16,7 +16,7 @@ class Emoji(commands.GroupCog, group_name="emoji"):
     @app_commands.command(
         description="Add an an emoji with an ID from emoji.gg or url pointing to an image"
     )
-    @app_commands.checks.has_permissions(manage_emojis=True)
+    @app_commands.default_permissions(manage_emojis=True)
     async def add(self, interaction: discord.Interaction, emoji: str, name: str = None):
         if name is None:
             name = emoji
@@ -78,7 +78,7 @@ class Emoji(commands.GroupCog, group_name="emoji"):
         await interaction.response.send_message(embed=embed, ephemeral=True)
 
     @app_commands.command()
-    @app_commands.checks.has_permissions(manage_emojis=True)
+    @app_commands.default_permissions(manage_emojis=True)
     async def remove(self, interaction: discord.Interaction, emoji: str):
         try:
             emoji = int(emoji)

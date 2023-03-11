@@ -98,7 +98,7 @@ class Autojoin(commands.GroupCog, group_name="autojoinroles"):
     @app_commands.command(
         description="Toggle a role that will be automatically added to new users"
     )
-    @app_commands.checks.has_permissions(manage_roles=True)
+    @app_commands.default_permissions(manage_roles=True)
     @app_commands.checks.bot_has_permissions(manage_roles=True)
     @app_commands.describe(
         role="The role that should be toggled in the autojoinrole list"
@@ -109,7 +109,7 @@ class Autojoin(commands.GroupCog, group_name="autojoinroles"):
     @app_commands.command(
         description="Toggle a role that will be automatically added to new bots"
     )
-    @app_commands.checks.has_permissions(manage_roles=True)
+    @app_commands.default_permissions(manage_roles=True)
     @app_commands.checks.bot_has_permissions(manage_roles=True)
     @app_commands.guild_only()
     @app_commands.describe(

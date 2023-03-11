@@ -16,7 +16,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
 
     @app_commands.command(description="Disable or enable auto translate")
     @app_commands.describe(value="Whether to enable or disable auto translate")
-    @app_commands.checks.has_permissions(manage_guild=True)
+    @app_commands.default_permissions(manage_guild=True)
     @app_commands.guild_only()
     async def toggle(self, interaction: discord.Interaction, value: bool):
         await self.bot.db_pool.execute(
@@ -34,7 +34,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
 
     @app_commands.command(description="Set the style of the auto translated message")
     @app_commands.describe(style="The style of the auto translated message")
-    @app_commands.checks.has_permissions(manage_guild=True)
+    @app_commands.default_permissions(manage_guild=True)
     @app_commands.choices(
         style=[
             Choice(name="Default", value="default"),
@@ -62,7 +62,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
         description="Adjust the confidence threshold for auto translate"
     )
     @app_commands.describe(value="The confidence threshold for auto translate.")
-    @app_commands.checks.has_permissions(manage_guild=True)
+    @app_commands.default_permissions(manage_guild=True)
     @app_commands.guild_only()
     async def sensitivity(
         self, interaction: discord.Interaction, value: app_commands.Range[int, 0, 100]

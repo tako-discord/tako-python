@@ -5,7 +5,7 @@ import aiohttp
 from TakoBot import TakoBot
 from discord import app_commands
 from discord.ext import commands
-from persistent_views.meme_buttons import MemeButtons
+from views.meme_buttons import MemeButtons
 from utils import delete_thumbnail, new_meme, thumbnail, get_color, get_language
 
 

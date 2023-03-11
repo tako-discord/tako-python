@@ -4,7 +4,7 @@ from uuid import uuid4
 from utils import poll_embed
 from discord import app_commands
 from discord.ext import commands
-from persistent_views.poll_buttons import PollButtons
+from views.poll_buttons import PollButtons
 
 
 class Poll(commands.Cog):

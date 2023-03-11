@@ -12,7 +12,7 @@ class Language(commands.Cog):
     @app_commands.command(
         description="Set the language of the bot (in the current server)"
     )
-    @app_commands.checks.has_permissions(manage_guild=True)
+    @app_commands.default_permissions(manage_guild=True)
     @app_commands.describe(language="The language to set the bot to")
     @app_commands.guild_only()
     @app_commands.choices(
