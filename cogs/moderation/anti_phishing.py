@@ -4,6 +4,7 @@ from main import TakoBot
 from discord.ext import commands
 from utils import get_language
 
+
 # TODO: Add actual working regex instead of just checking whether it contains something from the list
 # TODO: See https://github.com/nikolaischunk/stop-discord-phishing for reference
 class AntiPhishing(commands.Cog):
