@@ -1,13 +1,15 @@
-import i18n
-import discord
 from typing import List
-from TakoBot import TakoBot
+
+import discord
 from discord import app_commands
 from discord.ext import commands
+
+import i18n
+from main import TakoBot
 from utils import get_color, get_language
 
 
-def handle_flags(flags: discord.UserFlags, language: str):
+def handle_flags(flags: list[discord.UserFlags], language: str):
     flags_array = []
     flag_dict = {
         "staff": i18n.t("info.staff", locale=language),
@@ -65,6 +67,8 @@ def handle_badge_users(bot: TakoBot, users: List[int]):
     final_users_list = []
     for user in users:
         user = bot.get_user(user)
+        if not user:
+            continue
         if users.index(user.id) == len(users) - 2:
             final_users_list.append(user.mention + " & ")
             continue
@@ -86,9 +90,9 @@ class InfoGroup(commands.GroupCog, group_name="info"):
     async def user(
         self,
         interaction: discord.Interaction,
-        user: discord.User | discord.Member = None,
+        user: discord.User | discord.Member | None = None,
     ):
-        if user is None:
+        if not user:
             user = interaction.user
         language = get_language(self.bot, interaction.guild_id)
         user_flags = user.public_flags.all()
@@ -110,16 +114,16 @@ class InfoGroup(commands.GroupCog, group_name="info"):
             ),
             i18n.t(
                 "info.avatar",
-                avatar=f"[PNG]({user.avatar.replace(size=512, format='png').url}), [JPG]({user.avatar.replace(size=512, format='jpg').url}), [{'GIF' if user.avatar.is_animated() else 'WEBP'}]({user.avatar.replace(size=512, format='gif', static_format='webp').url})",
+                avatar=f"[PNG]({user.display_avatar.replace(size=512, format='png').url}), [JPG]({user.display_avatar.replace(size=512, format='jpg').url}), [{'GIF' if user.display_avatar.is_animated() else 'WEBP'}]({user.display_avatar.replace(size=512, format='gif', static_format='webp').url})",
                 locale=language,
             ),
         ]
-        if hasattr(user, "guild"):
+        if isinstance(user, discord.Member):
             server = [
                 "",
                 i18n.t(
                     "info.joined_on",
-                    date=user.joined_at.strftime(
+                    date=user.joined_at.strftime(  # type: ignore
                         i18n.t("general.date_format", locale=language)
                     ),
                     locale=language,
@@ -133,7 +137,7 @@ class InfoGroup(commands.GroupCog, group_name="info"):
                 ),
                 i18n.t(
                     "info.hoist_role",
-                    role=discord.utils.get(reversed(user.roles), hoist=True).mention
+                    role=discord.utils.get(reversed(user.roles), hoist=True).mention  # type: ignore
                     if discord.utils.get(reversed(user.roles), hoist=True)
                     else i18n.t("info.no_roles", locale=language),
                     locale=language,
@@ -186,7 +190,7 @@ class InfoGroup(commands.GroupCog, group_name="info"):
             "SELECT * FROM badges WHERE name = $1", badge
         )
         locale = get_language(self.bot, interaction.guild_id)
-        if badge is None:
+        if not badge:
             return await interaction.response.send_message(
                 i18n.t(
                     "info.badge_not_found",
@@ -195,20 +199,20 @@ class InfoGroup(commands.GroupCog, group_name="info"):
                 ephemeral=True,
             )
         embed = discord.Embed(
-            title=badge["emoji"]
+            title=badge["emoji"]  # type: ignore
             + " "
-            + i18n.t(f"badges.{badge['name']}_title", locale=locale),
-            description=i18n.t(f"badges.{badge['name']}_desc", locale=locale),
-            color=(await get_color(self.bot, interaction.guild_id)),
+            + i18n.t(f"badges.{badge['name']}_title", locale=locale),  # type: ignore
+            description=i18n.t(f"badges.{badge['name']}_desc", locale=locale),  # type: ignore
+            color=(await get_color(self.bot, interaction.guild_id)),  # type: ignore
         )
-        if badge["users"]:
+        if badge["users"]:  # type: ignore
             embed.add_field(
                 name=i18n.t(
                     "info.users_with_badge",
-                    amount=len(badge["users"]),
+                    amount=len(badge["users"]),  # type: ignore
                     locale=get_language(self.bot, interaction.guild_id),
                 ),
-                value=handle_badge_users(self.bot, badge["users"]),
+                value=handle_badge_users(self.bot, badge["users"]),  # type: ignore
             )
         await interaction.response.send_message(embed=embed)
 

@@ -11,7 +11,9 @@ class Balance(commands.Cog):
     @app_commands.command(description="Check a users balance")
     @app_commands.describe(user="The user to check the balance of (Default: you)")
     async def balance(
-        self, interaction: discord.Interaction, user: discord.User = None
+        self,
+        interaction: discord.Interaction,
+        user: discord.User | discord.Member | None = None,
     ):
         if user is None:
             user = interaction.user

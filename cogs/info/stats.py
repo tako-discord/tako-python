@@ -4,7 +4,7 @@ import psutil
 import config
 import discord
 import datetime
-from TakoBot import TakoBot
+from main import TakoBot
 from discord import app_commands
 from discord.ext import commands
 from cpuinfo import get_cpu_info

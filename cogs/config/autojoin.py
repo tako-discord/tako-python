@@ -1,9 +1,10 @@
-import i18n
 import discord
-from TakoBot import TakoBot
 from discord import app_commands
 from discord.ext import commands
-from utils import get_color, get_language, thumbnail, delete_thumbnail
+
+import i18n
+from main import TakoBot
+from utils import delete_thumbnail, get_color, get_language, thumbnail
 
 
 async def autojoin_logic(
@@ -93,10 +94,10 @@ def no_roles_field(embed: discord.Embed, type: str, language: str = "en"):
 
 class Autojoin(commands.GroupCog, group_name="autojoinroles"):
     def __init__(self, bot: TakoBot):
-        self.bot = bot
+        self.bot: TakoBot = bot
 
     @app_commands.command(
-        description="Toggle a role that will be automatically added to new users"
+        description="Toggle a role that will be automatically added to new users",
     )
     @app_commands.default_permissions(manage_roles=True)
     @app_commands.checks.bot_has_permissions(manage_roles=True)
@@ -107,7 +108,8 @@ class Autojoin(commands.GroupCog, group_name="autojoinroles"):
         await autojoin_logic(self.bot, interaction, role, "join_roles_user")
 
     @app_commands.command(
-        description="Toggle a role that will be automatically added to new bots"
+        name="bot",
+        description="Toggle a role that will be automatically added to new bots",
     )
     @app_commands.default_permissions(manage_roles=True)
     @app_commands.checks.bot_has_permissions(manage_roles=True)
@@ -115,11 +117,11 @@ class Autojoin(commands.GroupCog, group_name="autojoinroles"):
     @app_commands.describe(
         role="The role that should be toggled in the autojoinrole list"
     )
-    async def bot(self, interaction: discord.Interaction, role: discord.Role):
+    async def aj_bot(self, interaction: discord.Interaction, role: discord.Role):
         await autojoin_logic(self.bot, interaction, role, "join_roles_bot")
 
     @app_commands.command(
-        description="List all roles that will be automatically added to new members"
+        description="List all roles that will be automatically added to new members",
     )
     async def list(self, interaction: discord.Interaction):
         await interaction.response.defer()

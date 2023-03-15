@@ -1,11 +1,13 @@
-import i18n
 import uuid
+
 import discord
-from TakoBot import TakoBot
 from discord import app_commands
 from discord.ext import commands
+
+import i18n
+from main import TakoBot
+from utils import get_color, get_language, thumbnail
 from views.self_menu import SelfMenu
-from utils import get_language, thumbnail, get_color
 
 
 class Selfroles(commands.Cog):
@@ -23,27 +25,27 @@ class Selfroles(commands.Cog):
         description: str,
         role_1: discord.Role,
         embed_state: bool = True,
-        min_values: int = None,
-        max_values: int = None,
-        role_2: discord.Role = None,
-        role_3: discord.Role = None,
-        role_4: discord.Role = None,
-        role_5: discord.Role = None,
-        role_6: discord.Role = None,
-        role_7: discord.Role = None,
-        role_8: discord.Role = None,
-        role_9: discord.Role = None,
-        role_10: discord.Role = None,
-        role_11: discord.Role = None,
-        role_12: discord.Role = None,
-        role_13: discord.Role = None,
-        role_14: discord.Role = None,
-        role_15: discord.Role = None,
-        role_16: discord.Role = None,
-        role_17: discord.Role = None,
-        role_18: discord.Role = None,
-        role_19: discord.Role = None,
-        role_20: discord.Role = None,
+        min_values: int | None = None,
+        max_values: int | None = None,
+        role_2: discord.Role | None = None,
+        role_3: discord.Role | None = None,
+        role_4: discord.Role | None = None,
+        role_5: discord.Role | None = None,
+        role_6: discord.Role | None = None,
+        role_7: discord.Role | None = None,
+        role_8: discord.Role | None = None,
+        role_9: discord.Role | None = None,
+        role_10: discord.Role | None = None,
+        role_11: discord.Role | None = None,
+        role_12: discord.Role | None = None,
+        role_13: discord.Role | None = None,
+        role_14: discord.Role | None = None,
+        role_15: discord.Role | None = None,
+        role_16: discord.Role | None = None,
+        role_17: discord.Role | None = None,
+        role_18: discord.Role | None = None,
+        role_19: discord.Role | None = None,
+        role_20: discord.Role | None = None,
     ):
         role_array = [role_1]
 
@@ -131,7 +133,7 @@ class Selfroles(commands.Cog):
             embed = discord.Embed(
                 title=title,
                 description=description,
-                color=await get_color(self.bot, interaction.guild_id),
+                color=await get_color(self.bot, interaction.guild_id),  # type: ignore
             )
             embed.set_thumbnail(url="attachment://thumbnail.png")
             await interaction.channel.send(embed=embed, view=view, file=file)

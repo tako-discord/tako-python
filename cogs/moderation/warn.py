@@ -1,10 +1,10 @@
 import i18n
 import config
 import discord
-from uuid import UUID
+from time import mktime
 from asyncpg import Record
 from random import randint
-from TakoBot import TakoBot
+from main import TakoBot
 from datetime import datetime
 from discord import app_commands
 from discord.ext import commands
@@ -50,9 +50,14 @@ async def warn_pagination_logic(
 
     for warning in warnings[(5 * page) : (5 * (page + 1))]:
         embed.add_field(
-            name=f"{warning['id']}",
-            value=f"{i18n.t('moderation.warned_by', locale=language, moderator=warning['moderator_id'])}\n**{i18n.t('moderation.reason', locale=language)}**: {warning['reason'] if warning['reason'] else i18n.t('moderation.no_reason', locale=language)}"
-            + f"- {warning['timestamp'].strftime(i18n.t('general.date_format', locale=language))}",
+            name=f"{warning['reason'] if warning['reason'] else i18n.t('moderation.no_reason', locale=language)}",
+            value=i18n.t(
+                "moderation.warned_by",
+                locale=language,
+                moderator=warning["moderator_id"],
+                date=int(mktime(warning["timestamp"].timetuple())),
+            )
+            + f"\n`{warning['id']}`",
             inline=False,
         )
 
@@ -82,7 +87,6 @@ async def warn_pagination_logic(
     )
 
 
-# TODO: Add first page and last page buttons
 class WarnPagination(discord.ui.View):
     def __init__(
         self,
@@ -215,7 +219,7 @@ class WarnNext(discord.ui.Button):
             if hasattr(config, "EMOJI_ARROW_RIGHT")
             else "➡️",
             style=discord.ButtonStyle.green,
-            disabled=True if int(len(warnings) / 5) <= page else False,
+            disabled=True if int(len(warnings) / 5) - 1 <= page else False,
         )
 
     async def callback(self, interaction: discord.Interaction):
@@ -316,7 +320,7 @@ class Warn(commands.Cog):
     def __init__(self, bot: TakoBot):
         self.bot = bot
 
-    @app_commands.command(description="Warn a user")
+    @app_commands.command(description="Warn a user", name="warn")
     @app_commands.describe(user="The user to warn", reason="The reason for the warning")
     @app_commands.guild_only()
     @app_commands.default_permissions(manage_messages=True)
@@ -364,10 +368,12 @@ class Warn(commands.Cog):
             color=discord.Color.red(),
             description=i18n.t(
                 "moderation.warned_dm",
-                locale=language,
                 guild=interaction.guild.name,
                 user=interaction.user.mention,
-                success=config.EMOJI_CROSS if hasattr(config, "EMOJI_CROSS") else "✅",
+                success=config.EMOJI_CHECKMARK
+                if hasattr(config, "EMOJI_CROSS")
+                else "❌",
+                locale=language,
             ),
         )
 
@@ -375,16 +381,32 @@ class Warn(commands.Cog):
             color=discord.Color.green(),
             description=i18n.t(
                 "moderation.warned",
-                locale=language,
                 user=user.mention,
                 success=config.EMOJI_CHECKMARK
                 if hasattr(config, "EMOJI_CHECKMARK")
                 else "✅",
+                locale=language,
             ),
         )
         if reason:
             return_embed.add_field(
-                name=i18n.t("moderation.reason", locale=language), value=reason
+                name=i18n.t(
+                    "moderation.reason",
+                    user=user.mention,
+                    success=config.EMOJI_CHECKMARK
+                    if hasattr(config, "EMOJI_CHECKMARK")
+                    else "✅",
+                    locale=language,
+                ),
+                value=reason
+                if reason
+                else i18n.t("moderation_no_reason", locale=language),
+            )
+            dm_embed.add_field(
+                name=i18n.t("moderation.reason", locale=language),
+                value=reason
+                if reason
+                else i18n.t("moderation_no_reason", locale=language),
             )
 
         await interaction.response.send_message(embed=return_embed)

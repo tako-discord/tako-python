@@ -16,3 +16,4 @@ de:
   unlocked_desc: "Alle Berechtigungen sind nun so, wie sie waren, bevor der Kanal gesperrt wurde."
   unlocked_footer: "Der Kanal wurde vor der Sperrung mit seiner Kategorie synchronisiert und ist somit mit der *aktuellen* auch synchronisiert."
   slowmode_set: "Setze den Chat-Cooldown von %{channel} zu **%{t} Sekunden**."
+  warned: "%{success} Erfolgreich %{user} verwarnt"

@@ -1,6 +1,6 @@
 import i18n
 import discord
-from TakoBot import TakoBot
+from main import TakoBot
 from datetime import datetime
 from .flags import language_dict
 from discord import app_commands

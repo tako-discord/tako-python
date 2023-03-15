@@ -3,7 +3,7 @@ import re
 import i18n
 import aiohttp
 import discord
-from TakoBot import TakoBot
+from main import TakoBot
 from utils import get_language
 from discord.ext import commands
 from discord import HTTPException, NotFound, app_commands

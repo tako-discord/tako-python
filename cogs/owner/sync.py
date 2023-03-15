@@ -1,7 +1,7 @@
 import i18n
 import discord
 import bot_secrets
-from TakoBot import TakoBot
+from main import TakoBot
 from discord.ext import commands
 from utils import error_embed, get_language
 

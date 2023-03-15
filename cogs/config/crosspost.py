@@ -3,7 +3,7 @@ from discord import app_commands
 from discord.ext import commands
 
 import i18n
-from TakoBot import TakoBot
+from main import TakoBot
 from utils import get_language
 
 

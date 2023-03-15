@@ -29,7 +29,7 @@ en:
   warn_bot_desc4: "Why are you even trying?"
   warn_bot_desc5: "Maybe you should try to warn someone else instead."
   warned: "%{success} Successfully warned %{user}"
-  warned_by: "**Warned by**: <@%{moderator}>"
+  warned_by: "Warned by <@%{moderator}> - <t:%{date}:f>"
   reason: "Reason"
   no_reason: "No reason provided"
   no_warnings: "%{info} No warnings found for %{user}"
@@ -38,3 +38,4 @@ en:
     many: "%{amount} Warnings for %{user}"
   clear_warnings: "**%{success} Successfully cleared all warnings for %{user}**"
   deleted_warning: "**%{success} Deleted warning `%{id}`**"
+  warned_dm: "**You have been warned in *%{guild}***"

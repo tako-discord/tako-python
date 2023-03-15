@@ -2,7 +2,7 @@ import io
 import os
 import i18n
 import discord
-from TakoBot import TakoBot
+from main import TakoBot
 from ftlangdetect import detect
 from discord import app_commands
 from discord.ext import commands

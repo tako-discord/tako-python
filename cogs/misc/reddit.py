@@ -2,7 +2,7 @@ import i18n
 import config
 import discord
 import aiohttp
-from TakoBot import TakoBot
+from main import TakoBot
 from discord import app_commands
 from discord.ext import commands
 from views.meme_buttons import MemeButtons
