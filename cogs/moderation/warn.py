@@ -26,7 +26,7 @@ async def warn_pagination_logic(
         return
     if state:
         page += 1
-    if state == False:
+    if state is False:
         page -= 1
     embed = discord.Embed(
         color=await get_color(bot, interaction.guild_id), timestamp=interaction_created_at  # type: ignore
@@ -61,7 +61,7 @@ async def warn_pagination_logic(
             inline=False,
         )
 
-    if not state == None:
+    if state is not None:
         await interaction.response.edit_message(
             embed=embed,
             view=WarnPagination(

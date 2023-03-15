@@ -14,7 +14,7 @@ from PIL import Image, ImageColor
 try:
     import tomllib
 except ModuleNotFoundError:
-    import tomli as tomllib # type: ignore
+    import tomli as tomllib  # type: ignore
 
 
 def clear_console():

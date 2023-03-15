@@ -258,7 +258,7 @@ class OpenCollective(commands.Cog):
                 tokens = await self.refresh_access_token(record)
             except TokenRevoked:
                 await self.delete_contributor_link(record["id"])
-            except Exception as e:
+            except Exception:
                 return
             else:
                 access_token = tokens["access_token"]
