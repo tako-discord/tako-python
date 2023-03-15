@@ -14,7 +14,7 @@ from PIL import Image, ImageColor
 try:
     import tomllib
 except ModuleNotFoundError:
-    import tomli as tomllib
+    import tomli as tomllib # type: ignore
 
 
 def clear_console():
@@ -125,7 +125,7 @@ def delete_thumbnail(id: int, icon: str):
         os.remove(f"assets/thumbnails/{icon}_{id}.png")
 
 
-def get_language(bot, guild_id: int | None = None):
+def get_language(bot, guild_id: int | None = None, new: bool = False):
     """:class:`str`: Get the language of a guild.
 
     Parameters
@@ -159,7 +159,7 @@ def number_of_pages_needed(elements_per_page: int, total_elements: int):
 
 async def create_user(
     pool: asyncpg.Pool | asyncpg.Connection,
-    user: discord.User,
+    user: discord.User | discord.Member,
     wallet: int = config.DEFAULT_WALLET,
     bank: int = config.DEFAULT_BANK,
 ):
@@ -170,7 +170,7 @@ async def create_user(
     -----------
     pool: :class:`asyncpg.Pool`
         The PostgreSQL pool to use.
-    user: :class:`discord.User`
+    user: :class:`discord.User` or :class:`discord.Member`
         The user to create a row for.
     wallet: :class:`int`
         The amount of money the user has in it's wallet. (Default: config.DEFAULT_WALLET)
@@ -204,7 +204,9 @@ def add_extension(url: str):
     return 0
 
 
-async def fetch_cash(pool: asyncpg.Pool | asyncpg.Connection, user: discord.User):
+async def fetch_cash(
+    pool: asyncpg.Pool | asyncpg.Connection, user: discord.User | discord.Member
+):
     """list[`int`, `int`]: Returns the amount of money a user has in a list where the first value is the money
     in the wallet and the second value is the money in the bank of the user. It will also create a user if it doesn't exist yet.
 
@@ -223,7 +225,7 @@ async def fetch_cash(pool: asyncpg.Pool | asyncpg.Connection, user: discord.User
 
 
 async def balance_embed(
-    bot, user: discord.User | discord.Member, guild_id: int, cash: list[int]
+    bot, user: discord.User | discord.Member, guild_id: int | None, cash: list[int]
 ):
     """tuple[:class:`discord.Embed`, :class:`discord.File`]: Returns a tuple of an embed and it's file with the balance of a user.
 
@@ -362,7 +364,7 @@ async def translate(text: str, target: str, source: str = "auto") -> list[str]:
         return data if data is not json.JSONDecodeError else [text, source]  # type: ignore
 
 
-async def new_meme(guild_id: int | None, user_id: int, bot, db_pool: asyncpg.Pool):
+async def new_meme(guild_id: int | None, user_id: int, bot, pool: asyncpg.Pool):
     """Returns a new meme embed and it's file from reddit.
 
     Parameters
@@ -398,7 +400,7 @@ async def new_meme(guild_id: int | None, user_id: int, bot, db_pool: asyncpg.Poo
             embed.set_image(url=data["url"])
             embed.set_footer(text=f"r/{data['subreddit']} • {data['ups']} 👍")
 
-            async with db_pool.acquire() as con:
+            async with pool.acquire() as con:
                 user_data = await con.fetchrow(
                     "SELECT * FROM users WHERE user_id = $1;", user_id
                 )
