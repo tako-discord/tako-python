@@ -5,6 +5,7 @@ from .emoji import Emoji
 from .image import ImageGen
 from .ip import IP
 from .media import Media
+from .opencollective import OpenCollective
 from .polls import Poll
 from .reddit import Reddit
 from .revive import Revive
@@ -12,6 +13,7 @@ from .show_tag import ShowTag
 from .tag import Tag
 from .uwu import UwU
 from .youtube import Youtube
+import bot_secrets
 
 
 async def setup(bot):
@@ -29,3 +31,10 @@ async def setup(bot):
     await bot.add_cog(Tag(bot))
     await bot.add_cog(UwU(bot))
     await bot.add_cog(Youtube(bot))
+
+    if (
+        hasattr(bot_secrets, "OC_DC_CLIENT_ID")
+        and hasattr(bot_secrets, "OC_DC_CLIENT_SECRET")
+        and hasattr(bot_secrets, "OC_TOKEN")
+    ):
+        await bot.add_cog(OpenCollective(bot))
