@@ -422,7 +422,7 @@ class Warn(commands.Cog):
         language = get_language(self.bot, interaction.guild_id)
 
         warnings = await self.bot.db_pool.fetch(
-            "SELECT * FROM warnings WHERE guild_id = $1 AND user_id = $2",
+            "SELECT * FROM warnings WHERE guild_id = $1 AND user_id = $2 ORDER BY timestamp DESC",
             interaction.guild_id,
             user.id,
         )
