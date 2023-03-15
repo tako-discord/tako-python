@@ -178,7 +178,7 @@ class WarnPrevious(discord.ui.Button):
             emoji=config.EMOJI_ARROW_LEFT  # type: ignore
             if hasattr(config, "EMOJI_ARROW_LEFT")
             else "⬅️",
-            style=discord.ButtonStyle.green,
+            style=discord.ButtonStyle.primary,
             disabled=True if page == 0 else False,
         )
 
@@ -218,7 +218,7 @@ class WarnNext(discord.ui.Button):
             emoji=config.EMOJI_ARROW_RIGHT  # type: ignore
             if hasattr(config, "EMOJI_ARROW_RIGHT")
             else "➡️",
-            style=discord.ButtonStyle.green,
+            style=discord.ButtonStyle.primary,
             disabled=True if int(len(warnings) / 5) - 1 <= page else False,
         )
 
@@ -258,7 +258,7 @@ class WarnFirst(discord.ui.Button):
             emoji=config.EMOJI_ARROW_FIRST  # type: ignore
             if hasattr(config, "EMOJI_ARROW_FIRST")
             else "⏪",
-            style=discord.ButtonStyle.green,
+            style=discord.ButtonStyle.primary,
             disabled=True if page == 0 else False,
         )
 
@@ -298,7 +298,7 @@ class WarnLast(discord.ui.Button):
             emoji=config.EMOJI_ARROW_LAST  # type: ignore
             if hasattr(config, "EMOJI_ARROW_LAST")
             else "⏩",
-            style=discord.ButtonStyle.green,
+            style=discord.ButtonStyle.primary,
             disabled=True if int(len(warnings) / 5) <= page else False,
         )
 
@@ -320,7 +320,7 @@ class Warn(commands.Cog):
     def __init__(self, bot: TakoBot):
         self.bot = bot
 
-    @app_commands.command(description="Warn a user", name="warn")
+    @app_commands.command(description="Warn a user")
     @app_commands.describe(user="The user to warn", reason="The reason for the warning")
     @app_commands.guild_only()
     @app_commands.default_permissions(manage_messages=True)
@@ -328,7 +328,7 @@ class Warn(commands.Cog):
         self,
         interaction: discord.Interaction,
         user: discord.User | discord.Member,
-        reason: str | None = None,
+        reason: app_commands.Range[str, 1, 256] | None = None,
     ) -> None:
         if not interaction.guild:
             return
@@ -390,14 +390,7 @@ class Warn(commands.Cog):
         )
         if reason:
             return_embed.add_field(
-                name=i18n.t(
-                    "moderation.reason",
-                    user=user.mention,
-                    success=config.EMOJI_CHECKMARK
-                    if hasattr(config, "EMOJI_CHECKMARK")
-                    else "✅",
-                    locale=language,
-                ),
+                name=i18n.t("moderation.reason", locale=language),
                 value=reason
                 if reason
                 else i18n.t("moderation_no_reason", locale=language),
@@ -409,6 +402,10 @@ class Warn(commands.Cog):
                 else i18n.t("moderation_no_reason", locale=language),
             )
 
+        try:
+            await user.send(embed=dm_embed)
+        except:
+            pass
         await interaction.response.send_message(embed=return_embed)
 
     @app_commands.command(description="List all warnings for a user")
