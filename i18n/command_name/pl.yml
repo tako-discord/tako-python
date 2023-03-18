@@ -5,6 +5,7 @@ pl:
   badge: "badge"
   balance: "balance"
   bot: "bot"
+  choose: "choose"
   clear_warnings: "clear_warnings"
   clear: "clear"
   create: "create"
