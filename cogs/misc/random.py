@@ -56,4 +56,6 @@ class Random(commands.GroupCog, group_name="random"):
 
         # Choose a random choice and send it
         random_choice = random.choice(choices_list)
-        await interaction.response.send_message(random_choice)
+        await interaction.response.send_message(
+            random_choice, allowed_mentions=discord.AllowedMentions.none()
+        )
