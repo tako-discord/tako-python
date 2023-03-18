@@ -46,3 +46,5 @@ fr:
   reddit_nsfw: "The random post is NSFW and this channel does not allow NSFW Content. Please try again."
   reddit_not_found: "The subreddit was not found."
   reddit_no_images: "The subreddit doesn't have any images at the moment."
+  random_choice_error_title: "You have no choice!"
+  random_choice_error: "Choices need to be seperated either by `,`, ` ` or `|`.\nYou also need to provide at least 2 choices."
