@@ -47,11 +47,6 @@ class TakoTranslator(app_commands.Translator):
             )
         except:
             translation = f"{str(context.location).replace('TranslationContextLocation.', '')}.{string.message}"
-        if (
-            context.location == TranslationContextLocation.command_description
-            and locale_str == "de"
-        ):
-            print(translation)
         return (
             translation
             if not translation
