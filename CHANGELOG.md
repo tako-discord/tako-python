@@ -1,3 +1,9 @@
+## 1.12.1 (2023-03-18)
+
+### Fix
+
+- **random**: don't mention when choosing something random
+
 ## 1.12.0 (2023-03-18)
 
 ### Feat
