@@ -1,3 +1,5 @@
+import bot_secrets
+
 from .affirmations import Affirmations
 from .auto_react import AutoReact
 from .embed import Embed
@@ -7,13 +9,13 @@ from .ip import IP
 from .media import Media
 from .opencollective import OpenCollective
 from .polls import Poll
+from .random import Random
 from .reddit import Reddit
 from .revive import Revive
 from .show_tag import ShowTag
 from .tag import Tag
 from .uwu import UwU
 from .youtube import Youtube
-import bot_secrets
 
 
 async def setup(bot):
@@ -25,6 +27,7 @@ async def setup(bot):
     await bot.add_cog(IP(bot))
     await bot.add_cog(Media(bot))
     await bot.add_cog(Poll(bot))
+    await bot.add_cog(Random(bot))
     await bot.add_cog(Reddit(bot))
     await bot.add_cog(Revive(bot))
     await bot.add_cog(ShowTag(bot))
