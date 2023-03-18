@@ -1,3 +1,29 @@
+## 1.12.0 (2023-03-18)
+
+### Feat
+
+- add `/random choose`
+- **opencollective**: sync opencollective metadata every 12h
+- add warn system
+
+### Fix
+
+- **anti-phishing**: use regex now...finally discord.gift won't be blocked lmao
+- **warn**: limit amount of characters for the reason of a warn
+
+### Refactor
+
+- **translator**: remove debug print statement
+- **license**: MIT -> custom license based on MIT
+- **warnings**: sort warnings by date descending (latest is shown first)
+- **i18n/group_name**: add all group names
+- **anti-phishing**: temporarily remove the AntiPhishing cog
+- **TakoBot**: move TakoBot class from `TakoBot.py` to `main.py`
+- **utils**: better typing
+- remove `OLD_CHANGELOG.md`
+- **permissions**: change permissions from checks to default permissions
+- **config**: use tl.tako-bot.com as main translation api
+
 ## 1.11.0 (2023-02-28)
 
 ### Feat
