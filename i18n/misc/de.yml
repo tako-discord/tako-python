@@ -48,3 +48,5 @@ de:
   reddit_no_images: "The subreddit doesn't have any images at the moment."
   random_choice_error_title: "You have no choice!"
   random_choice_error: "Choices need to be seperated either by `,`, ` ` or `|`.\nYou also need to provide at least 2 choices."
+  no_results_title: "No results found."
+  no_results: "No results were found with the search `%{query}`."
