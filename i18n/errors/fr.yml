@@ -7,7 +7,7 @@ fr:
   user_missing_perms_title: "Missing User Permission(s)"
   user_missing_perms: "Tu as besoin des permission(s) *%{perms}* pour exécuter cette commande."
   cooldown_title: "Cooldown"
-  cooldown: "Cette commande est en cours de rechargement, veuillez réessayer dans %{time}s."
+  cooldown: "This command is on cooldown, please retry in <t:%{time}:R>."
   reaction_translate_cooldown: "Reaction Translation is currently on cooldown to prevent spam, please retry in %{time}s."
   no_pm_title: "Pas de support pour les messages privés"
   no_pm: "Cette commande ne peut pas être utilisée dans les DMs."
