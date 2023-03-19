@@ -1,6 +1,7 @@
-from random import choices, randint
+from random import randint
 
 import discord
+from datetime import datetime, timedelta
 from discord import app_commands
 from discord.ext import commands
 
@@ -9,14 +10,27 @@ import config
 from main import TakoBot
 from utils import fetch_cash, get_language, get_color, thumbnail
 
+cooldown = 60 * 60 * 24
+
 
 class Daily(commands.Cog):
     def __init__(self, bot: TakoBot):
         self.bot = bot
 
     @app_commands.command()
-    @app_commands.checks.cooldown(1, 60 * 60 * 24)
     async def daily(self, interaction: discord.Interaction):
+        last_daily = await self.bot.db_pool.fetchval(
+            "SELECT last_daily FROM users WHERE user_id = $1", interaction.user.id
+        )
+        if isinstance(last_daily, datetime):
+            current_time = datetime.now()
+            elapsed_time = current_time - last_daily
+            if elapsed_time.total_seconds() < cooldown:
+                raise app_commands.CommandOnCooldown(
+                    app_commands.Cooldown(1, cooldown),
+                    (60 * 60 * 24) - (current_time - last_daily).total_seconds(),
+                )
+
         amount = randint(500, 1500)
         balance = await fetch_cash(self.bot.db_pool, interaction.user)
 
@@ -38,8 +52,9 @@ class Daily(commands.Cog):
         file = discord.File(thumbnail_path, filename="thumbnail.png")
 
         await self.bot.db_pool.execute(
-            "UPDATE users SET wallet = wallet + $1 WHERE user_id = $2",
+            "UPDATE users SET wallet = wallet + $1, last_daily = $2 WHERE user_id = $3",
             amount,
+            datetime.now(),
             interaction.user.id,
         )
 
