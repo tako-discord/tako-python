@@ -1,9 +1,10 @@
 import i18n
 import discord
 import logging
+from time import time
 from main import TakoBot
-from discord import app_commands
 from discord.ext import commands
+from discord import app_commands, Locale
 from utils import get_language, error_embed
 
 
@@ -17,7 +18,25 @@ class CommandErrorHandler(commands.Cog):
             if isinstance(error, app_commands.CommandNotFound):
                 return
 
+            locale_dict = {
+                Locale.german: "de",
+                Locale.american_english: "en",
+                Locale.british_english: "en",
+                Locale.spain_spanish: "es",
+                Locale.french: "fr",
+                Locale.croatian: "hr",
+                Locale.japanese: "ja",
+                Locale.dutch: "nl",
+                Locale.polish: "pl",
+                Locale.brazil_portuguese: "pt",
+                Locale.swedish: "sv",
+                Locale.chinese: "zh",
+            }
             language = get_language(bot, interaction.guild_id)
+            try:
+                language = locale_dict[interaction.locale]
+            except KeyError:
+                pass
 
             if isinstance(error, app_commands.BotMissingPermissions):
                 missing = [
@@ -61,7 +80,11 @@ class CommandErrorHandler(commands.Cog):
                 embed, file = error_embed(
                     bot,
                     i18n.t("errors.cooldown_title", locale=language),
-                    i18n.t("errors.cooldown", locale=language),
+                    i18n.t(
+                        "errors.cooldown",
+                        locale=language,
+                        time=int(time()) + int(error.retry_after),
+                    ),
                     interaction.guild_id,
                 )
                 return await interaction.response.send_message(
