@@ -51,38 +51,30 @@ async def main():
         import asyncpg
 
         migration_options = [
-            file.split("__")[len(file.split("__")) - 1]
-            .replace(".sql", "")
-            .replace("_", " ")
-            + f" (V{file.split('V')[1][:1]})"
-            if not file.endswith(file.split("V")[1][:1] + ".sql")
-            else file.split("__")[len(file.split("__")) - 1]
-            .replace(".sql", "")
-            .replace("_", " ")
+            file
             for file in os.listdir("migrations")
             if file.endswith(".sql")
             and os.path.isfile(os.path.join("migrations", file))
         ]
-        migration_options.append("​All")
         migration_options.sort()
         migration_options.reverse()
 
         selected = pick(
-            options=migration_options,
+            options=["All"] + migration_options,
             title="What migration do you want to run? (Use arrow keys to navigate and space to select)",
             multiselect=True,
         )
         if not len(selected) > 0:
             return print("❌ No migrations selected. Aborting...")
 
-        migration_options.remove("All")
         all_selected = True if ("All", 0) in selected else False
         migration_string = ""  # the string that will be executed
 
         # read the sql files and add them to the string, that will be exucuted
         for migration in selected if not all_selected else migration_options:
-            with open(f"migrations/{migration[0] if not all_selected else migration}", "r") as file:  # type: ignore
-                migration_string += file.read()
+            if not migration[0] == "All":  # type: ignore
+                with open(f"migrations/{migration[0] if not all_selected else migration}", "r") as file:  # type: ignore
+                    migration_string += file.read()
 
         # Execute the migration
         conn = await asyncpg.connect(
