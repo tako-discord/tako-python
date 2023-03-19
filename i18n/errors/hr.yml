@@ -7,7 +7,7 @@ hr:
   user_missing_perms_title: "Nedovoljna korisnička dopuštenja"
   user_missing_perms: "Potrebne su vam dozvole *%{perms}* da biste pokrenuli ovu naredbu."
   cooldown_title: "Cooldown"
-  cooldown: "Ova naredba je na cooldownu, pokušajte ponovno za %{time}s."
+  cooldown: "This command is on cooldown, please retry in <t:%{time}:R>."
   reaction_translate_cooldown: "Reakcijski prijevod trenutno je na hlađenju radi sprječavanja previše poruka, pokušajte ponovno za %{time}s."
   no_pm_title: "Nema podrške privatnim porukama"
   no_pm: "Ova komanda ne može biti korištena unutar privatnih poruka."
