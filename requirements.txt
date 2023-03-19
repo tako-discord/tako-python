@@ -1,19 +1,20 @@
-git+https://github.com/tako-discord/python-i18n.git
 git+https://github.com/tako-discord/fasttext-langdetect
-pick
-emoji
-black
-psutil
-pillow
-pyyaml
-millify
+git+https://github.com/tako-discord/python-i18n.git
 asyncpg
+black
 # craiyon.py
-pre-commit
-py-cpuinfo
-tmdbsimple
 discord-rpc
-python-youtube
-uwuipy
 discord.py>=2.1.0
+emoji
+humanize
+millify
+pick
+pillow
+pre-commit
+psutil
+py-cpuinfo
+python-youtube
+pyyaml
+tmdbsimple
 tomli >= 2.0.1 ; python_version < "3.11"
+uwuipy
