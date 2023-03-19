@@ -1,3 +1,22 @@
+## 1.13.0 (2023-03-19)
+
+### Feat
+
+- **errors**: use user locale instead of guild locale and timestamp for cooldown
+- **youtube**: add error if no search results were found
+- add `/daily`
+- add `/beg`
+- **helper**: use sql files to initialize the database (and migrate)
+- **info/stats**: let the `/stats` commmand be run in non-guild conversations and when the bot is not logged in yet
+
+### Fix
+
+- **helper**: fix issues with db init
+
+### Refactor
+
+- **daily**: use database to check the cooldown
+
 ## 1.12.1 (2023-03-18)
 
 ### Fix
