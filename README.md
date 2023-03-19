@@ -1,6 +1,7 @@
 # Tako
 [![Crowdin](https://badges.crowdin.net/tako/localized.svg)](https://translate.tako-bot.com)
 [![Discord Server](https://img.shields.io/discord/952558753859919922?label=Discord%20Server)](https://dsc.gg/tako-server)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 ![latest tag](https://img.shields.io/github/v/tag/tako-discord/tako?color=sucess&label=latest%20tag&include_prereleases)
 ![last commit](https://img.shields.io/github/last-commit/tako-discord/tako)
 
