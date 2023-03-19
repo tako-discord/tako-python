@@ -16,7 +16,6 @@ class Stats(commands.Cog):
         self.bot = bot
 
     @app_commands.command(description="Get some stats about me")
-    @app_commands.guild_only()
     async def stats(self, interaction: discord.Interaction):
         await interaction.response.defer()
         latest_version = await get_latest_version()
@@ -74,11 +73,18 @@ class Stats(commands.Cog):
         embed = discord.Embed(
             title="📊 Stats",
             description="Here are some stats about me",
-            color=await get_color(self.bot, interaction.guild_id),
+            color=await get_color(self.bot, interaction.guild_id),  # type: ignore
+        )
+        bot_user = (
+            self.bot.user
+            if self.bot.user
+            else config.DEFAULT_BOT_NAME
+            if hasattr(config, "DEFAULT_BOT_NAME")
+            else "Tako##5528"
         )
         embed.set_author(
-            name=self.bot.user.name + "#" + self.bot.user.discriminator,
-            icon_url=self.bot.user.avatar.url,
+            name=str(bot_user),
+            icon_url=self.bot.user.display_avatar.url if self.bot.user else None,
         )
         embed.add_field(name="General", value="\n".join(general))
         embed.add_field(name="System (Systemwide)", value="\n".join(system))

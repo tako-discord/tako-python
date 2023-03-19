@@ -1,6 +1,10 @@
+# * Defaults
 DEFAULT_COLOR = 0x4ADE80
 DELETE_THUMBNAILS = True
 DEFAULT_COLOR_STR = "0x4ADE80"
+# Used if not logged in
+DEFAULT_BOT_NAME = "Tako#5528"
+
 # * Roles for badges and checks (Use None to remove)
 MAIN_GUILD = 884046271176912917
 DONATOR_ROLE = 969286409200468028
