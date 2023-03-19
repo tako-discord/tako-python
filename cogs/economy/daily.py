@@ -1,4 +1,4 @@
-from random import choices, randint
+from random import randint
 
 import discord
 from discord import app_commands
