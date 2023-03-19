@@ -15,9 +15,7 @@ async def main():
         "Add Extension from Git",
         "Exit",
     ]
-    selected = pick(
-        options, "What do you want to do? (Use arrow keys to navigate)", "x"
-    )
+    selected = pick(options, "What do you want to do? (Use arrow keys to navigate)")
     if selected[1] == len(options) - 1:
         return
     if selected[1] == 0:
@@ -52,6 +50,41 @@ async def main():
     if selected[1] == 3:
         import asyncpg
 
+        migration_options = [
+            file.split("__")[len(file.split("__")) - 1]
+            .replace(".sql", "")
+            .replace("_", " ")
+            + f" (V{file.split('V')[1][:1]})"
+            if not file.endswith(file.split("V")[1][:1] + ".sql")
+            else file.split("__")[len(file.split("__")) - 1]
+            .replace(".sql", "")
+            .replace("_", " ")
+            for file in os.listdir("migrations")
+            if file.endswith(".sql")
+            and os.path.isfile(os.path.join("migrations", file))
+        ]
+        migration_options.append("​All")
+        migration_options.sort()
+        migration_options.reverse()
+
+        selected = pick(
+            options=migration_options,
+            title="What migration do you want to run? (Use arrow keys to navigate and space to select)",
+            multiselect=True,
+        )
+        if not len(selected) > 0:
+            return print("❌ No migrations selected. Aborting...")
+
+        migration_options.remove("All")
+        all_selected = True if ("All", 0) in selected else False
+        migration_string = ""  # the string that will be executed
+
+        # read the sql files and add them to the string, that will be exucuted
+        for migration in selected if not all_selected else migration_options:
+            with open(f"migrations/{migration[0] if not all_selected else migration}", "r") as file:  # type: ignore
+                migration_string += file.read()
+
+        # Execute the migration
         conn = await asyncpg.connect(
             database=bot_secrets.DB_NAME,
             host=bot_secrets.DB_HOST,
@@ -59,33 +92,10 @@ async def main():
             user=bot_secrets.DB_USER,
             password=bot_secrets.DB_PASSWORD,
         )
-        version = await conn.fetch(
-            "SELECT version();",
-        )
-        print(f"Initializing database with {next(version[0].values())}")
-        await conn.execute(
-            """
-            CREATE TABLE IF NOT EXISTS badges (name TEXT PRIMARY KEY, emoji TEXT NOT NULL, users BIGINT ARRAY);
-            INSERT INTO badges  (name, emoji) VALUES ('alpha_tester', '🧪') ON CONFLICT DO NOTHING;
-            INSERT INTO badges  (name, emoji) VALUES ('donator', '💖') ON CONFLICT DO NOTHING;
-            INSERT INTO badges  (name, emoji) VALUES ('translator', '🌐') ON CONFLICT DO NOTHING;
-            INSERT INTO badges  (name, emoji) VALUES ('core_developer', '💻') ON CONFLICT DO NOTHING;
-            CREATE TABLE IF NOT EXISTS channels (channel_id BIGINT PRIMARY KEY, crosspost BOOLEAN NOT NULL DEFAULT FALSE, synced BOOLEAN, locked BOOLEAN, auto_react TEXT ARRAY);
-            CREATE TABLE IF NOT EXISTS permissions (channel_id BIGINT, target_id BIGINT, allow INT, deny INT, type TEXT, UNIQUE (channel_id, target_id));
-            CREATE TABLE IF NOT EXISTS guilds (guild_id BIGINT PRIMARY KEY, banned_games TEXT ARRAY, join_roles_user BIGINT ARRAY, join_roles_bot BIGINT ARRAY, language TEXT, reaction_translate BOOLEAN, auto_translate BOOLEAN DEFAULT FALSE, color TEXT, auto_translate_confidence INTEGER DEFAULT 50, auto_translate_reply_style TEXT DEFAULT 'min_webhook', auto_translate_delete_original BOOLEAN DEFAULT TRUE);
-            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-            CREATE TABLE IF NOT EXISTS tags (id uuid DEFAULT uuid_generate_v4() PRIMARY KEY, name TEXT, content TEXT, thumbnail TEXT, image TEXT, footer TEXT, embed BOOLEAN DEFAULT TRUE, guild_id BIGINT);
-            CREATE TABLE IF NOT EXISTS users (user_id BIGINT PRIMARY KEY, wallet BIGINT DEFAULT 1000, bank BIGINT DEFAULT 0, last_meme TEXT, last_reaction_translation TIMESTAMP);
-            CREATE TABLE IF NOT EXISTS announcements (id uuid DEFAULT uuid_generate_v4() PRIMARY KEY, title TEXT, description TEXT, type TEXT, timestamp TIMESTAMP DEFAULT NOW());
-            CREATE TABLE IF NOT EXISTS selfroles (id uuid DEFAULT uuid_generate_v4() PRIMARY KEY, guild_id BIGINT, select_array BIGINT ARRAY, min_values INT, max_values INT);
-            CREATE TABLE IF NOT EXISTS polls (id uuid DEFAULT uuid_generate_v4() PRIMARY KEY, question TEXT, answers TEXT ARRAY, votes TEXT, owner BIGINT);
-            CREATE TABLE IF NOT EXISTS welcome (guild_id BIGINT PRIMARY KEY, channel_id BIGINT, title TEXT, description TEXT, style TEXT DEFAULT 'embed', mention BOOL DEFAULT FALSE, state BOOLEAN);
-            CREATE TABLE IF NOT EXISTS warnings (id uuid DEFAULT uuid_generate_v4() PRIMARY KEY, guild_id BIGINT, user_id BIGINT, moderator_id BIGINT, reason TEXT, timestamp TIMESTAMP DEFAULT NOW());
-            """
-        )
+        await conn.execute(migration_string)
         await conn.close()
         clear_console()
-        print("✔️  Done with initializing database")
+        return print("✔️  Done with initializing database")
     if selected[1] == 4:
         url = input("Enter the url of the extension: ")
         print("📥 Installing extension...", end="\r")
