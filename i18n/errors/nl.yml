@@ -7,7 +7,7 @@ nl:
   user_missing_perms_title: "Ontbrekende gebruiker permissie(s)"
   user_missing_perms: "Je hebt de *%{perms}* permissie(s) nodig om dit commando uit te voeren."
   cooldown_title: "Afkoeltijd"
-  cooldown: "Dit commando is aan het afkoelen, probeer het opnieuw in %{time}s."
+  cooldown: "This command is on cooldown, please retry in <t:%{time}:R>."
   reaction_translate_cooldown: "Reaction Translation is currently on cooldown to prevent spam, please retry in %{time}s."
   no_pm_title: "Geen ondersteuning voor privéberichten"
   no_pm: "Dit commando kan niet gebruikt worden in privéberichten."
