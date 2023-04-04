@@ -21,3 +21,5 @@ he:
   already_locked: "%{channel} כבר נעול!"
   not_locked_title: "או או! ניסית לפתוח את הצ'אט הלא נכון"
   not_locked: "%{channel} ברגע העכשיוי לא נעול!"
+  api_error_title: "API Error"
+  api_error: "An error occured while trying to communicate with the API we are using.\n\nPlease try again later or visit [our support server](https://discord.gg/dfmXNTmzyp) with the following information:\n`%{error}`"
