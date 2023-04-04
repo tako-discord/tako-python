@@ -1,12 +1,11 @@
 import i18n
 import discord
 import aiohttp
-from typing import TypedDict
 from discord import app_commands
 from discord.ext import commands
 from typings.apis import SomeRandomApi
 from discord.app_commands import Choice
-from utils import error_embed, get_language, translate, get_color
+from utils import error_embed, get_language, get_color
 
 
 class Animals(commands.Cog):
