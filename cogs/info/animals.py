@@ -1,7 +1,7 @@
 import i18n
 import discord
 import aiohttp
-from typing import TypedDict
+from main import TakoBot
 from discord import app_commands
 from discord.ext import commands
 from typings.apis import SomeRandomApi
@@ -10,24 +10,24 @@ from utils import error_embed, get_language, translate, get_color
 
 
 class Animals(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot: TakoBot):
         self.bot = bot
 
     @app_commands.command(description="Get a random animal image and fact")
-    @app_commands.describe(
+    @app_commands.choices(
         animal=[
-            Choice("Bird", "bird"),
-            Choice("Cat", "cat"),
-            Choice("Dog", "dog"),
-            Choice("Fox", "fox"),
-            Choice("Kangaroo", "kangaroo"),
-            Choice("Koala", "koala"),
-            Choice("Panda", "panda"),
-            Choice("Racoon", "raccoon"),
-            Choice("Red Panda", "red_panda"),
+            Choice(name="Bird", value="bird"),
+            Choice(name="Cat", value="cat"),
+            Choice(name="Dog", value="dog"),
+            Choice(name="Fox", value="fox"),
+            Choice(name="Kangaroo", value="kangaroo"),
+            Choice(name="Koala", value="koala"),
+            Choice(name="Panda", value="panda"),
+            Choice(name="Racoon", value="raccoon"),
+            Choice(name="Red Panda", value="red_panda"),
         ]
     )
-    @app_commands.choices()
+    @app_commands.describe(animal="The animal to get an image and fact about")
     async def animal(self, interaction: discord.Interaction, animal: str):
         url = "https://some-random-api.ml/animal/" + animal
         locale = get_language(self.bot, interaction.guild_id)
