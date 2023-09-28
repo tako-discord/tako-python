@@ -1,3 +1,18 @@
+## 1.14.0 (2023-09-28)
+
+### Feat
+
+- **info**: add `/animal` command
+
+### Fix
+
+- **info/animal**: hotfixes
+
+### Refactor
+
+- **i18n**: added danish and turkish
+- **config**: use lingva.ml as main api and tl.tako-bot.com as fallback (faster now)
+
 ## 1.13.0 (2023-03-19)
 
 ### Feat
