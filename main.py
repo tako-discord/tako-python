@@ -196,9 +196,8 @@ class TakoBot(commands.AutoShardedBot):
                     query,
                     users,
                     "💖"
-                    if not hasattr(config, "EMOJI_TRANSLATOR")
-                    or not config.EMOJI_TRANSLATOR
-                    else config.EMOJI_TRANSLATOR,
+                    if not hasattr(config, "EMOJI_DONATOR") or not config.EMOJI_DONATOR
+                    else config.EMOJI_DONATOR,
                     "donator",
                 )
                 continue
@@ -210,8 +209,9 @@ class TakoBot(commands.AutoShardedBot):
                     query,
                     users,
                     "🌐"
-                    if not hasattr(config, "EMOJI_DONATOR") or not config.EMOJI_DONATOR
-                    else config.EMOJI_DONATOR,
+                    if not hasattr(config, "EMOJI_TRANSLATOR")
+                    or not config.EMOJI_TRANSLATOR
+                    else config.EMOJI_TRANSLATOR,
                     "translator",
                 )
                 continue
@@ -223,9 +223,9 @@ class TakoBot(commands.AutoShardedBot):
                     query,
                     users,
                     "🧪"
-                    if not hasattr(config, "EMOJI_TRANSLATOR")
-                    or not config.EMOJI_TRANSLATOR
-                    else config.EMOJI_TRANSLATOR,
+                    if not hasattr(config, "EMOJI_ALPHA_TESTER")
+                    or not config.EMOJI_ALPHA_TESTER
+                    else config.EMOJI_ALPHA_TESTER,
                     "alpha_tester",
                 )
                 continue
