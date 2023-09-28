@@ -1,0 +1,9 @@
+da:
+  alpha_tester_title: "Alpha Tester"
+  alpha_tester_desc: "Users who tested the bot in the Closed Alpha program"
+  donator_title: "Donator"
+  donator_desc: "Brugere som har doneret igennem [Tako's Open Collective](https://opencollective.com/tako) vil modtage dette badge"
+  translator_title: "Oversætter"
+  translator_desc: "Oversættere af botten via [Tako's Crowdin](https://translate.tako-bot.com)."
+  core_developer_title: "Kerneudvikler"
+  core_developer_desc: "Kerneudviklere af Tako. Det er dem der arbejder hårdt i deres fritid for at forbedre Tako."

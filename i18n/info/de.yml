@@ -7,7 +7,6 @@ de:
   username_discrim: "**Benutzername & Diskriminator**: %{name}"
   no_flags: "Keine Flags"
   created_on: "**Erstellt am**: %{date}"
-  date_format: "%d.%m.%Y"
   avatar: "**Profilbild**: %{avatar}"
   server: "**Server**"
   joined_on: "**Beigetreten am**: %{date}"

@@ -1,0 +1,5 @@
+de:
+  page: "Seite %{page}"
+  date_format: "%d.%m.%Y"
+  date_format_long: "%d.%m.%Y %H:%M:%S"
+  id: "ID"
