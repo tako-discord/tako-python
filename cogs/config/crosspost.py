@@ -3,7 +3,7 @@ from discord import app_commands
 from discord.ext import commands
 
 import i18n
-from TakoBot import TakoBot
+from main import TakoBot
 from utils import get_language
 
 
@@ -14,7 +14,7 @@ class Crosspost(commands.Cog):
     @app_commands.command(
         description="Set a channel where the messages automatically will be published"
     )
-    @app_commands.checks.has_permissions(manage_channels=True)
+    @app_commands.default_permissions(manage_channels=True)
     @app_commands.checks.bot_has_permissions(manage_channels=True)
     @app_commands.describe(
         channel="The news channel auto-crossposting should be enabled in",
@@ -26,7 +26,7 @@ class Crosspost(commands.Cog):
         channel: discord.TextChannel = None,
         state: bool = True,
     ):
-        language = get_language(self.bot, interaction.guild.id)
+        language = get_language(self.bot, interaction.guild_id)
         if not channel:
             channel = interaction.channel
         if channel.type is discord.ChannelType.news:

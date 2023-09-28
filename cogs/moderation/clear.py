@@ -1,6 +1,6 @@
 import i18n
 import discord
-from TakoBot import TakoBot
+from main import TakoBot
 from datetime import datetime
 from discord import app_commands
 from discord.ext import commands
@@ -20,7 +20,7 @@ class ClearAll(discord.ui.View):
         await interaction.response.send_message(
             i18n.t(
                 "moderation.deleting",
-                locale=get_language(self.bot, interaction.guild.id),
+                locale=get_language(self.bot, interaction.guild_id),
             ),
             ephemeral=True,
         )
@@ -43,7 +43,7 @@ class ClearAll(discord.ui.View):
         await interaction.response.send_message(
             i18n.t(
                 "moderation.cancelled",
-                locale=get_language(self.bot, interaction.guild.id),
+                locale=get_language(self.bot, interaction.guild_id),
             ),
             ephemeral=True,
         )
@@ -60,7 +60,7 @@ class Clear(commands.Cog):
         target="The user to delete the messages from",
         channel="The channel to delete the messages from",
     )
-    @app_commands.checks.has_permissions(manage_messages=True)
+    @app_commands.default_permissions(manage_messages=True)
     @app_commands.checks.bot_has_permissions(manage_messages=True)
     async def clear(
         self,
@@ -70,7 +70,7 @@ class Clear(commands.Cog):
         channel: discord.TextChannel = None,
     ):
         await interaction.response.defer(ephemeral=True)
-        language = get_language(self.bot, interaction.guild.id)
+        language = get_language(self.bot, interaction.guild_id)
         if not channel:
             channel = interaction.channel
         if amount == 0:
@@ -78,7 +78,7 @@ class Clear(commands.Cog):
                 title=i18n.t(
                     "moderation.sure_to_delete", channel=channel.name, locale=language
                 ),
-                color=await get_color(self.bot, interaction.guild.id),
+                color=await get_color(self.bot, interaction.guild_id),
             )
             return await interaction.followup.send(
                 embed=embed, view=ClearAll(self.bot, channel)

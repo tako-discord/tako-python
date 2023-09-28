@@ -20,7 +20,7 @@ class RawMessage(commands.Cog):
     async def raw_message(
         self, interaction: discord.Interaction, message: discord.Message
     ):
-        language = get_language(self.bot, interaction.guild.id)
+        language = get_language(self.bot, interaction.guild_id)
         if not message.content and not message.embeds:
             return await interaction.response.send_message(
                 i18n.t("info.no_content", locale=language), ephemeral=True

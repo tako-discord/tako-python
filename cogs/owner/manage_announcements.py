@@ -1,6 +1,6 @@
 import i18n
 import discord
-from TakoBot import TakoBot
+from main import TakoBot
 from discord import app_commands
 from discord.ext import commands
 from utils import get_language, owner_only
@@ -32,7 +32,7 @@ class AnnouncementModal(discord.ui.Modal, title="Announcement Creator"):
         )
         await interaction.response.send_message(
             i18n.t(
-                "owner.success", locale=get_language(self.bot, interaction.guild.id)
+                "owner.success", locale=get_language(self.bot, interaction.guild_id)
             ),
             ephemeral=True,
         )
@@ -70,13 +70,13 @@ class ManageAnnouncements(commands.Cog):
             return await interaction.response.send_message(
                 i18n.t(
                     "owner.announcement_not_found",
-                    locale=get_language(self.bot, interaction.guild.id),
+                    locale=get_language(self.bot, interaction.guild_id),
                 )
             )
         await self.bot.db_pool.execute("DELETE FROM announcements WHERE id = $1", id)
         await interaction.response.send_message(
             i18n.t(
-                "owner.success", locale=get_language(self.bot, interaction.guild.id)
+                "owner.success", locale=get_language(self.bot, interaction.guild_id)
             ),
             ephemeral=True,
         )

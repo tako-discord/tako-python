@@ -47,7 +47,7 @@ class Embed(commands.Cog):
         timestamp: bool = False,
     ):
         if color is None:
-            color = await get_color(self.bot, interaction.guild.id, False)
+            color = await get_color(self.bot, interaction.guild_id, False)
         if color.startswith("#"):
             color = color.replace("#", "0x")
         if not color.startswith("0x"):

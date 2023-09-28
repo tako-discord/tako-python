@@ -11,7 +11,9 @@ class Balance(commands.Cog):
     @app_commands.command(description="Check a users balance")
     @app_commands.describe(user="The user to check the balance of (Default: you)")
     async def balance(
-        self, interaction: discord.Interaction, user: discord.User = None
+        self,
+        interaction: discord.Interaction,
+        user: discord.User | discord.Member | None = None,
     ):
         if user is None:
             user = interaction.user
@@ -31,5 +33,5 @@ class Balance(commands.Cog):
             )
 
         cash = await fetch_cash(self.bot.db_pool, user)
-        embed, file = await balance_embed(self.bot, user, interaction.guild.id, cash)
+        embed, file = await balance_embed(self.bot, user, interaction.guild_id, cash)
         await interaction.response.send_message(embed=embed, file=file)

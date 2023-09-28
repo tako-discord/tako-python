@@ -1,7 +1,7 @@
 import i18n
 import discord
 import bot_secrets
-from TakoBot import TakoBot
+from main import TakoBot
 from discord.ext import commands
 from utils import error_embed, get_language
 
@@ -15,9 +15,9 @@ class Sync(commands.Cog):
     async def sync(self, ctx):
         if hasattr(bot_secrets, "TEST_GUILD"):
             self.bot.tree.copy_global_to(
-                guild=discord.Object(id=bot_secrets.TEST_GUILD)
+                guild=discord.Object(id=bot_secrets.TEST_GUILD)  # type: ignore
             )
-            await self.bot.tree.sync(guild=discord.Object(id=bot_secrets.TEST_GUILD))
+            await self.bot.tree.sync(guild=discord.Object(id=bot_secrets.TEST_GUILD))  # type: ignore
         else:
             await self.bot.tree.sync()
         await ctx.reply("Successfully synced!", ephemeral=True)

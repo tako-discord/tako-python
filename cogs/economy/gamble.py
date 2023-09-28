@@ -23,7 +23,7 @@ class Gamble(commands.GroupCog, group_name="gamble"):
         ]
     )
     async def flip(self, interaction: discord.Interaction, bet: int, guess: int):
-        language = get_language(self.bot, interaction.guild.id)
+        language = get_language(self.bot, interaction.guild_id)
         wallet = await self.bot.db_pool.fetchval(
             "SELECT wallet FROM users WHERE user_id = $1;", interaction.user.id
         )
@@ -36,7 +36,7 @@ class Gamble(commands.GroupCog, group_name="gamble"):
         result = random.randint(1, 2)
         embed = discord.Embed(
             title=i18n.t("economy.ht", locale=language),
-            color=await get_color(self.bot, interaction.guild.id),
+            color=await get_color(self.bot, interaction.guild_id),
             description=i18n.t(
                 "economy.ht_won", locale=language, amount=str(bet) + config.CURRENCY
             )

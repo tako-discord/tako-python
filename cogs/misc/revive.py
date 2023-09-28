@@ -21,6 +21,7 @@ class Revive(commands.Cog):
         interaction: discord.Interaction,
         id: int | None = None,
     ):
+        await interaction.response.defer()
         locale = get_language(self.bot, interaction.guild_id)
         id = randint(0, len(questions)) if id is None else id
         index = id - 1
@@ -35,7 +36,7 @@ class Revive(commands.Cog):
 
         embed = discord.Embed(
             title=i18n.t("misc.topic_title", locale=locale),
-            description=await translate(questions[index], locale, "en"),
+            description=(await translate(questions[index], locale, "en"))[0],
             color=await get_color(self.bot, interaction.guild_id),  # type: ignore
         )
         embed.set_footer(text=i18n.t("misc.topic_footer", locale=locale, id=id))
@@ -52,6 +53,7 @@ class Revive(commands.Cog):
             embeds = [embed2, embed]
             files.append(file)
 
-        await interaction.response.send_message(embeds=embeds, files=files)
-        await sleep(5)
-        await interaction.edit_original_response(embed=embed, attachments=[])
+        await interaction.followup.send(embeds=embeds, files=files)
+        if not valid_topic:
+            await sleep(5)
+            await interaction.edit_original_response(embed=embed, attachments=[])

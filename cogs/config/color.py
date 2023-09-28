@@ -12,12 +12,12 @@ class Color(commands.Cog):
     @app_commands.describe(
         color="A valid 6 character HEX code. (Example: #FFFFFF, 0xFFFFFF, FFFFFF (White), None (Default))"
     )
-    @app_commands.checks.has_permissions(manage_guild=True)
+    @app_commands.default_permissions(manage_guild=True)
     async def set_color(self, interaction: discord.Interaction, color: str):
         if color.lower() == "none":
             await self.bot.db_pool.execute(
                 "INSERT INTO guilds(guild_id, color) VALUES($1, $2) ON CONFLICT(guild_id) DO UPDATE SET guild_id = $1, color = $2",
-                interaction.guild.id,
+                interaction.guild_id,
                 None,
             )
             return await interaction.response.send_message(
@@ -35,7 +35,7 @@ class Color(commands.Cog):
 
         await self.bot.db_pool.execute(
             "INSERT INTO guilds(guild_id, color) VALUES($1, $2) ON CONFLICT(guild_id) DO UPDATE SET guild_id = $1, color = $2",
-            interaction.guild.id,
+            interaction.guild_id,
             color,
         )
         await interaction.response.send_message(

@@ -17,7 +17,7 @@ class ShowTag(commands.Cog):
         tag = await self.bot.db_pool.fetchrow(
             "SELECT * FROM tags WHERE id = $1 AND guild_id = $2;",
             tag,
-            interaction.guild.id,
+            interaction.guild_id,
         )
         if tag is None:
             return await interaction.response.send_message(
@@ -27,7 +27,7 @@ class ShowTag(commands.Cog):
             embed = discord.Embed(
                 title=tag["name"],
                 description=tag["content"],
-                color=await get_color(self.bot, interaction.guild.id),
+                color=await get_color(self.bot, interaction.guild_id),
             )
             embed.set_thumbnail(url=tag["thumbnail"])
             embed.set_image(url=tag["image"])
@@ -40,7 +40,7 @@ class ShowTag(commands.Cog):
         self, interaction: discord.Interaction, current: str
     ):
         tags = await self.bot.db_pool.fetch(
-            "SELECT * FROM tags WHERE guild_id = $1;", interaction.guild.id
+            "SELECT * FROM tags WHERE guild_id = $1;", interaction.guild_id
         )
         return [
             app_commands.Choice(

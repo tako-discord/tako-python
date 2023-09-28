@@ -1,7 +1,7 @@
 import os
 import discord
 import tmdbsimple as tmdb
-from TakoBot import TakoBot
+from main import TakoBot
 from discord import app_commands
 from discord.ext import commands
 from utils import get_color, thumbnail
@@ -40,7 +40,7 @@ async def button_logic(
         detailed_embed = discord.Embed(
             title=f"{title} ({types[results[index]['media_type']]})",
             description=tagline,
-            color=await get_color(bot, interaction.guild.id),
+            color=await get_color(bot, interaction.guild_id),
         )
     else:
         biography = more_info["biography"]
@@ -49,7 +49,7 @@ async def button_logic(
             description=biography
             if len(biography) <= 1024
             else f"{biography[:1021]}...",
-            color=await get_color(bot, interaction.guild.id),
+            color=await get_color(bot, interaction.guild_id),
         )
     url = f"https://image.tmdb.org/t/p/original{more_info['backdrop_path'] if 'backdrop_path' in more_info else more_info['profile_path']}"
     detailed_embed.set_image(url=url)
@@ -152,7 +152,7 @@ class Media(commands.GroupCog):
         search.multi(query=query)
         search.results = search.results[:3]
         types = {"movie": "Movie", "tv": "TV", "person": "Person"}
-        thumbnail_path = await thumbnail(interaction.guild.id, "search", self.bot)
+        thumbnail_path = await thumbnail(interaction.guild_id, "search", self.bot)
         file = discord.File(thumbnail_path, filename="thumbnail.png")
         tmdb_logo = discord.File(f"{os.getcwd()}/assets/TMDb.png")
         embed = discord.Embed(
@@ -160,7 +160,7 @@ class Media(commands.GroupCog):
             description=f"Top {len(search.results[:3])} Search results for *{query}*"
             if len(search.results)
             else "Nothing matched your search",
-            color=await get_color(self.bot, interaction.guild.id),
+            color=await get_color(self.bot, interaction.guild_id),
         )
         for s in search.results:
             if s["media_type"] == "movie":

@@ -35,7 +35,7 @@ class SelfMenu(discord.ui.Select):
         await interaction.followup.send(
             content=i18n.t(
                 "config.selfroles_updated",
-                locale=get_language(self.bot, interaction.guild.id),
+                locale=get_language(self.bot, interaction.guild_id),
             ),
             ephemeral=True,
         )

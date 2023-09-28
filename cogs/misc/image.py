@@ -53,7 +53,7 @@ class ImageGen(commands.GroupCog, group_name="image"):
         thumb = await thumbnail(interaction.guild_id, "flag", self.bot)
         thumb = discord.File(thumb, "thumbnail.png")
         embed = discord.Embed(
-            color=await get_color(self.bot, interaction.guild.id),  # type: ignore
+            color=await get_color(self.bot, interaction.guild_id),  # type: ignore
             title="LGBTQ+ Avatar",
             description=i18n.t("misc.lgbtq_tip", locale=language)
             + f"\n\n{i18n.t('misc.no_gif_support', locale=language)}"

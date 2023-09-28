@@ -1,13 +1,11 @@
 import discord
 from discord.ext import commands
-from .affirmation_buttons import AffirmationButtons
 from .meme_buttons import MemeButtons
 from .self_menu import SelfMenu
 from .poll_buttons import PollButtons
 
 
 async def setup(bot: commands.AutoShardedBot):
-    bot.add_view(AffirmationButtons())
     bot.add_view(MemeButtons(bot))
     bot.loop.create_task(selfrole_setup(bot))
     bot.loop.create_task(poll_setup(bot))

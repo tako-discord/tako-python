@@ -5,16 +5,16 @@ import config
 import discord
 import asyncpg
 import aiohttp
+from typing import Type
 from datetime import datetime
 from urllib.parse import quote
-from config import REPO, RAW_GH
 from discord import app_commands
 from PIL import Image, ImageColor
 
 try:
     import tomllib
 except ModuleNotFoundError:
-    import tomli as tomllib
+    import tomli as tomllib  # type: ignore
 
 
 def clear_console():
@@ -38,7 +38,7 @@ def format_bytes(size: int):
     n = 0
     power_labels = ["Bytes", "KB", "MB", "GB", "TB"]
     while size > power and n != 4:
-        size /= power
+        size /= power  # type: ignore
         n += 1
     return str(round(size)) + power_labels[n]
 
@@ -86,7 +86,7 @@ def color_check(color: str):
     """
     value = True
     rgb = ImageColor.getcolor(color, "RGB")
-    value = True if (rgb[0] * 0.299 + rgb[1] * 0.587 + rgb[2] * 0.114) < 143 else False
+    value = True if (rgb[0] * 0.299 + rgb[1] * 0.587 + rgb[2] * 0.114) < 143 else False  # type: ignore
     return value
 
 
@@ -102,7 +102,7 @@ async def thumbnail(id: int | None, icon_name: str, bot):
     color = await get_color(bot, id, False) if id else config.DEFAULT_COLOR_STR
     img = Image.new("RGB", (512, 512), color=color.replace("0x", "#"))  # type: ignore
     icon = Image.open(
-        f"assets/icons/{icon_name}{'' if color_check(color.replace('0x', '#')) or icon_name == 'reddit' else '_dark'}.png"  # type: ignore
+        f"assets/icons/{icon_name}{'' if color_check(color.replace('0x', '#')) else '_dark'}.png"  # type: ignore
     )
     img.paste(icon, (56, 56), mask=icon)
     img.save(f"assets/thumbnails/{icon_name}_{id}.png")
@@ -125,7 +125,7 @@ def delete_thumbnail(id: int, icon: str):
         os.remove(f"assets/thumbnails/{icon}_{id}.png")
 
 
-def get_language(bot, guild_id: int | None = None):
+def get_language(bot, guild_id: int | None = None, new: bool = False):
     """:class:`str`: Get the language of a guild.
 
     Parameters
@@ -159,7 +159,7 @@ def number_of_pages_needed(elements_per_page: int, total_elements: int):
 
 async def create_user(
     pool: asyncpg.Pool | asyncpg.Connection,
-    user: discord.User,
+    user: discord.User | discord.Member,
     wallet: int = config.DEFAULT_WALLET,
     bank: int = config.DEFAULT_BANK,
 ):
@@ -170,7 +170,7 @@ async def create_user(
     -----------
     pool: :class:`asyncpg.Pool`
         The PostgreSQL pool to use.
-    user: :class:`discord.User`
+    user: :class:`discord.User` or :class:`discord.Member`
         The user to create a row for.
     wallet: :class:`int`
         The amount of money the user has in it's wallet. (Default: config.DEFAULT_WALLET)
@@ -204,7 +204,9 @@ def add_extension(url: str):
     return 0
 
 
-async def fetch_cash(pool: asyncpg.Pool | asyncpg.Connection, user: discord.User):
+async def fetch_cash(
+    pool: asyncpg.Pool | asyncpg.Connection, user: discord.User | discord.Member
+):
     """list[`int`, `int`]: Returns the amount of money a user has in a list where the first value is the money
     in the wallet and the second value is the money in the bank of the user. It will also create a user if it doesn't exist yet.
 
@@ -223,7 +225,7 @@ async def fetch_cash(pool: asyncpg.Pool | asyncpg.Connection, user: discord.User
 
 
 async def balance_embed(
-    bot, user: discord.User | discord.Member, guild_id: int, cash: list[int]
+    bot, user: discord.User | discord.Member, guild_id: int | None, cash: list[int]
 ):
     """tuple[:class:`discord.Embed`, :class:`discord.File`]: Returns a tuple of an embed and it's file with the balance of a user.
 
@@ -313,23 +315,30 @@ def error_embed(
 async def get_latest_version():
     """Returns the latest version of the bot."""
     async with aiohttp.ClientSession() as session:
-        async with session.get(RAW_GH + REPO + "/master/pyproject.toml") as r:
+        async with session.get(
+            config.RAW_GH + config.REPO + "/master/pyproject.toml"
+        ) as r:
             data = await r.text()
             data = tomllib.loads(data)
             return data["tool"]["commitizen"]["version"]
 
 
-async def translate_logic(session: aiohttp.ClientSession, url: str):
+async def translate_logic(
+    session: aiohttp.ClientSession, url: str, source: str = "auto"
+) -> Type[json.JSONDecodeError] | list[str]:
     async with session.get(url) as r:
         data = await r.text()
         try:
             data = json.loads(data)
         except json.JSONDecodeError:
             return json.JSONDecodeError
-        return data["translated-text"]
+        try:
+            return [data["translation"], data["info"]["detectedSource"]]
+        except KeyError:
+            return [data["translation"], source]
 
 
-async def translate(text: str, target: str, source: str = "auto"):
+async def translate(text: str, target: str, source: str = "auto") -> list[str]:
     """Translates a given string to a specified language.
 
     Parameters
@@ -343,17 +352,19 @@ async def translate(text: str, target: str, source: str = "auto"):
     async with aiohttp.ClientSession() as session:
         data = await translate_logic(
             session,
-            f"{config.SIMPLY_TRANSLATE}/api/translate/?engine=google&text={quote(text)}&from={source}&to={target}",
+            f"{config.TRANSLATE_API}/api/v1/{source}/{target}/{quote(text)}",
+            source,
         )
         if data is json.JSONDecodeError:
             data = await translate_logic(
                 session,
-                f"{config.SIMPLY_TRANSLATE_FALLBACK}/api/translate/?engine=google&text={quote(text)}&from={source}&to={target}",
+                f"{config.TRANSLATE_API_FALLBACK}/api/v1/{source}/{target}/{quote(text)}",
+                source,
             )
-        return data if data is not json.JSONDecodeError else text
+        return data if data is not json.JSONDecodeError else [text, source]  # type: ignore
 
 
-async def new_meme(guild_id: int, user_id: int, bot, db_pool: asyncpg.Pool):
+async def new_meme(guild_id: int | None, user_id: int, bot, pool: asyncpg.Pool):
     """Returns a new meme embed and it's file from reddit.
 
     Parameters
@@ -389,7 +400,7 @@ async def new_meme(guild_id: int, user_id: int, bot, db_pool: asyncpg.Pool):
             embed.set_image(url=data["url"])
             embed.set_footer(text=f"r/{data['subreddit']} • {data['ups']} 👍")
 
-            async with db_pool.acquire() as con:
+            async with pool.acquire() as con:
                 user_data = await con.fetchrow(
                     "SELECT * FROM users WHERE user_id = $1;", user_id
                 )

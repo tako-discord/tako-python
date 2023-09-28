@@ -1,11 +1,13 @@
-import i18n
 import uuid
+
 import discord
-from TakoBot import TakoBot
 from discord import app_commands
 from discord.ext import commands
-from persistent_views.self_menu import SelfMenu
-from utils import get_language, thumbnail, get_color
+
+import i18n
+from main import TakoBot
+from utils import get_color, get_language, thumbnail
+from views.self_menu import SelfMenu
 
 
 class Selfroles(commands.Cog):
@@ -13,7 +15,7 @@ class Selfroles(commands.Cog):
         self.bot = bot
 
     @app_commands.command(description="Create a role selection menu")
-    @app_commands.checks.has_permissions(manage_roles=True)
+    @app_commands.default_permissions(manage_roles=True)
     @app_commands.checks.bot_has_permissions(manage_roles=True)
     @app_commands.guild_only()
     async def selfroles(
@@ -23,27 +25,27 @@ class Selfroles(commands.Cog):
         description: str,
         role_1: discord.Role,
         embed_state: bool = True,
-        min_values: int = None,
-        max_values: int = None,
-        role_2: discord.Role = None,
-        role_3: discord.Role = None,
-        role_4: discord.Role = None,
-        role_5: discord.Role = None,
-        role_6: discord.Role = None,
-        role_7: discord.Role = None,
-        role_8: discord.Role = None,
-        role_9: discord.Role = None,
-        role_10: discord.Role = None,
-        role_11: discord.Role = None,
-        role_12: discord.Role = None,
-        role_13: discord.Role = None,
-        role_14: discord.Role = None,
-        role_15: discord.Role = None,
-        role_16: discord.Role = None,
-        role_17: discord.Role = None,
-        role_18: discord.Role = None,
-        role_19: discord.Role = None,
-        role_20: discord.Role = None,
+        min_values: int | None = None,
+        max_values: int | None = None,
+        role_2: discord.Role | None = None,
+        role_3: discord.Role | None = None,
+        role_4: discord.Role | None = None,
+        role_5: discord.Role | None = None,
+        role_6: discord.Role | None = None,
+        role_7: discord.Role | None = None,
+        role_8: discord.Role | None = None,
+        role_9: discord.Role | None = None,
+        role_10: discord.Role | None = None,
+        role_11: discord.Role | None = None,
+        role_12: discord.Role | None = None,
+        role_13: discord.Role | None = None,
+        role_14: discord.Role | None = None,
+        role_15: discord.Role | None = None,
+        role_16: discord.Role | None = None,
+        role_17: discord.Role | None = None,
+        role_18: discord.Role | None = None,
+        role_19: discord.Role | None = None,
+        role_20: discord.Role | None = None,
     ):
         role_array = [role_1]
 
@@ -87,7 +89,7 @@ class Selfroles(commands.Cog):
             role_array.append(role_20)
 
         select_array = []
-        language = get_language(self.bot, interaction.guild.id)
+        language = get_language(self.bot, interaction.guild_id)
 
         for role in role_array:
             if (
@@ -113,7 +115,7 @@ class Selfroles(commands.Cog):
         await self.bot.db_pool.execute(
             "INSERT INTO selfroles (id, guild_id, select_array, min_values, max_values) VALUES ($1, $2, $3, $4, $5);",
             id,
-            interaction.guild.id,
+            interaction.guild_id,
             select_array,
             min_values,
             max_values,
@@ -123,7 +125,7 @@ class Selfroles(commands.Cog):
         view.add_item(menu)
 
         file = discord.File(
-            await thumbnail(interaction.guild.id, "role", self.bot),
+            await thumbnail(interaction.guild_id, "role", self.bot),
             filename="thumbnail.png",
         )
 
@@ -131,7 +133,7 @@ class Selfroles(commands.Cog):
             embed = discord.Embed(
                 title=title,
                 description=description,
-                color=await get_color(self.bot, interaction.guild.id),
+                color=await get_color(self.bot, interaction.guild_id),  # type: ignore
             )
             embed.set_thumbnail(url="attachment://thumbnail.png")
             await interaction.channel.send(embed=embed, view=view, file=file)

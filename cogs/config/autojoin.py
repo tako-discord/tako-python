@@ -1,9 +1,10 @@
-import i18n
 import discord
-from TakoBot import TakoBot
 from discord import app_commands
 from discord.ext import commands
-from utils import get_color, get_language, thumbnail, delete_thumbnail
+
+import i18n
+from main import TakoBot
+from utils import delete_thumbnail, get_color, get_language, thumbnail
 
 
 async def autojoin_logic(
@@ -93,12 +94,12 @@ def no_roles_field(embed: discord.Embed, type: str, language: str = "en"):
 
 class Autojoin(commands.GroupCog, group_name="autojoinroles"):
     def __init__(self, bot: TakoBot):
-        self.bot = bot
+        self.bot: TakoBot = bot
 
     @app_commands.command(
-        description="Toggle a role that will be automatically added to new users"
+        description="Toggle a role that will be automatically added to new users",
     )
-    @app_commands.checks.has_permissions(manage_roles=True)
+    @app_commands.default_permissions(manage_roles=True)
     @app_commands.checks.bot_has_permissions(manage_roles=True)
     @app_commands.describe(
         role="The role that should be toggled in the autojoinrole list"
@@ -107,27 +108,28 @@ class Autojoin(commands.GroupCog, group_name="autojoinroles"):
         await autojoin_logic(self.bot, interaction, role, "join_roles_user")
 
     @app_commands.command(
-        description="Toggle a role that will be automatically added to new bots"
+        name="bot",
+        description="Toggle a role that will be automatically added to new bots",
     )
-    @app_commands.checks.has_permissions(manage_roles=True)
+    @app_commands.default_permissions(manage_roles=True)
     @app_commands.checks.bot_has_permissions(manage_roles=True)
     @app_commands.guild_only()
     @app_commands.describe(
         role="The role that should be toggled in the autojoinrole list"
     )
-    async def bot(self, interaction: discord.Interaction, role: discord.Role):
+    async def aj_bot(self, interaction: discord.Interaction, role: discord.Role):
         await autojoin_logic(self.bot, interaction, role, "join_roles_bot")
 
     @app_commands.command(
-        description="List all roles that will be automatically added to new members"
+        description="List all roles that will be automatically added to new members",
     )
     async def list(self, interaction: discord.Interaction):
         await interaction.response.defer()
-        language = get_language(self.bot, interaction.guild.id)
+        language = get_language(self.bot, interaction.guild_id)
         data = await self.bot.db_pool.fetchrow(
             "SELECT * FROM guilds WHERE guild_id = $1", interaction.guild_id
         )
-        thumbnail_path = await thumbnail(interaction.guild.id, "role", self.bot)
+        thumbnail_path = await thumbnail(interaction.guild_id, "role", self.bot)
         file = discord.File(thumbnail_path, filename="thumbnail.png")
         embed = discord.Embed(
             title=i18n.t(
@@ -136,7 +138,7 @@ class Autojoin(commands.GroupCog, group_name="autojoinroles"):
                 locale=language,
             ),
             description=i18n.t("config.autojoinroles_desc", locale=language),
-            color=await get_color(self.bot, interaction.guild.id),  # type: ignore
+            color=await get_color(self.bot, interaction.guild_id),  # type: ignore
         )
         embed.set_thumbnail(url="attachment://thumbnail.png")
         if not data:
