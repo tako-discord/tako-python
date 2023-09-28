@@ -19,8 +19,8 @@ DEFAULT_BANK = 0
 DEFAULT_WALLET = 1000
 
 # * APIs etc.
-TRANSLATE_API = "https://lingva.ml"  # no / at the end is important
-TRANSLATE_API_FALLBACK = "https://tl.tako-bot.com"  # no / at the end is important
+TRANSLATE_API = "https://tl.tako-bot.com"  # no / at the end is important
+TRANSLATE_API_FALLBACK = "https://lingva.ml"  # no / at the end is important
 IMGEN = "https://imgen.tako-bot.com"  # no / at the end is important
 REPO = "tako-discord/tako"
 RAW_GH = "https://raw.githubusercontent.com/"  # Used for version check (pyproject.toml)

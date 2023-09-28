@@ -17,8 +17,9 @@ class Language(commands.Cog):
     @app_commands.guild_only()
     @app_commands.choices(
         language=[
-            Choice(name="English (Default)", value="en"),
+            Choice(name="Dansk (Danish)", value="da"),
             Choice(name="Deutsch (German)", value="de"),
+            Choice(name="English (Default)", value="en"),
             Choice(name="Español (Spanish)", value="es"),
             Choice(name="Français (French)", value="fr"),
             Choice(name="Hrvatski (Croatian)", value="hr"),
@@ -28,6 +29,7 @@ class Language(commands.Cog):
             Choice(name="Polski (Polish)", value="pl"),
             Choice(name="Português, brasileiro (Portuguese, Brazilian)", value="pt"),
             Choice(name="Svenska (Swedish)", value="sv"),
+            Choice(name="Türkçe (Turkish)", value="tr"),
             Choice(name="עִברִית (Hebrew)", value="he"),
             Choice(name="日本 (Japanese)", value="ja"),
         ]
