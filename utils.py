@@ -125,7 +125,7 @@ def delete_thumbnail(id: int, icon: str):
         os.remove(f"assets/thumbnails/{icon}_{id}.png")
 
 
-def get_language(bot, guild_id: int | None = None, new: bool = False):
+def get_language(bot, guild_id: int | None = None):
     """:class:`str`: Get the language of a guild.
 
     Parameters
