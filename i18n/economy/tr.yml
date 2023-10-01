@@ -6,7 +6,7 @@ tr:
   more_than: "Bu işlemi gerçekleştirebilmek için en az %{amount} harcamanız gerekiyor!"
   not_self: "Kendinizi seçemezsiniz!"
   not_bot: "Bir bot seçemezsiniz!"
-  not_bot_balance: "Bots cannot own %{currency}s!"
+  not_bot_balance: "Botlar %{currency}lara sahip olamaz!"
   give: "%{user} cömert hissetti ve %{target} %{amount} verdi"
   transfer: "Para Transferi"
   #Head or Tail
@@ -23,5 +23,5 @@ tr:
   begging_failed1: "Hiçbir şey almadın."
   begging_failed2: "Seni fakir."
   begging_failed3: "En azından denedin."
-  begging_failed4: "Maybe next time."
+  begging_failed4: "Belki bir dahaki sefere."
   daily: "Hey **%{user}**. Bugün **%{amount}** aldın!"
