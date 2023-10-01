@@ -13,6 +13,7 @@ class Sync(commands.Cog):
     @commands.hybrid_command(description="Sync all slash commands")
     @commands.is_owner()
     async def sync(self, ctx):
+        await ctx.defer(ephemeral=True)
         if hasattr(bot_secrets, "TEST_GUILD"):
             self.bot.tree.copy_global_to(
                 guild=discord.Object(id=bot_secrets.TEST_GUILD)  # type: ignore
@@ -20,7 +21,7 @@ class Sync(commands.Cog):
             await self.bot.tree.sync(guild=discord.Object(id=bot_secrets.TEST_GUILD))  # type: ignore
         else:
             await self.bot.tree.sync()
-        await ctx.reply("Successfully synced!", ephemeral=True)
+        await ctx.followup.send("Successfully synced!", ephemeral=True)
 
     @sync.error
     async def on_command_error(
