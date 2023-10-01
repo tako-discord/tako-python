@@ -1,5 +1,5 @@
 da:
-  page: "Page %{page}"
+  page: "Side %{page}"
   date_format: "%Y-%m-%d"
   date_format_long: "%Y-%m-%d %I:%M %p"
   id: "ID"
