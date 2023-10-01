@@ -1,7 +1,7 @@
 tr:
   language_success: "Dilim `%{language}` olarak ayarlandı."
-  selfrole_created: "Successfully created your role selection menu!"
-  selfroles_updated: "Successfully updated your roles!"
+  selfrole_created: "Rol seçim menünüz başarıya oluşturuldu!"
+  selfroles_updated: "Rolleriniz başarıyla güncellendi!"
   crossposting_not_news: "❌ %{channel} bir duyuru kanalı değil!"
   crossposting_activated: "✅ Otomatik çapraz paylaşım %{channel} için aktif edildi"
   crossposting_deactivated: "❌ Otomatik çapraz paylaşım %{channel} için devre dışı bırakıldı"
