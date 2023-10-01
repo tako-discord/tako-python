@@ -77,19 +77,13 @@ Please note that instead of `python` your command may be `python3` or similar.
 
 ## 💖 Credits
 **Huge thanks to**
-
-...the core team
-- 👑 [*@Pukimaa*](https://github.com/Pukimaa) - Creator & Developer
-- 💻 *???* - Developer
-
 ...all the testers
 - [*@vaporvee*](https://github.com/vaporvee)
 - [*@abUwUser*](https://github.com/abUwUser)
-- [*@cmod31*](https://github.com/cmod31)
 - [*@sheeepdev*](https://github.com/sheeepdev)
 - [*@MeekOnGithub*](https://github.com/MeekOnGithub)
-- *| Tzur |#3673*
-- *Olex3#2900*
+- *tzuril*
+- *olederpole.*
 
 ...and every other person helping. Like Contributors, Translators etc.
 
