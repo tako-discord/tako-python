@@ -1,3 +1,18 @@
+## 1.15.0 (2023-10-01)
+
+### Feat
+
+- **autotranslate**: add channel linking, to send translations into a different channel
+
+### Fix
+
+- **sync**: defer syncing message
+- **badges**: fix badges not updating and wrong emojis
+
+### Refactor
+
+- update credits, to keep it up to date
+
 ## 1.14.0 (2023-09-28)
 
 ### Feat
