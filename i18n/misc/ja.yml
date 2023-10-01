@@ -33,6 +33,7 @@ ja:
   auto_translate_confidence_set: "Confidence Threshold is now set to %{value}%"
   auto_translate_reply_style_set: "Autotranslate reply style is now set to %{style}"
   auto_translate_delete_original: "Deletion of the original message is now set to %{value}"
+  auto_translate_linked: "Succesfully linked channels. Messages from %{source_channel} (in language `%{source_lang}`) will now be translated to %{target_channel} (in language `${target_lang}`)."
   topic_title: "Here's your topic:"
   topic_footer: "Topic ID: %{id}"
   topic_invalid_title: "We searched far and wide. Unfortunately, no topics were found."
