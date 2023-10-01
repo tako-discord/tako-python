@@ -23,3 +23,6 @@ da:
   not_locked: "%{channel} er i øjeblikket ikke låst!"
   api_error_title: "API fejl"
   api_error: "Der opstod en fejl imens vi prøvede at kommunikere med den API vi bruger\n\nPrøv venligst igen senere eller besøg [vores support server](https://discord.gg/dfmXNTmzyp) med følgende information\n`%{error}`"
+  auto_translate_same_lang: "The source and target language is the same. Please choose different languages!"
+  auto_translate_same_channel: "The source and target channel is the same. Please choose different channels!"
+  auto_translate_link_exists: "There is already a translation link between these channels!"
