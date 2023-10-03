@@ -35,7 +35,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
 
     @app_commands.command(description="Set the style of the auto translated message")
     @app_commands.describe(style="The style of the auto translated message")
-    @app_commands.default_permissions(manage_guild=True)
+    @app_commands.checks.has_permissions(manage_guild=True)
     @app_commands.choices(
         style=[
             Choice(name="Default", value="default"),
@@ -63,7 +63,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
         description="Adjust the confidence threshold for auto translate"
     )
     @app_commands.describe(value="The confidence threshold for auto translate.")
-    @app_commands.default_permissions(manage_guild=True)
+    @app_commands.checks.has_permissions(manage_guild=True)
     @app_commands.guild_only()
     async def sensitivity(
         self, interaction: discord.Interaction, value: app_commands.Range[int, 0, 100]
@@ -86,6 +86,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
         description="Toggle original message deletion for auto translate"
     )
     @app_commands.describe(value="Whether to delete the original message or not")
+    @app_commands.checks.has_permissions(manage_guild=True)
     async def delete_original(self, interaction: discord.Interaction, value: bool):
         await self.bot.db_pool.execute(
             "INSERT INTO guilds (guild_id, auto_translate_delete_original) VALUES ($1, $2) ON CONFLICT(guild_id) DO UPDATE SET auto_translate_delete_original = $2;",
@@ -104,6 +105,7 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
     # TODO: Add descriptions to command and arguments
     @app_commands.command()
     @app_commands.guild_only()
+    @app_commands.checks.has_permissions(manage_guild=True)
     async def link(
         self,
         interaction: discord.Interaction,
@@ -281,7 +283,10 @@ class AutoTranslate(commands.GroupCog, name="auto_translate"):
             else:
                 webhook = await self.bot.fetch_webhook(webhook_id)
 
-            translation = await translate(message.content, target_lang, source_lang)
+            try:
+                translation = await translate(message.content, target_lang, source_lang)
+            except:
+                continue
             try:
                 await webhook.send(
                     username=f"{message.author.display_name} ({translation[1]} ➜ {target_lang})",
