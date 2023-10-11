@@ -23,3 +23,6 @@ de:
   not_locked: "%{channel} ist bereits gesperrt!"
   api_error_title: "API Fehler"
   api_error: "Beim Versuch, mit der verwendeten API zu kommunizieren, ist ein Fehler aufgetreten.\n\nBitte versuche es später noch einmal oder besuche [unseren Support-Server](https://discord.gg/dfmXNTmzyp) mit den folgenden Informationen:\n`%{error}`"
+  auto_translate_same_lang: "Die Ausgangs- und Zielsprache ist die gleiche. Bitte wählen verschiedene Sprachen!"
+  auto_translate_same_channel: "Der Ausgangs- und Zielkanal ist der gleiche. Bitte wähle verschiedene Kanäle!"
+  auto_translate_link_exists: "Es gibt bereits eine Übersetzungsverbindung zwischen diesen Kanälen!"

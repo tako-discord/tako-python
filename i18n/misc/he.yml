@@ -33,6 +33,7 @@ he:
   auto_translate_confidence_set: "בטחון מפתן הוגדר ל %{value}"
   auto_translate_reply_style_set: "סגנון התשובה של תרגום אוטומטי מוגדר כעת ל %{style}"
   auto_translate_delete_original: "מחיקת ההודעה המקורית מוגדרת כעת ל-%{value}"
+  auto_translate_linked: "Succesfully linked channels. Messages from %{source_channel} (in language `%{source_lang}`) will now be translated to %{target_channel} (in language `${target_lang}`)."
   topic_title: "הנה הנושא שלך:"
   topic_footer: "נושא הת.ז: %{id}"
   topic_invalid_title: "We searched far and wide. Unfortunately, no topics were found."

@@ -23,3 +23,6 @@ nl:
   not_locked: "%{channel} is currently not locked!"
   api_error_title: "API Error"
   api_error: "An error occured while trying to communicate with the API we are using.\n\nPlease try again later or visit [our support server](https://discord.gg/dfmXNTmzyp) with the following information:\n`%{error}`"
+  auto_translate_same_lang: "The source and target language is the same. Please choose different languages!"
+  auto_translate_same_channel: "The source and target channel is the same. Please choose different channels!"
+  auto_translate_link_exists: "There is already a translation link between these channels!"

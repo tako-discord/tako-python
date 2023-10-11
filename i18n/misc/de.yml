@@ -33,6 +33,7 @@ de:
   auto_translate_confidence_set: "Sicherseinsschwelle ist jetzt auf %{value}% gesetzt"
   auto_translate_reply_style_set: "Antwortstil fürs Automatische übersetzen wurde auf %{style} gesetzt"
   auto_translate_delete_original: "Das Löschen der ursprünglichen Nachricht wurde auf %{value} gesetzt"
+  auto_translate_linked: "Kanäle wurden erfolgreich verlinkt. Nachrichten von %{source_channel} (in der Sprache `%{source_lang}`) werden nun in %{target_channel} (in der Sprache `${target_lang} `) übersetzt."
   topic_title: "Hier ist dein Thema:"
   topic_footer: "Themen-ID: %{id}"
   topic_invalid_title: "Wir haben weit und breit gesucht. Leider wurden keine Themen gefunden."

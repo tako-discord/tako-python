@@ -33,6 +33,7 @@ da:
   auto_translate_confidence_set: "Tillidsgrænse er nu sat til %{value}%"
   auto_translate_reply_style_set: "Autooversæt svarstil er nu indstillet til %{style}"
   auto_translate_delete_original: "Sletning af den originale besked er nu sat til %{value}"
+  auto_translate_linked: "Succesfully linked channels. Messages from %{source_channel} (in language `%{source_lang}`) will now be translated to %{target_channel} (in language `${target_lang}`)."
   topic_title: "Her er dit emne:"
   topic_footer: "Emne ID: %{id}"
   topic_invalid_title: "Vi har søgt overalt. Desværre blev der ikke fundet noget emner."

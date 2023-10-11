@@ -33,6 +33,7 @@ hr:
   auto_translate_confidence_set: "Prag pouzdanosti sada je postavljen na %{value}%"
   auto_translate_reply_style_set: "Stil odgovora automatskog prijevoda sada je postavljen na %{style}"
   auto_translate_delete_original: "Brisanje izvorne poruke sada je postavljeno na %{value}"
+  auto_translate_linked: "Succesfully linked channels. Messages from %{source_channel} (in language `%{source_lang}`) will now be translated to %{target_channel} (in language `${target_lang}`)."
   topic_title: "Tvoja tema:"
   topic_footer: "ID teme: %{id}"
   topic_invalid_title: "We searched far and wide. Unfortunately, no topics were found."
