@@ -16,5 +16,5 @@ py-cpuinfo
 python-youtube
 pyyaml
 tmdbsimple
-tomli >= 2.0.1 ; python_version < "3.11"
+tomli >= 2.4.1 ; python_version < "3.11"
 uwuipy
